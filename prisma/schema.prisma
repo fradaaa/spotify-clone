@@ -13,7 +13,7 @@ generator client {
 model Artist {
   id    String @id @default(cuid())
   name  String @unique
-  image String
+  image String @default("")
 
   albums Album[]
   tracks Track[]
@@ -22,15 +22,17 @@ model Artist {
 }
 
 model Album {
-  id           String   @id @default(cuid())
-  album_type   String
-  name         String
-  release_date DateTime
-  image        String
-  total_tracks Int
+  id             String @id @default(cuid())
+  album_type     String
+  name           String
+  release_date   String
+  image          String
+  total_tracks   Int
+  album_duration Int    @default(0)
 
-  tracks  Track[]
-  artists Artist[]
+  tracks   Track[]
+  artist   Artist  @relation(fields: [artistId], references: [id])
+  artistId String
 
   @@map(name: "albums")
 }
@@ -40,7 +42,8 @@ model Track {
   title        String
   duration     Int
   track_number Int
-  play_count   Int
+  play_count   Int    @default(691385)
+  track_url    String @default("")
 
   artists Artist[]
   album   Album    @relation(fields: [albumId], references: [id])

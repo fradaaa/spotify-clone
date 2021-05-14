@@ -1,0 +1,34 @@
+:root {
+  --brsm: 5px;
+  --brmd: 10px;
+  --brlg: 20px;
+  --bxshdw: 5px 5px 3px 2px rgba(0, 0, 0, 0.2);
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+
+img[src] {
+  display: block;
+}
