@@ -16,9 +16,10 @@ const CurrentSongInfo = ({ title, artists }: SongInfoProps) => {
   return (
     <CurrentSongInfoContainer>
       <CurrentSongTitle>{title}</CurrentSongTitle>
-      <Link href={`/artist/${artists[0].id}`}>
+      {convertArtists(artists)}
+      {/* <Link href={`/artist/${artists[0].id}`}>
         <CurrentSongArtistName>{artists[0].name}</CurrentSongArtistName>
-      </Link>
+      </Link> */}
     </CurrentSongInfoContainer>
   );
 };

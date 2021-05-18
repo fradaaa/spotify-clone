@@ -1,10 +1,12 @@
-import { useNowPlaying } from "../../../Hooks";
+import { useAppSelectior } from "../../../redux/hooks";
 import CurrentSongCover from "./CurrentSongCover";
 import CurrentSongInfo from "./CurrentSongInfo";
 import { CurrentSongContainer } from "./style";
 
 const CurrentSong = () => {
-  const { image, title, artists } = useNowPlaying();
+  const { image, title, artists } = useAppSelectior(
+    (state) => state.nowPlaying.currentTrack
+  );
 
   return (
     <CurrentSongContainer>

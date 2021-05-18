@@ -1,16 +1,18 @@
-import { useAudioData, useNowPlaying } from "../../../Hooks";
+import { useAppSelectior } from "../../../redux/hooks";
 import { convertSeconds } from "../../Tracks/utils";
 import PlaybackProgressBar from "./PlaybackProgressBar";
 import { PlaybackBarContainer, PlaybackTime } from "./style";
 
 const CurrentTime = () => {
-  const { currentTime } = useAudioData();
+  const currentTime = useAppSelectior((state) => state.nowPlaying.currentTime);
 
   return <PlaybackTime>{convertSeconds(currentTime)}</PlaybackTime>;
 };
 
 const PlaybackBar = () => {
-  const { duration } = useNowPlaying();
+  const duration = useAppSelectior(
+    (state) => state.nowPlaying.currentTrack.duration
+  );
 
   return (
     <PlaybackBarContainer>

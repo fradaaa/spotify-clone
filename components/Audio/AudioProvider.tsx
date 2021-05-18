@@ -1,44 +1,40 @@
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { AudioHelpersContext } from "../../Context";
+import { useAppDispatch, useAppSelectior } from "../../redux/hooks";
 import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
-import {
-  AudioDataContext,
-  AudioHelpersContext,
-  NowPlayingContext,
-} from "../../Context";
-import { NowPlayingType } from "../../Context/NowPlayingContext";
-import { audioReducer } from "../../Reducers";
-import { audioInitialState } from "../../Reducers/audioReducer";
+  CurrentTrack,
+  pause,
+  play,
+  setNowPlaying,
+  toggleIsPlaying,
+  updateCurrentTime,
+  updateVolume,
+} from "../../redux/slices/nowPlayingSlice";
 
 const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const audio = useRef<HTMLAudioElement>(null);
-  const [state, dispatch] = useReducer(audioReducer, audioInitialState);
-  const { nowPlaying, currentTime, volume, isPlaying } = state;
+  const volume = useAppSelectior((state) => state.nowPlaying.volume);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     audio.current.volume = volume / 100;
   }, []);
 
-  const playTrack = useCallback((track: NowPlayingType) => {
+  const playTrack = useCallback((track: CurrentTrack) => {
     const { track_url } = track;
 
     if (audio.current.src !== track_url) {
       audio.current.src = track_url;
-      dispatch({ type: "set_now_playing", payload: track });
+      dispatch(setNowPlaying(track));
     }
 
     audio.current.play();
-    dispatch({ type: "play" });
+    dispatch(play());
   }, []);
 
   const pauseTrack = useCallback(() => {
     audio.current.pause();
-    dispatch({ type: "pause" });
+    dispatch(pause());
   }, []);
 
   const playPause = useCallback(() => {
@@ -47,7 +43,7 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
     } else {
       audio.current.pause();
     }
-    dispatch({ type: "toggle_is_playing" });
+    dispatch(toggleIsPlaying());
   }, []);
 
   const changeVolume = useCallback((newVolume: number /* percent */) => {
@@ -58,18 +54,18 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
     audio.current.currentTime = (audio.current.duration / 100) * to;
   }, []);
 
-  const updateCurrentTime = useCallback(
+  const handleTimeUpdate = useCallback(
     (e: React.SyntheticEvent<HTMLAudioElement>) => {
       const node = e.currentTarget;
-      dispatch({ type: "change_current_time", payload: node.currentTime });
+      dispatch(updateCurrentTime(node.currentTime));
     },
     []
   );
 
-  const updateVolume = useCallback(
+  const handleVolumeChange = useCallback(
     (e: React.SyntheticEvent<HTMLAudioElement>) => {
       const node = e.currentTarget;
-      dispatch({ type: "change_volume", payload: node.volume });
+      dispatch(updateVolume(node.volume));
     },
     []
   );
@@ -81,23 +77,18 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
       playPause,
       changeVolume,
       changeCurrentTime,
-      isPlaying,
     }),
-    [isPlaying]
+    []
   );
 
   return (
     <AudioHelpersContext.Provider value={helpers}>
-      <NowPlayingContext.Provider value={nowPlaying}>
-        <AudioDataContext.Provider value={{ currentTime, volume }}>
-          <audio
-            onTimeUpdate={updateCurrentTime}
-            onVolumeChange={updateVolume}
-            ref={audio}
-          />
-          {children}
-        </AudioDataContext.Provider>
-      </NowPlayingContext.Provider>
+      <audio
+        onTimeUpdate={handleTimeUpdate}
+        onVolumeChange={handleVolumeChange}
+        ref={audio}
+      />
+      {children}
     </AudioHelpersContext.Provider>
   );
 };

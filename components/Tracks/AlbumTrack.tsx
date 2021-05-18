@@ -2,7 +2,8 @@ import { Artist } from ".prisma/client";
 import React from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
-import { useAudioHelpers, useNowPlaying, useShow } from "../../Hooks";
+import { useAudioHelpers, useShow } from "../../Hooks";
+import { useAppSelectior } from "../../redux/hooks";
 import {
   TrackButton,
   TrackContainer,
@@ -32,10 +33,12 @@ const AlbumTrack = ({
   track_url,
   image,
 }: AlbumTrackProps) => {
-  console.log("track");
   const { show, disableShow, enableShow } = useShow();
-  const { id: nowId } = useNowPlaying();
-  const { playTrack, pauseTrack, isPlaying } = useAudioHelpers();
+  const { playTrack, pauseTrack } = useAudioHelpers();
+  const isPlaying = useAppSelectior((state) => state.nowPlaying.isPlaying);
+  const { id: nowId } = useAppSelectior(
+    (state) => state.nowPlaying.currentTrack
+  );
 
   const handleClick = () => {
     playTrack({ id, image, title, duration, artists, track_url });

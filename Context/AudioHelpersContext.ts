@@ -1,13 +1,12 @@
 import { createContext } from "react";
-import { NowPlayingType } from "../NowPlayingContext";
+import { CurrentTrack } from "../redux/slices/nowPlayingSlice";
 
 type AudioHelpersContextType = {
-  playTrack: (track: NowPlayingType) => void;
+  playTrack: (track: CurrentTrack) => void;
   pauseTrack: () => void;
   playPause: () => void;
   changeVolume: (newVolume: number) => void;
   changeCurrentTime: (newTime: number) => void;
-  isPlaying: boolean;
 };
 
 const AudioHelpersContext = createContext<AudioHelpersContextType>(null);

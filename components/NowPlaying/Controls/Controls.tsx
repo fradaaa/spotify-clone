@@ -5,10 +5,12 @@ import {
   CgPlayTrackPrev,
 } from "react-icons/cg";
 import { useAudioHelpers } from "../../../Hooks";
+import { useAppSelectior } from "../../../redux/hooks";
 import { ControlsButton, ControlsContainer } from "./style";
 
 const Controls = () => {
-  const { isPlaying, playPause } = useAudioHelpers();
+  const isPlaying = useAppSelectior((state) => state.nowPlaying.isPlaying);
+  const { playPause } = useAudioHelpers();
 
   return (
     <ControlsContainer>

@@ -4,12 +4,8 @@ import {
   IoVolumeMediumOutline,
   IoVolumeMuteOutline,
 } from "react-icons/io5";
-import {
-  useAudioData,
-  useAudioHelpers,
-  useShow,
-  useSlider,
-} from "../../../Hooks";
+import { useAudioHelpers, useShow, useSlider } from "../../../Hooks";
+import { useAppSelectior } from "../../../redux/hooks";
 import ProgressBar from "../ProgressBar";
 import { VolumeBarButton, VolumeBarContainer } from "./style";
 
@@ -26,8 +22,8 @@ const volumeIcon = (volume: number) => {
 };
 
 const VolumeBar = () => {
+  const volume = useAppSelectior((state) => state.nowPlaying.volume);
   const { show, disableShow, enableShow } = useShow();
-  const { volume } = useAudioData();
   const { changeVolume } = useAudioHelpers();
   const { isDragging, handleMouseDown } = useSlider(changeVolume);
 

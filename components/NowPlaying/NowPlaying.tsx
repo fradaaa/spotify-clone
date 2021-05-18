@@ -1,4 +1,4 @@
-import { useNowPlaying } from "../../Hooks";
+import { useAppSelectior } from "../../redux/hooks";
 import Controls from "./Controls/Controls";
 import CurrentSong from "./CurrentSong/CurrentSong";
 import ExtraControls from "./ExtraControls/ExtraControls";
@@ -6,11 +6,13 @@ import PlaybackBar from "./PlaybackBar/PlaybackBar";
 import { NowPlayingContainer } from "./style";
 
 const NowPlaying = () => {
-  const nowPlaying = useNowPlaying();
+  const currentTrack = useAppSelectior(
+    (state) => state.nowPlaying.currentTrack
+  );
 
   return (
     <NowPlayingContainer>
-      {nowPlaying ? (
+      {currentTrack ? (
         <>
           <CurrentSong />
           <Controls />
