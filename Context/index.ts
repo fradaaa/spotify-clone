@@ -1,4 +1,5 @@
 import ArtistContext from "./ArtistContext";
 import AlbumContext from "./AlbumContext";
+import AudioContext from "./AudioContext";
 
-export { ArtistContext, AlbumContext };
+export { ArtistContext, AlbumContext, AudioContext };

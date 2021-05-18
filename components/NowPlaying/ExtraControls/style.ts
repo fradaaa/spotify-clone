@@ -2,24 +2,24 @@ import styled from "@emotion/styled";
 import { IconButton } from "../../Buttons/style";
 import { FlexRow } from "../../Globals";
 
-export const ExtraControlContainer = styled(FlexRow)`
+export const ExtraControlsContainer = styled(FlexRow)`
+  justify-content: flex-end;
   width: 25%;
   height: 100%;
 `;
 
-export const QueueButton = styled(IconButton)``;
+export const QueueButton = styled(IconButton)`
+  margin-right: 10px;
+`;
 
 export const VolumeBarContainer = styled(FlexRow)`
-  flex: 1;
-  padding-right: 10px;
+  flex: 0 1 125px;
 `;
 
 export const VolumeBarButton = styled(IconButton)``;
 
 export const VolumeBarWrapper = styled(FlexRow)`
-  flex: 1;
-  height: 5px;
-  margin: 5px;
-  background-color: ${({ theme }) => theme.primary};
-  border-radius: var(--brsm);
+  position: relative;
+  width: 100%;
+  height: 12px;
 `;

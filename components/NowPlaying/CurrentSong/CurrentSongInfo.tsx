@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   CurrentSongArtistName,
   CurrentSongInfoContainer,
@@ -8,7 +9,9 @@ const CurrentSongInfo = () => {
   return (
     <CurrentSongInfoContainer>
       <CurrentSongTitle>Miracle</CurrentSongTitle>
-      <CurrentSongArtistName>CHVRCHES</CurrentSongArtistName>
+      <Link href="/">
+        <CurrentSongArtistName>CHVRCHES</CurrentSongArtistName>
+      </Link>
     </CurrentSongInfoContainer>
   );
 };

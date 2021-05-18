@@ -16,13 +16,14 @@ const AlbumTracks = () => {
 
   return (
     <AlbumTracksContainer>
-      {data.map(({ track_number, title, artists, duration, id }) => (
+      {data.map(({ track_number, title, artists, duration, id, track_url }) => (
         <AlbumTrack
           key={id}
           trackNumber={track_number}
           title={title}
           artists={artists}
           duration={duration}
+          track_url={track_url}
         />
       ))}
     </AlbumTracksContainer>

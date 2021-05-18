@@ -49,4 +49,6 @@ export const AlbumHeaderArtistName = styled(StyledLink)`
 
 export const AlbumHeaderInfoText = styled(FlexRow)``;
 
-export const AlbumTracksContainer = styled(FlexCol)``;
+export const AlbumTracksContainer = styled(FlexCol)`
+  padding: 20px;
+`;

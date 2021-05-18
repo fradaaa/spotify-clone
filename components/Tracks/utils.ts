@@ -1,5 +1,6 @@
-export const convertDuration = (duration: number) => {
-  const minutes = Math.floor(duration / 60);
-  const seconds = duration % 60 > 10 ? duration % 60 : `0${duration % 60}`;
+export const convertSeconds = (duration: number) => {
+  const time = Math.round(duration);
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60 > 9 ? time % 60 : `0${time % 60}`;
   return `${minutes}:${seconds}`;
 };

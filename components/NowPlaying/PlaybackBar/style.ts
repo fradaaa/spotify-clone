@@ -4,20 +4,18 @@ import { FlexRow } from "../../Globals";
 export const PlaybackBarContainer = styled(FlexRow)`
   height: 100%;
   width: 40%;
+  padding: 0 10px;
 `;
 
-export const PlaybackProgressTime = styled(FlexRow)`
+export const PlaybackTime = styled(FlexRow)`
   color: ${({ theme }) => theme.onSurface};
+  font-size: 12px;
+  padding: 5px;
+  margin: 0 10px;
 `;
 
 export const PlaybackProgressBarWrapper = styled(FlexRow)`
+  position: relative;
   flex: 1;
-  height: 5px;
-  margin: 5px;
-  background-color: ${({ theme }) => theme.primary};
-  border-radius: var(--brsm);
-`;
-
-export const PlaybackDuration = styled(FlexRow)`
-  color: ${({ theme }) => theme.onSurface};
+  height: 12px;
 `;

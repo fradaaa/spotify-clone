@@ -4,7 +4,7 @@ import { FlexRow } from "../../Globals";
 
 export const ControlsContainer = styled(FlexRow)`
   justify-content: center;
-  width: 15%;
+  width: 10%;
   height: 100%;
 `;
 

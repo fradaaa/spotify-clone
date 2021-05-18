@@ -9,7 +9,7 @@ import {
   TrackTitle,
 } from "./style";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { convertDuration } from "./utils";
+import { convertSeconds } from "./utils";
 
 type ArtistTrackProps = {
   trackNumber: number;
@@ -37,7 +37,7 @@ const ArtistTrack = ({
       <TrackButton aria-label="Remove from your library" width="15" height="15">
         <AiFillHeart />
       </TrackButton>
-      <TrackDuration>{convertDuration(duration)}</TrackDuration>
+      <TrackDuration>{convertSeconds(duration)}</TrackDuration>
     </TrackContainer>
   );
 };

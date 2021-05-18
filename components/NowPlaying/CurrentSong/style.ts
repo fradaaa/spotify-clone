@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
-import { FlexCol, FlexRow } from "../../Globals";
+import { FlexCol, FlexRow, StyledLink } from "../../Globals";
 
 export const CurrentSongContainer = styled(FlexRow)`
-  /* flex: 2; */
-  justify-content: center;
   height: 100%;
-  width: 20%;
+  width: 25%;
 `;
 
 export const CurrentSongCoverContainer = styled(FlexRow)`
@@ -19,9 +17,11 @@ export const CurrentSongInfoContainer = styled(FlexCol)`
 
 export const CurrentSongTitle = styled(FlexRow)`
   color: ${({ theme }) => theme.onSurface};
+  font-size: 15px;
   font-weight: 600;
 `;
 
-export const CurrentSongArtistName = styled(FlexRow)`
+export const CurrentSongArtistName = styled(StyledLink)`
   color: ${({ theme }) => theme.onSurface};
+  font-size: 12px;
 `;

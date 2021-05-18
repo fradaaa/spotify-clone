@@ -4,11 +4,19 @@ import { FlexCol, FlexRow, StyledLink } from "../Globals";
 
 export const TrackContainer = styled(FlexRow)`
   color: ${({ theme }) => theme.onSurface};
-  padding: 10px 0;
+  padding: 5px 0;
+  border-radius: var(--brsm);
+  transition: background-color 0.1s ease-in;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.surface};
+  }
 `;
 
 export const TrackNumber = styled(FlexRow)`
-  margin: 0 5px;
+  justify-content: center;
+  padding: 0 5px;
+  width: 50px;
 `;
 
 export const TrackButton = styled(IconButton)`
@@ -28,6 +36,7 @@ export const TrackTitleContainer = styled(FlexCol)`
 
 export const TrackTitle = styled(FlexRow)`
   flex: 2;
+  font-weight: 600;
 `;
 
 export const TrackArtistName = styled(StyledLink)``;

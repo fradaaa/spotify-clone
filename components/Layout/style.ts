@@ -6,6 +6,6 @@ export const LayoutContainer = styled.div`
     "nav main"
     "now-playing now-playing";
   grid-template-columns: 1fr 4fr;
-  grid-template-rows: 5fr 1fr;
+  grid-template-rows: 7fr 1fr;
   height: 100vh;
 `;

@@ -7,8 +7,8 @@ const CurrentSongCover = () => {
       <Image
         src="https://i.scdn.co/image/ab67616d0000b2730b9e33e107816121c00a644c"
         alt=""
-        width={100}
-        height={100}
+        width={75}
+        height={75}
       />
     </CurrentSongCoverContainer>
   );
