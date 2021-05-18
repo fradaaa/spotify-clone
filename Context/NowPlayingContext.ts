@@ -8,7 +8,6 @@ export type NowPlayingType = {
   duration: number;
   artists: Artist[];
   track_url: string;
-  is_playing?: boolean;
 };
 
 const NowPlayingContext = createContext<NowPlayingType>(null);

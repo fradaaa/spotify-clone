@@ -1,15 +1,14 @@
-import { ControlsButton, ControlsContainer } from "./style";
 import {
   CgPlayButtonO,
   CgPlayPauseO,
-  CgPlayTrackPrev,
   CgPlayTrackNext,
+  CgPlayTrackPrev,
 } from "react-icons/cg";
-import { useAudio, useNowPlaying } from "../../../Hooks";
+import { useAudioHelpers } from "../../../Hooks";
+import { ControlsButton, ControlsContainer } from "./style";
 
 const Controls = () => {
-  const { simplePlayPause } = useAudio();
-  const { is_playing } = useNowPlaying();
+  const { isPlaying, playPause } = useAudioHelpers();
 
   return (
     <ControlsContainer>
@@ -20,9 +19,9 @@ const Controls = () => {
         aria-label="Play"
         width="35"
         height="35"
-        onClick={simplePlayPause}
+        onClick={playPause}
       >
-        {is_playing ? <CgPlayPauseO /> : <CgPlayButtonO />}
+        {isPlaying ? <CgPlayPauseO /> : <CgPlayButtonO />}
       </ControlsButton>
       <ControlsButton aria-label="Next" width="35" height="35">
         <CgPlayTrackNext />

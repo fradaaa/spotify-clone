@@ -1,10 +1,10 @@
-import { useAudio, useNowPlaying } from "../../../Hooks";
+import { useAudioData, useNowPlaying } from "../../../Hooks";
 import { convertSeconds } from "../../Tracks/utils";
 import PlaybackProgressBar from "./PlaybackProgressBar";
 import { PlaybackBarContainer, PlaybackTime } from "./style";
 
 const CurrentTime = () => {
-  const { currentTime } = useAudio();
+  const { currentTime } = useAudioData();
 
   return <PlaybackTime>{convertSeconds(currentTime)}</PlaybackTime>;
 };
@@ -15,7 +15,7 @@ const PlaybackBar = () => {
   return (
     <PlaybackBarContainer>
       <CurrentTime />
-      <PlaybackProgressBar />
+      <PlaybackProgressBar duration={duration} />
       <PlaybackTime>{convertSeconds(duration)}</PlaybackTime>
     </PlaybackBarContainer>
   );

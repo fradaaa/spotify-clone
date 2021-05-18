@@ -1,13 +1,17 @@
-import { VolumeBarButton, VolumeBarContainer, VolumeBarWrapper } from "./style";
 import {
   IoVolumeHighOutline,
-  IoVolumeMediumOutline,
   IoVolumeLowOutline,
+  IoVolumeMediumOutline,
   IoVolumeMuteOutline,
 } from "react-icons/io5";
-import { useRef, useState } from "react";
-import { ProgressBackground, ProgressButton, ProgressDuration } from "../style";
-import { useAudio, useSlider } from "../../../Hooks";
+import {
+  useAudioData,
+  useAudioHelpers,
+  useShow,
+  useSlider,
+} from "../../../Hooks";
+import ProgressBar from "../ProgressBar";
+import { VolumeBarButton, VolumeBarContainer } from "./style";
 
 const volumeIcon = (volume: number) => {
   if (volume === 0) {
@@ -22,39 +26,29 @@ const volumeIcon = (volume: number) => {
 };
 
 const VolumeBar = () => {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const { volume, changeVolume } = useAudio();
-  const { handleMouseDown } = useSlider({
-    updateFunction: changeVolume,
-    targetElement: wrapperRef.current,
-  });
-  const [show, setShow] = useState(false);
-
-  const handleMouseOver = () => setShow(true);
-
-  const handleMouseLeave = () => setShow(false);
+  const { show, disableShow, enableShow } = useShow();
+  const { volume } = useAudioData();
+  const { changeVolume } = useAudioHelpers();
+  const { isDragging, handleMouseDown } = useSlider(changeVolume);
 
   return (
-    <VolumeBarContainer
-      onMouseOver={handleMouseOver}
-      onMouseLeave={handleMouseLeave}
-    >
-      <VolumeBarButton aria-label="Mute" width="25" height="25">
+    <VolumeBarContainer onMouseOver={enableShow} onMouseLeave={disableShow}>
+      <VolumeBarButton
+        aria-label={volume === 0 ? "Unmute" : "Mute"}
+        title={volume === 0 ? "Unmute" : "Mute"}
+        width="25"
+        height="25"
+      >
         {volumeIcon(volume)}
       </VolumeBarButton>
-      <VolumeBarWrapper onMouseDown={handleMouseDown} ref={wrapperRef}>
-        <ProgressBackground>
-          <ProgressDuration
-            style={{ transform: `translateX(-${100 - volume}%)` }}
-            show={show}
-          />
-          <ProgressButton
-            style={{ left: `${volume}%` }}
-            aria-label="Change volume level"
-            show={show}
-          />
-        </ProgressBackground>
-      </VolumeBarWrapper>
+      <ProgressBar
+        value={volume}
+        show={show}
+        isDragging={isDragging}
+        enableShow={enableShow}
+        disableShow={disableShow}
+        handleMouseDown={handleMouseDown}
+      />
     </VolumeBarContainer>
   );
 };

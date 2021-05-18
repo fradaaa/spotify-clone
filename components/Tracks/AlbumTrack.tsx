@@ -1,5 +1,9 @@
+import { Artist } from ".prisma/client";
+import React from "react";
+import { AiOutlineHeart } from "react-icons/ai";
+import { BsPauseFill, BsPlayFill } from "react-icons/bs";
+import { useAudioHelpers, useNowPlaying, useShow } from "../../Hooks";
 import {
-  TrackArtistName,
   TrackButton,
   TrackContainer,
   TrackDuration,
@@ -7,13 +11,7 @@ import {
   TrackTitle,
   TrackTitleContainer,
 } from "./style";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { BsPlayFill, BsPauseFill } from "react-icons/bs";
-import { Artist } from ".prisma/client";
 import { convertArtists, convertSeconds } from "./utils";
-import Link from "next/link";
-import { useState } from "react";
-import { useAudio } from "../../Hooks";
 
 type AlbumTrackProps = {
   id: string;
@@ -34,37 +32,33 @@ const AlbumTrack = ({
   track_url,
   image,
 }: AlbumTrackProps) => {
-  const { playPause } = useAudio();
-  const [show, setShow] = useState(false);
+  console.log("track");
+  const { show, disableShow, enableShow } = useShow();
+  const { id: nowId } = useNowPlaying();
+  const { playTrack, pauseTrack, isPlaying } = useAudioHelpers();
 
-  const handleMouseOver = () => setShow(true);
-
-  const handleMouseLeave = () => setShow(false);
-
-  const playPauseTrack = () =>
-    playPause({ track_url, title, artists, duration, image, id });
+  const handleClick = () => {
+    playTrack({ id, image, title, duration, artists, track_url });
+  };
 
   return (
-    <TrackContainer
-      onMouseOver={handleMouseOver}
-      onMouseLeave={handleMouseLeave}
-    >
+    <TrackContainer onMouseOver={enableShow} onMouseLeave={disableShow}>
       <TrackNumber>
         {show ? (
           <TrackButton
             aria-label="Play"
             width="20"
             height="20"
-            onClick={playPauseTrack}
+            onClick={isPlaying ? pauseTrack : handleClick}
           >
-            {true ? <BsPlayFill /> : <BsPauseFill />}
+            {id === nowId && isPlaying ? <BsPauseFill /> : <BsPlayFill />}
           </TrackButton>
         ) : (
           trackNumber
         )}
       </TrackNumber>
       <TrackTitleContainer>
-        <TrackTitle>{title}</TrackTitle>
+        <TrackTitle highlight={id === nowId}>{title}</TrackTitle>
         {convertArtists(artists)}
       </TrackTitleContainer>
       <TrackButton aria-label="Remove from your library" width="15" height="15">

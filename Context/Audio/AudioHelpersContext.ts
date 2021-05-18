@@ -1,10 +1,13 @@
 import { createContext } from "react";
+import { NowPlayingType } from "../NowPlayingContext";
 
 type AudioHelpersContextType = {
-  playTrack: (track_url: string) => void;
+  playTrack: (track: NowPlayingType) => void;
+  pauseTrack: () => void;
   playPause: () => void;
   changeVolume: (newVolume: number) => void;
   changeCurrentTime: (newTime: number) => void;
+  isPlaying: boolean;
 };
 
 const AudioHelpersContext = createContext<AudioHelpersContextType>(null);

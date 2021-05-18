@@ -7,6 +7,13 @@ export const NowPlayingContainer = styled(FlexRow)`
   background-color: ${({ theme }) => theme.surface};
 `;
 
+export const ProgressWrapper = styled(FlexRow)`
+  position: relative;
+  height: 12px;
+  width: 100%;
+  flex: 1;
+`;
+
 type ProgressProps = {
   show: boolean;
 };

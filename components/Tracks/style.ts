@@ -34,9 +34,15 @@ export const TrackTitleContainer = styled(FlexCol)`
   padding: 10px;
 `;
 
-export const TrackTitle = styled(FlexRow)`
+type TrackTitleProps = {
+  highlight: boolean;
+};
+
+export const TrackTitle = styled(FlexRow)<TrackTitleProps>`
   flex: 2;
   font-weight: 600;
+  color: ${({ theme, highlight }) =>
+    highlight ? theme.primary : theme.onSurface};
 `;
 
 export const TrackArtistName = styled(StyledLink)``;
