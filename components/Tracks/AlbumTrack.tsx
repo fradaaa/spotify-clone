@@ -10,25 +10,29 @@ import {
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import { Artist } from ".prisma/client";
-import { convertSeconds } from "./utils";
+import { convertArtists, convertSeconds } from "./utils";
 import Link from "next/link";
 import { useState } from "react";
 import { useAudio } from "../../Hooks";
 
 type AlbumTrackProps = {
+  id: string;
   trackNumber: number;
   title: string;
   artists: Artist[];
   duration: number;
   track_url: string;
+  image: string;
 };
 
 const AlbumTrack = ({
+  id,
   trackNumber,
   title,
   artists,
   duration,
   track_url,
+  image,
 }: AlbumTrackProps) => {
   const { playPause } = useAudio();
   const [show, setShow] = useState(false);
@@ -37,7 +41,8 @@ const AlbumTrack = ({
 
   const handleMouseLeave = () => setShow(false);
 
-  const playPauseTrack = () => playPause(track_url);
+  const playPauseTrack = () =>
+    playPause({ track_url, title, artists, duration, image, id });
 
   return (
     <TrackContainer
@@ -60,16 +65,7 @@ const AlbumTrack = ({
       </TrackNumber>
       <TrackTitleContainer>
         <TrackTitle>{title}</TrackTitle>
-        <div>
-          {artists.map(({ id, name }, i) => (
-            <Link key={id} href={`/artist/${id}`}>
-              <TrackArtistName>
-                {name}
-                {i !== artists.length - 1 && ", "}
-              </TrackArtistName>
-            </Link>
-          ))}
-        </div>
+        {convertArtists(artists)}
       </TrackTitleContainer>
       <TrackButton aria-label="Remove from your library" width="15" height="15">
         <AiOutlineHeart />

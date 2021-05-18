@@ -1,16 +1,23 @@
+import { Artist } from ".prisma/client";
 import Link from "next/link";
+import { convertArtists } from "../../Tracks/utils";
 import {
   CurrentSongArtistName,
   CurrentSongInfoContainer,
   CurrentSongTitle,
 } from "./style";
 
-const CurrentSongInfo = () => {
+type SongInfoProps = {
+  title: string;
+  artists: Artist[];
+};
+
+const CurrentSongInfo = ({ title, artists }: SongInfoProps) => {
   return (
     <CurrentSongInfoContainer>
-      <CurrentSongTitle>Miracle</CurrentSongTitle>
+      <CurrentSongTitle>{title}</CurrentSongTitle>
       <Link href="/">
-        <CurrentSongArtistName>CHVRCHES</CurrentSongArtistName>
+        <CurrentSongArtistName>{convertArtists(artists)}</CurrentSongArtistName>
       </Link>
     </CurrentSongInfoContainer>
   );

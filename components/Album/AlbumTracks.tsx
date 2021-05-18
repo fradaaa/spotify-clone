@@ -7,7 +7,7 @@ import { AlbumTracksContainer } from "./style";
 type AlbumTrack = Track & { artists: Artist[] };
 
 const AlbumTracks = () => {
-  const { id } = useAlbum();
+  const { id, image } = useAlbum();
   const { data, error } = useSWR<AlbumTrack[]>(`/api/albums/${id}/tracks`);
 
   if (error) return <div>Failed to load</div>;
@@ -19,11 +19,13 @@ const AlbumTracks = () => {
       {data.map(({ track_number, title, artists, duration, id, track_url }) => (
         <AlbumTrack
           key={id}
+          id={id}
           trackNumber={track_number}
           title={title}
           artists={artists}
           duration={duration}
           track_url={track_url}
+          image={image}
         />
       ))}
     </AlbumTracksContainer>

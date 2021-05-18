@@ -1,15 +1,16 @@
 import { useRef, useState } from "react";
-import { useSlider } from "../../../Hooks";
+import { useAudio, useNowPlaying, useSlider } from "../../../Hooks";
 import { ProgressBackground, ProgressButton, ProgressDuration } from "../style";
 import { PlaybackProgressBarWrapper } from "./style";
 
-type PlaybackProps = {
-  currentTimePercent: number;
-  seekTo: (to: number) => void;
+const timeToPercent = (time: number, total: number) => {
+  return (time / total) * 100;
 };
 
-const PlaybackProgressBar = ({ currentTimePercent, seekTo }: PlaybackProps) => {
+const PlaybackProgressBar = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const { seekTo, currentTime } = useAudio();
+  const { duration } = useNowPlaying();
   const { handleMouseDown, handleClick } = useSlider({
     updateFunction: seekTo,
     targetElement: wrapperRef.current,
@@ -30,11 +31,15 @@ const PlaybackProgressBar = ({ currentTimePercent, seekTo }: PlaybackProps) => {
     >
       <ProgressBackground>
         <ProgressDuration
-          style={{ transform: `translateX(-${100 - currentTimePercent}%)` }}
+          style={{
+            transform: `translateX(-${
+              100 - timeToPercent(currentTime, duration)
+            }%)`,
+          }}
           show={show}
         />
         <ProgressButton
-          style={{ left: `${currentTimePercent}%` }}
+          style={{ left: `${timeToPercent(currentTime, duration)}%` }}
           aria-label=""
           show={show}
         />
