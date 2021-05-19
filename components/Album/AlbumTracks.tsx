@@ -20,7 +20,7 @@ const AlbumTracks = () => {
         <AlbumTrack
           key={id}
           id={id}
-          trackNumber={track_number}
+          track_number={track_number}
           title={title}
           artists={artists}
           duration={duration}

@@ -1,5 +1,4 @@
 import { Artist } from ".prisma/client";
-import Link from "next/link";
 import { convertArtists } from "../../Tracks/utils";
 import {
   CurrentSongArtistName,
@@ -16,10 +15,7 @@ const CurrentSongInfo = ({ title, artists }: SongInfoProps) => {
   return (
     <CurrentSongInfoContainer>
       <CurrentSongTitle>{title}</CurrentSongTitle>
-      {convertArtists(artists)}
-      {/* <Link href={`/artist/${artists[0].id}`}>
-        <CurrentSongArtistName>{artists[0].name}</CurrentSongArtistName>
-      </Link> */}
+      {convertArtists(artists, CurrentSongArtistName)}
     </CurrentSongInfoContainer>
   );
 };

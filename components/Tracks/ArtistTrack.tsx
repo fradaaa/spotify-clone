@@ -1,44 +1,43 @@
-import Image from "next/image";
-import {
-  TrackButton,
-  TrackContainer,
-  TrackCoverContainer,
-  TrackDuration,
-  TrackNumber,
-  TrackPlayCount,
-  TrackTitle,
-} from "./style";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { convertSeconds } from "./utils";
-
-type ArtistTrackProps = {
-  trackNumber: number;
-  image: string;
-  title: string;
-  playCount: number;
-  duration: number;
-};
+import { useCallback } from "react";
+import { useAudioHelpers } from "../../Hooks";
+import { useAppSelectior } from "../../redux/hooks";
+import { TrackPlayCount, TrackTitle, TrackTitleContainer } from "./style";
+import Track from "./Track";
+import { IAristTrackProps } from "./types";
 
 const ArtistTrack = ({
-  trackNumber,
+  id,
+  track_number,
   image,
   title,
-  playCount,
+  play_count,
   duration,
-}: ArtistTrackProps) => {
+  artists,
+  track_url,
+}: IAristTrackProps) => {
+  const { playTrack, pauseTrack } = useAudioHelpers();
+  const { id: nowId } = useAppSelectior(
+    (state) => state.nowPlaying.currentTrack
+  );
+
+  const handleClick = useCallback(() => {
+    playTrack({ id, image, title, duration, artists, track_url });
+  }, []);
+
   return (
-    <TrackContainer>
-      <TrackNumber>{trackNumber}</TrackNumber>
-      <TrackCoverContainer>
-        <Image src={image} alt="" width={40} height={40} />
-      </TrackCoverContainer>
-      <TrackTitle>{title}</TrackTitle>
-      <TrackPlayCount>{playCount}</TrackPlayCount>
-      <TrackButton aria-label="Remove from your library" width="15" height="15">
-        <AiFillHeart />
-      </TrackButton>
-      <TrackDuration>{convertSeconds(duration)}</TrackDuration>
-    </TrackContainer>
+    <Track
+      id={id}
+      nowId={nowId}
+      trackNumber={track_number}
+      duration={duration}
+      handleClick={handleClick}
+      pauseTrack={pauseTrack}
+    >
+      <TrackTitleContainer>
+        <TrackTitle highlight={id === nowId}>{title}</TrackTitle>
+      </TrackTitleContainer>
+      <TrackPlayCount>{play_count}</TrackPlayCount>
+    </Track>
   );
 };
 

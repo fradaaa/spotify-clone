@@ -1,6 +1,5 @@
 import { Artist } from ".prisma/client";
 import Link from "next/link";
-import { TrackArtistName } from "./style";
 
 export const convertSeconds = (duration: number) => {
   const time = Math.round(duration);
@@ -9,15 +8,15 @@ export const convertSeconds = (duration: number) => {
   return `${minutes}:${seconds}`;
 };
 
-export const convertArtists = (artists: Artist[]) => {
+export const convertArtists = (artists: Artist[], Wrapper: React.FC) => {
   return (
     <div>
       {artists.map(({ id, name }, i) => (
         <Link key={id} href={`/artist/${id}`}>
-          <TrackArtistName>
+          <Wrapper>
             {name}
             {i !== artists.length - 1 && ", "}
-          </TrackArtistName>
+          </Wrapper>
         </Link>
       ))}
     </div>
