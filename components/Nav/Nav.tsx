@@ -1,26 +1,53 @@
+import Link from "next/link";
+import { libraryItems, menuItems } from "./items";
 import {
   NavContainer,
   NavItem,
+  NavItemIcon,
+  NavItemLink,
+  NavItemText,
   NavLibrary,
-  NavPlaylistItem,
+  NavLogo,
+  NavMenu,
   NavPlaylists,
-  StyledNav,
   NavSectionName,
+  StyledNav,
 } from "./style";
 
 const Nav = () => {
   return (
     <StyledNav>
       <NavContainer>
+        <NavLogo>
+          <img src="/logo.png" alt="logo" />
+        </NavLogo>
+        <NavMenu>
+          {menuItems.map(({ Icon, link, text }, i) => (
+            <NavItem key={i}>
+              <Link href={link}>
+                <NavItemLink>
+                  <NavItemIcon>{Icon}</NavItemIcon>
+                  <NavItemText>{text}</NavItemText>
+                </NavItemLink>
+              </Link>
+            </NavItem>
+          ))}
+        </NavMenu>
         <NavLibrary>
           <NavSectionName>Your Library</NavSectionName>
-          <NavItem>Songs</NavItem>
-          <NavItem>Albums</NavItem>
-          <NavItem>Artists</NavItem>
+          {libraryItems.map(({ Icon, link, text }, i) => (
+            <NavItem key={i}>
+              <Link href={link}>
+                <NavItemLink>
+                  <NavItemIcon>{Icon}</NavItemIcon>
+                  <NavItemText>{text}</NavItemText>
+                </NavItemLink>
+              </Link>
+            </NavItem>
+          ))}
         </NavLibrary>
         <NavPlaylists>
           <NavSectionName>Playlists</NavSectionName>
-          <NavPlaylistItem>Party music</NavPlaylistItem>
         </NavPlaylists>
       </NavContainer>
     </StyledNav>

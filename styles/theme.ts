@@ -1,7 +1,7 @@
 const theme = {
-  primary: "#757ce8",
+  primary: "#1db954",
   primaryVariant: "#002884",
-  secondary: "#7c4dff",
+  secondary: "#db4064",
   secondaryVariant: "#7c4dff",
   background: "#121212",
   surface: "#1d1d1d",

@@ -12,6 +12,7 @@ export const PlaybackTime = styled(FlexRow)`
   font-size: 12px;
   padding: 5px;
   margin: 0 10px;
+  user-select: none;
 `;
 
 export const PlaybackProgressBarWrapper = styled(FlexRow)`

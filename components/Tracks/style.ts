@@ -9,7 +9,7 @@ export const TrackContainer = styled(FlexRow)`
   transition: background-color 0.1s ease-in;
 
   &:hover {
-    background-color: ${({ theme }) => theme.surface};
+    background-color: ${({ theme }) => theme.surface3};
   }
 `;
 

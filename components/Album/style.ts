@@ -8,6 +8,7 @@ export const AlbumContainer = styled(FlexCol)`
 
 export const StyledAlbumHeader = styled.header`
   display: flex;
+  background-color: ${({ theme }) => theme.surface2};
   padding: 20px;
 `;
 
@@ -51,4 +52,5 @@ export const AlbumHeaderInfoText = styled(FlexRow)``;
 
 export const AlbumTracksContainer = styled(FlexCol)`
   padding: 20px;
+  background-color: ${({ theme }) => theme.surface};
 `;

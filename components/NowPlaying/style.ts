@@ -4,7 +4,8 @@ import { FlexRow } from "../Globals";
 export const NowPlayingContainer = styled(FlexRow)`
   grid-area: now-playing;
   padding: 0 20px;
-  background-color: ${({ theme }) => theme.surface};
+  background-color: ${({ theme }) => theme.surface2};
+  border-top: ${({ theme }) => `1px solid ${theme.darkBorder}`};
 `;
 
 export const ProgressWrapper = styled(FlexRow)`
