@@ -20,11 +20,11 @@ export const libraryItems = [
     text: "Favorite Songs",
   },
   { Icon: <CgProfile />, link: "/collection/artists", text: "Artists" },
-  { Icon: <IoAlbumsOutline />, link: "/collection/albums", text: "Albums" },
+  { Icon: <BsCollectionPlay />, link: "/collection/albums", text: "Albums" },
 ];
 
 export const menuItems = [
   { Icon: <AiOutlineHome />, link: "/", text: "Home" },
   { Icon: <AiOutlineSearch />, link: "/search", text: "Search" },
-  { Icon: <BsCollectionPlay />, link: "/collection", text: "Collection" },
+  { Icon: <IoAlbumsOutline />, link: "/collection", text: "Collection" },
 ];

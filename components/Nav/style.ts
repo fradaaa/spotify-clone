@@ -59,4 +59,5 @@ export const NavSectionName = styled(NavItem)`
   color: ${({ theme }) => `${theme.secondary} !important`};
   font-weight: 600;
   margin-bottom: 10px;
+  cursor: default;
 `;

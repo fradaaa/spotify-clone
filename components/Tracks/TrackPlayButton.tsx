@@ -1,5 +1,6 @@
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { useAppSelectior } from "../../redux/hooks";
+import Equalizer from "../Equalizer/Equalizer";
 import { TrackButton, TrackNumber } from "./style";
 import { ITrackPlayButtonProps } from "./types";
 
@@ -24,6 +25,8 @@ const TrackPlayButton = ({
         >
           {id === nowId && isPlaying ? <BsPauseFill /> : <BsPlayFill />}
         </TrackButton>
+      ) : id === nowId && isPlaying ? (
+        <Equalizer />
       ) : (
         trackNumber
       )}
