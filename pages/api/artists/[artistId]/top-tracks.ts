@@ -10,6 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     take: 10,
     include: {
       album: true,
+      artists: true,
     },
   });
 
