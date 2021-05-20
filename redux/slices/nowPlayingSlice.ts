@@ -14,6 +14,7 @@ type State = {
   currentTime: number;
   volume: number;
   isPlaying: boolean;
+  isMuted: boolean;
   currentTrack: CurrentTrack;
 };
 
@@ -21,6 +22,7 @@ const initialState: State = {
   currentTime: 0,
   volume: 25,
   isPlaying: false,
+  isMuted: false,
   currentTrack: {
     id: "1G79vIY7FPXPjBj9cpweZD",
     title: "Miracle",
@@ -54,6 +56,9 @@ export const nowPlayingSlice = createSlice({
     pause: (state) => {
       state.isPlaying = false;
     },
+    muteUnmute: (state) => {
+      state.isMuted = !state.isMuted;
+    },
   },
 });
 
@@ -64,6 +69,7 @@ export const {
   toggleIsPlaying,
   play,
   pause,
+  muteUnmute,
 } = nowPlayingSlice.actions;
 
 export default nowPlayingSlice.reducer;

@@ -16,7 +16,9 @@ export const VolumeBarContainer = styled(FlexRow)`
   flex: 0 1 125px;
 `;
 
-export const VolumeBarButton = styled(IconButton)``;
+export const VolumeBarButton = styled(IconButton)`
+  margin-right: 10px;
+`;
 
 export const VolumeBarWrapper = styled(FlexRow)`
   position: relative;

@@ -3,6 +3,7 @@ import { AudioHelpersContext } from "../../Context";
 import { useAppDispatch, useAppSelectior } from "../../redux/hooks";
 import {
   CurrentTrack,
+  muteUnmute,
   pause,
   play,
   setNowPlaying,
@@ -47,11 +48,22 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
   }, []);
 
   const changeVolume = useCallback((newVolume: number /* percent */) => {
-    audio.current.volume = newVolume / 100;
+    if (newVolume < 0) {
+      audio.current.volume = 0;
+    } else if (newVolume > 100) {
+      audio.current.volume = 1;
+    } else {
+      audio.current.volume = newVolume / 100;
+    }
   }, []);
 
   const changeCurrentTime = useCallback((to: number /* percent */) => {
     audio.current.currentTime = (audio.current.duration / 100) * to;
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    audio.current.muted = !audio.current.muted;
+    dispatch(muteUnmute());
   }, []);
 
   const handleTimeUpdate = useCallback(
@@ -77,6 +89,7 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
       playPause,
       changeVolume,
       changeCurrentTime,
+      toggleMute,
     }),
     []
   );

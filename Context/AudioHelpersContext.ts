@@ -7,6 +7,7 @@ type AudioHelpersContextType = {
   playPause: () => void;
   changeVolume: (newVolume: number) => void;
   changeCurrentTime: (newTime: number) => void;
+  toggleMute: () => void;
 };
 
 const AudioHelpersContext = createContext<AudioHelpersContextType>(null);
