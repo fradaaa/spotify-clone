@@ -4,6 +4,7 @@ import { FlexCol, FlexRow, StyledLink } from "../Globals";
 export const StyledNav = styled.nav`
   grid-area: nav;
   height: 100%;
+  min-width: 250px;
 `;
 
 export const NavContainer = styled(FlexCol)`

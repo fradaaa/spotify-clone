@@ -3,7 +3,6 @@ import { FlexCol, FlexRow } from "../Globals";
 
 export const PreviewContainer = styled.div`
   padding: 20px;
-  background-color: ${({ theme }) => theme.surface};
 `;
 
 export const PreviewTitle = styled.h2`

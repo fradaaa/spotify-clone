@@ -4,11 +4,8 @@ import { FlexRow } from "../Globals";
 export const StyledMain = styled.main`
   grid-area: main;
   flex: 4;
-  height: 100%;
-  background-color: ${({ theme }) => theme.background};
   overflow-y: scroll;
+  background-color: ${({ theme }) => theme.surface};
 `;
 
-export const MainContainer = styled(FlexRow)`
-  height: 100%;
-`;
+export const MainContainer = styled(FlexRow)``;

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { useAlbum } from "../../Hooks";
 import {
   AlbumHeaderArtistName,
@@ -11,10 +10,12 @@ import {
   AlbumHeaderInfoText,
   AlbumHeaderTitle,
   AlbumHeaderType,
+  HeaderBackground,
+  HeaderGradient,
   StyledAlbumHeader,
 } from "./style";
 
-const AlbumHeader = () => {
+const AlbumHeader = ({ bg }: { bg: string }) => {
   const {
     album_type,
     name,
@@ -31,8 +32,10 @@ const AlbumHeader = () => {
 
   return (
     <StyledAlbumHeader>
+      <HeaderBackground style={{ backgroundColor: bg }} />
+      <HeaderGradient />
       <AlbumHeaderCoverContainer>
-        <Image src={image} alt="" width={200} height={200} />
+        <Image src={image} alt="" layout="fixed" width={200} height={200} />
       </AlbumHeaderCoverContainer>
       <AlbumHeaderInfoContainer>
         <AlbumHeaderType>{album_type}</AlbumHeaderType>
@@ -44,7 +47,8 @@ const AlbumHeader = () => {
           <Link href={`/artist/${id}`}>
             <AlbumHeaderArtistName>{artistName}</AlbumHeaderArtistName>
           </Link>
-          <AlbumHeaderInfoText>{`• ${year} • ${total_tracks} tracks, ${dur}`}</AlbumHeaderInfoText>
+          <AlbumHeaderInfoText>{year}</AlbumHeaderInfoText>
+          <AlbumHeaderInfoText>{`${total_tracks} tracks, ${dur}`}</AlbumHeaderInfoText>
         </AlbumHeaderInfo>
       </AlbumHeaderInfoContainer>
     </StyledAlbumHeader>
