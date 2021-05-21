@@ -13,7 +13,7 @@ const ArtistHeader = () => {
   return (
     <StyledArtistHeader>
       <ArtistImageContainer>
-        <Image src={image} alt="" width={150} height={150} />
+        <Image src={image} alt="" layout="fixed" width={200} height={200} />
       </ArtistImageContainer>
       <ArtistNameContainer>
         <ArtistName>{name}</ArtistName>

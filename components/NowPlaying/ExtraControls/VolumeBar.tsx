@@ -33,6 +33,8 @@ const VolumeBar = () => {
   const { changeVolume, toggleMute } = useAudioHelpers();
   const { isDragging, handleMouseDown } = useSlider(changeVolume);
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (isMuted) return;
+
     if (e.deltaY > 0) {
       changeVolume(volume - 10);
     } else {

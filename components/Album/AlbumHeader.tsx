@@ -1,19 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
 import { useAlbum } from "../../Hooks";
-import {
-  AlbumHeaderArtistName,
-  AlbumHeaderArtistPhoto,
-  AlbumHeaderCoverContainer,
-  AlbumHeaderInfo,
-  AlbumHeaderInfoContainer,
-  AlbumHeaderInfoText,
-  AlbumHeaderTitle,
-  AlbumHeaderType,
-  HeaderBackground,
-  HeaderGradient,
-  StyledAlbumHeader,
-} from "./style";
+import ContentHeader from "../ContentHeader/ContentHeader";
 
 const AlbumHeader = ({ bg }: { bg: string }) => {
   const {
@@ -31,27 +17,18 @@ const AlbumHeader = ({ bg }: { bg: string }) => {
   const dur = `${minutes} min ${seconds} sec`;
 
   return (
-    <StyledAlbumHeader>
-      <HeaderBackground style={{ backgroundColor: bg }} />
-      <HeaderGradient />
-      <AlbumHeaderCoverContainer>
-        <Image src={image} alt="" layout="fixed" width={200} height={200} />
-      </AlbumHeaderCoverContainer>
-      <AlbumHeaderInfoContainer>
-        <AlbumHeaderType>{album_type}</AlbumHeaderType>
-        <AlbumHeaderTitle>{name}</AlbumHeaderTitle>
-        <AlbumHeaderInfo>
-          <AlbumHeaderArtistPhoto>
-            <Image src={artistImage} alt="" width={25} height={25} />
-          </AlbumHeaderArtistPhoto>
-          <Link href={`/artist/${id}`}>
-            <AlbumHeaderArtistName>{artistName}</AlbumHeaderArtistName>
-          </Link>
-          <AlbumHeaderInfoText>{year}</AlbumHeaderInfoText>
-          <AlbumHeaderInfoText>{`${total_tracks} tracks, ${dur}`}</AlbumHeaderInfoText>
-        </AlbumHeaderInfo>
-      </AlbumHeaderInfoContainer>
-    </StyledAlbumHeader>
+    <ContentHeader
+      bg={bg}
+      coverImage={image}
+      type={album_type}
+      title={name}
+      infoImage={artistImage}
+      infoId={id}
+      infoName={artistName}
+      total_tracks={total_tracks}
+      year={year}
+      duration={dur}
+    />
   );
 };
 

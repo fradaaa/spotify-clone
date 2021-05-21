@@ -1,20 +1,22 @@
 import styled from "@emotion/styled";
 import { FlexCol, FlexRow } from "../Globals";
 
-export const ArtistContainer = styled(FlexCol)`
+export const ArtistContainer = styled.div`
   flex: 1;
-  height: 100%;
 `;
 
 export const StyledArtistHeader = styled.header`
   display: flex;
-  padding: 20px;
-  background-color: ${({ theme }) => theme.surface};
+  padding: 0 20px 20px;
+  height: 30vh;
+  background-color: ${({ theme }) => theme.surface2};
 `;
 
 export const ArtistImageContainer = styled(FlexRow)`
   border-radius: 50%;
   overflow: hidden;
+  user-select: none;
+  align-self: flex-end;
 `;
 
 export const ArtistNameContainer = styled(FlexRow)`
