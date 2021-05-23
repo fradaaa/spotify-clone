@@ -1,4 +1,9 @@
+import { Playlist } from ".prisma/client";
+import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
+import useSWR from "swr";
+import { CreatePlaylistButton } from "../Buttons";
+import { RingLoader } from "../Globals";
 import { libraryItems, menuItems } from "./items";
 import {
   NavContainer,
@@ -7,6 +12,7 @@ import {
   NavItemLink,
   NavItemText,
   NavLibrary,
+  NavList,
   NavLogo,
   NavMenu,
   NavPlaylists,
@@ -15,6 +21,9 @@ import {
 } from "./style";
 
 const Nav = () => {
+  const { user } = useUser();
+  const { data, error } = useSWR<Playlist[]>(user && "/api/me/playlists");
+
   return (
     <StyledNav>
       <NavContainer>
@@ -48,7 +57,23 @@ const Nav = () => {
         </NavLibrary>
         <NavPlaylists>
           <NavSectionName>Playlists</NavSectionName>
+          <NavList>
+            {data ? (
+              data.map(({ name, id }, i) => (
+                <NavItem key={i}>
+                  <Link href={`/playlist/${id}`}>
+                    <NavItemLink>
+                      <NavItemText>{name}</NavItemText>
+                    </NavItemLink>
+                  </Link>
+                </NavItem>
+              ))
+            ) : (
+              <RingLoader />
+            )}
+          </NavList>
         </NavPlaylists>
+        <CreatePlaylistButton />
       </NavContainer>
     </StyledNav>
   );

@@ -2,6 +2,7 @@ import { UserProvider } from "@auth0/nextjs-auth0";
 import { ThemeProvider } from "@emotion/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import ReactModal from "react-modal";
 import { Provider } from "react-redux";
 import "sanitize.css";
 import { SWRConfig } from "swr";
@@ -10,6 +11,8 @@ import Layout from "../components/Layout/Layout";
 import { store } from "../redux/store";
 import "../styles/global.css";
 import theme from "../styles/theme";
+
+ReactModal.setAppElement("#__next");
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

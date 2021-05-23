@@ -5,6 +5,7 @@ export const StyledNav = styled.nav`
   grid-area: nav;
   height: 100%;
   min-width: 250px;
+  overflow: hidden;
 `;
 
 export const NavContainer = styled(FlexCol)`
@@ -18,13 +19,23 @@ export const NavLogo = styled(FlexRow)`
   padding: 20px;
 `;
 
-export const NavLibrary = styled(FlexCol)`
+export const NavLibrary = styled.div`
   margin-bottom: 20px;
 `;
 
 export const NavMenu = styled(NavLibrary)``;
 
-export const NavPlaylists = styled(FlexCol)``;
+export const NavPlaylists = styled(FlexCol)`
+  height: 100%;
+  overflow-y: hidden;
+`;
+
+export const NavList = styled.div`
+  overflow-y: auto;
+  height: 100%;
+  scrollbar-width: thin;
+  flex: 1;
+`;
 
 export const NavItem = styled.div`
   padding: 10px 10px 10px 30px;
