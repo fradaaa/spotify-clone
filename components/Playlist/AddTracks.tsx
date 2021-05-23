@@ -10,7 +10,14 @@ import {
   AddTracksText,
   InputContainer,
   AddTracksSearchResults,
+  SearchIcon,
+  ClearSearchIcon,
+  EmptyResultsTitle,
+  EmptyResultsPar,
+  EmptyResults,
 } from "./style";
+import { AiOutlineSearch } from "react-icons/ai";
+import { MdClear } from "react-icons/md";
 
 type Data = Track & { artists: Artist[]; album: Album };
 
@@ -31,6 +38,9 @@ const AddTracks = () => {
       <AddTrackSearchContainer>
         <AddTracksText>Let's find something for your playlist</AddTracksText>
         <InputContainer>
+          <SearchIcon>
+            <AiOutlineSearch />
+          </SearchIcon>
           <AddTracksSearchInput
             type="search"
             name="searchInput"
@@ -39,10 +49,20 @@ const AddTracks = () => {
             value={searchString}
             onChange={handleChange}
           />
+          {searchString && (
+            <ClearSearchIcon
+              aria-label="Clear search"
+              width="20"
+              height="20"
+              onClick={() => setSearchString("")}
+            >
+              <MdClear />
+            </ClearSearchIcon>
+          )}
         </InputContainer>
       </AddTrackSearchContainer>
       <AddTracksSearchResults>
-        {data &&
+        {data && data.length ? (
           data.map(({ id, artists, album, track_url, title, duration }) => (
             <PlaylistSearchTrack
               key={id}
@@ -55,7 +75,18 @@ const AddTracks = () => {
               album={album}
               playlistId={playlistId}
             />
-          ))}
+          ))
+        ) : searchString ? (
+          <EmptyResults>
+            <EmptyResultsTitle>
+              No results found for &laquo;{debouncedSearch}&raquo;
+            </EmptyResultsTitle>
+            <EmptyResultsPar>
+              Please make sure your words are spelled correctly or use less or
+              different keywords.
+            </EmptyResultsPar>
+          </EmptyResults>
+        ) : null}
       </AddTracksSearchResults>
     </AddTracksContainer>
   );
