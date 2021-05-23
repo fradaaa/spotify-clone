@@ -12,18 +12,22 @@ import {
   HeaderGradient,
   StyledContentHeader,
   ContentHeaderCoverContainer,
+  ContentHeaderDesc,
+  ContentHeaderPlaylistPlaceholder,
 } from "./style";
+import { IoMusicalNotesOutline } from "react-icons/io5";
 
 type ContentHeaderProps = {
-  bg: string;
+  bg?: string;
   coverImage: string;
   type: string;
   title: string;
-  infoImage: string;
+  infoImage?: string;
   infoId: string;
   infoName: string;
   total_tracks: number;
-  year: number;
+  year?: number;
+  desc?: string;
   duration: string;
 };
 
@@ -37,34 +41,51 @@ const ContentHeader = ({
   infoName,
   total_tracks,
   year,
+  desc,
   duration,
 }: ContentHeaderProps) => {
+  const ownerLink =
+    type === "playlist" ? `/user/${infoId}` : `/artist/${infoId}`;
+
   return (
     <StyledContentHeader>
       <HeaderBackground style={{ backgroundColor: bg }} />
       <HeaderGradient />
       <ContentHeaderCoverContainer>
-        <Image
-          src={coverImage}
-          alt=""
-          layout="fixed"
-          width={200}
-          height={200}
-        />
+        {coverImage ? (
+          <Image
+            src={coverImage}
+            alt=""
+            layout="fixed"
+            width={200}
+            height={200}
+          />
+        ) : (
+          <ContentHeaderPlaylistPlaceholder>
+            <IoMusicalNotesOutline />
+          </ContentHeaderPlaylistPlaceholder>
+        )}
       </ContentHeaderCoverContainer>
       <ContentHeaderInfoContainer>
         <ContentHeaderType>{type}</ContentHeaderType>
         <ContentHeaderTitle>{title}</ContentHeaderTitle>
+        {desc && <ContentHeaderDesc>{desc}</ContentHeaderDesc>}
         <ContentHeaderInfo>
-          <ContentHeaderInfoPhoto>
-            <Image src={infoImage} alt="" width={25} height={25} />
-          </ContentHeaderInfoPhoto>
-          <Link href={`$[artist/${infoId}]`}>
+          {infoImage && (
+            <ContentHeaderInfoPhoto>
+              <Image src={infoImage} alt="" width={25} height={25} />
+            </ContentHeaderInfoPhoto>
+          )}
+          <Link href={ownerLink}>
             <ContentHeaderName>{infoName}</ContentHeaderName>
           </Link>
-          <ContentHeaderInfoText>{year}</ContentHeaderInfoText>
-          <ContentHeaderInfoText>{`${total_tracks} tracks`}</ContentHeaderInfoText>
-          <ContentHeaderInfoText>{duration}</ContentHeaderInfoText>
+          {year && <ContentHeaderInfoText>{year}</ContentHeaderInfoText>}
+          {total_tracks > 0 && (
+            <>
+              <ContentHeaderInfoText>{`${total_tracks} tracks`}</ContentHeaderInfoText>
+              <ContentHeaderInfoText>{duration}</ContentHeaderInfoText>
+            </>
+          )}
         </ContentHeaderInfo>
       </ContentHeaderInfoContainer>
     </StyledContentHeader>

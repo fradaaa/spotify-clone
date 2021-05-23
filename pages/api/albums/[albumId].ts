@@ -8,10 +8,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     where: {
       albumId: albumId as string,
     },
-    sum: {
+    _sum: {
       duration: true,
     },
   });
+
   const album = await prisma.album.findUnique({
     where: {
       id: albumId as string,
@@ -20,8 +21,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       artist: true,
     },
   });
+
   const {
-    sum: { duration: album_duration },
+    _sum: { duration: album_duration },
   } = duration;
   const data = { ...album, album_duration };
 

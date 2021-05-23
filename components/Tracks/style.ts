@@ -27,6 +27,20 @@ export const TrackCoverContainer = styled(FlexRow)`
   margin: 0 10px;
   border-radius: var(--brsm);
   overflow: hidden;
+  position: relative;
+`;
+
+type TrackCoverButtonProps = {
+  show?: boolean;
+};
+
+export const TrackCoverButton = styled(FlexRow)<TrackCoverButtonProps>`
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: ${({ show }) => show && "rgba(0,0,0,0.5)"};
 `;
 
 export const TrackTitleContainer = styled(FlexCol)`
@@ -46,6 +60,19 @@ export const TrackTitle = styled(FlexRow)<TrackTitleProps>`
 `;
 
 export const TrackArtistName = styled(StyledLink)``;
+
+export const TrackAlbumContainer = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 15px;
+  flex: 2;
+`;
+
+export const TrackAlbum = styled(StyledLink)``;
+
+export const TrackDateContainer = styled.div``;
+
+export const TrackDate = styled.div``;
 
 export const TrackPlayCount = styled(FlexRow)`
   flex: 1;

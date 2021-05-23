@@ -3,7 +3,7 @@ import { useShow } from "../../Hooks";
 import { TrackButton, TrackContainer, TrackDuration } from "./style";
 import TrackPlayButton from "./TrackPlayButton";
 import { ITrackProps } from "./types";
-import { convertSeconds } from "./utils";
+import { convertTrackDuration } from "./utils";
 
 const Track = ({
   id,
@@ -30,7 +30,7 @@ const Track = ({
       <TrackButton aria-label="Remove from your library" width="15" height="15">
         <AiOutlineHeart />
       </TrackButton>
-      <TrackDuration>{convertSeconds(duration)}</TrackDuration>
+      <TrackDuration>{convertTrackDuration(duration)}</TrackDuration>
       {show && (
         <TrackButton aria-label="More" width="25" height="25">
           <AiOutlineEllipsis />

@@ -1,4 +1,4 @@
-import { Artist } from ".prisma/client";
+import { Album, Artist } from ".prisma/client";
 
 export interface ITrackProps {
   id: string;
@@ -26,6 +26,22 @@ export interface IAlbumTrackProps {
   artists: Artist[];
   duration: number;
   track_url: string;
+}
+
+export interface IPlaylistTrackProps extends IAlbumTrackProps {
+  album: Album;
+  added_at: string;
+}
+
+export interface IPlaylistSearchTrackProps {
+  id: string;
+  image: string;
+  title: string;
+  artists: Artist[];
+  duration: number;
+  track_url: string;
+  album: Album;
+  playlistId: string;
 }
 
 export interface IAristTrackProps extends IAlbumTrackProps {

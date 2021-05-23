@@ -30,6 +30,20 @@ export const ContentHeaderCoverContainer = styled(FlexRow)`
   user-select: none;
 `;
 
+export const ContentHeaderPlaylistPlaceholder = styled(FlexRow)`
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  background-color: ${({ theme }) => theme.surface3};
+  color: ${({ theme }) => theme.onSurface};
+
+  & svg {
+    display: block;
+    width: 70px;
+    height: 70px;
+  }
+`;
+
 export const ContentHeaderInfoContainer = styled(FlexCol)`
   justify-content: flex-end;
   color: ${({ theme }) => theme.onSurface};
@@ -48,6 +62,10 @@ export const ContentHeaderTitle = styled.h2`
   font-size: 50px;
   font-weight: 600;
   margin: 0;
+`;
+
+export const ContentHeaderDesc = styled.div`
+  font-size: 14px;
 `;
 
 export const ContentHeaderInfo = styled(FlexRow)`

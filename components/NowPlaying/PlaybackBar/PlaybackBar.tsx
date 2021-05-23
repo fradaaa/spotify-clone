@@ -1,12 +1,12 @@
 import { useAppSelectior } from "../../../redux/hooks";
-import { convertSeconds } from "../../Tracks/utils";
+import { convertTrackDuration } from "../../Tracks/utils";
 import PlaybackProgressBar from "./PlaybackProgressBar";
 import { PlaybackBarContainer, PlaybackTime } from "./style";
 
 const CurrentTime = () => {
   const currentTime = useAppSelectior((state) => state.nowPlaying.currentTime);
 
-  return <PlaybackTime>{convertSeconds(currentTime)}</PlaybackTime>;
+  return <PlaybackTime>{convertTrackDuration(currentTime)}</PlaybackTime>;
 };
 
 const PlaybackBar = () => {
@@ -18,7 +18,7 @@ const PlaybackBar = () => {
     <PlaybackBarContainer>
       <CurrentTime />
       <PlaybackProgressBar duration={duration} />
-      <PlaybackTime>{convertSeconds(duration)}</PlaybackTime>
+      <PlaybackTime>{convertTrackDuration(duration)}</PlaybackTime>
     </PlaybackBarContainer>
   );
 };
