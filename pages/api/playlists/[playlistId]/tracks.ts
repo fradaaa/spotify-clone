@@ -17,21 +17,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const handleGET = async (playlistId: string, res: NextApiResponse) => {
-  const playlistTracks = await prisma.track.findMany({
+  const playlistTracks = await prisma.playlistTrack.findMany({
     where: {
-      in_playlists: {
-        some: {
-          id: playlistId,
+      playlistId,
+    },
+    include: {
+      track: {
+        include: {
+          album: true,
+          artists: true,
         },
       },
     },
-    include: {
-      album: true,
-      artists: true,
-    },
   });
 
-  res.status(200).json(playlistTracks);
+  const data = playlistTracks.map(({ track }) => track);
+
+  res.status(200).json(data);
 };
 
 const handlePOST = async (
@@ -40,15 +42,19 @@ const handlePOST = async (
   res: NextApiResponse
 ) => {
   const track = await prisma.playlist.update({
-    data: {
-      tracks: {
-        connect: {
-          id: trackId,
-        },
-      },
-    },
     where: {
       id: playlistId,
+    },
+    data: {
+      tracks: {
+        create: {
+          track: {
+            connect: {
+              id: trackId,
+            },
+          },
+        },
+      },
     },
   });
 

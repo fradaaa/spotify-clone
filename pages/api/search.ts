@@ -24,6 +24,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               },
             },
           },
+          {
+            album: {
+              name: {
+                contains: q as string,
+                mode: "insensitive",
+              },
+            },
+          },
         ],
       },
       include: {

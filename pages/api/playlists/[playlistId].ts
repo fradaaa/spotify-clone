@@ -6,9 +6,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const info = await prisma.track.aggregate({
     where: {
-      in_playlists: {
+      playlist_tracks: {
         some: {
-          id: playlistId as string,
+          playlistId: playlistId as string,
         },
       },
     },
