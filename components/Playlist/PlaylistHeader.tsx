@@ -4,10 +4,10 @@ import { convertDuration } from "../Tracks/utils";
 
 const PlaylistHeader = () => {
   const {
-    name,
+    name: playlistName,
     image,
     description,
-    owner: { id },
+    owner: { id, name },
     _count,
     _sum: { duration },
   } = usePlaylist();
@@ -16,9 +16,9 @@ const PlaylistHeader = () => {
     <ContentHeader
       coverImage={image}
       type="playlist"
-      title={name}
+      title={playlistName}
       infoId={id}
-      infoName={id}
+      infoName={name}
       total_tracks={_count}
       duration={convertDuration(duration)}
       desc={description}
