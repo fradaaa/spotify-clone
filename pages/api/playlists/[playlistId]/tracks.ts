@@ -41,18 +41,16 @@ const handlePOST = async (
   trackId: string,
   res: NextApiResponse
 ) => {
-  const track = await prisma.playlist.update({
-    where: {
-      id: playlistId,
-    },
+  const track = await prisma.playlistTrack.create({
     data: {
-      tracks: {
-        create: {
-          track: {
-            connect: {
-              id: trackId,
-            },
-          },
+      playlist: {
+        connect: {
+          id: playlistId,
+        },
+      },
+      track: {
+        connect: {
+          id: trackId,
         },
       },
     },
