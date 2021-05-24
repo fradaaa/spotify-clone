@@ -11,9 +11,14 @@ generator client {
 }
 
 model User {
-  id String @id @default(cuid())
+  id    String @id @default(cuid())
+  name  String @unique
+  image String @default("")
 
-  playlists Playlist[]
+  playlists        Playlist[]
+  followed_artists Artist[]
+  saved_albums     Album[]
+  saved_tracks     SavedTrack[]
 
   @@map(name: "users")
 }
@@ -24,8 +29,8 @@ model Playlist {
   description String
   image       String @default("")
 
-  tracks  Track[]
-  owner   User    @relation(fields: [ownerId], references: [id])
+  tracks  PlaylistTrack[]
+  owner   User            @relation(fields: [ownerId], references: [id])
   ownerId String
 
   @@map(name: "playlists")
@@ -36,8 +41,9 @@ model Artist {
   name  String @unique
   image String @default("")
 
-  albums Album[]
-  tracks Track[]
+  albums      Album[]
+  tracks      Track[]
+  followed_by User[]
 
   @@map(name: "artists")
 }
@@ -47,10 +53,11 @@ model Album {
   album_type     String
   name           String
   release_date   String
-  image          String
+  image          String @default("")
   total_tracks   Int
   album_duration Int    @default(0)
 
+  saved_by User[]
   tracks   Track[]
   artist   Artist  @relation(fields: [artistId], references: [id])
   artistId String
@@ -66,10 +73,35 @@ model Track {
   play_count   Int    @default(691385)
   track_url    String @default("")
 
-  in_playlists Playlist[]
-  artists      Artist[]
-  album        Album      @relation(fields: [albumId], references: [id])
-  albumId      String
+  playlist_tracks PlaylistTrack[]
+  saved_tracks    SavedTrack[]
+  artists         Artist[]
+  album           Album           @relation(fields: [albumId], references: [id])
+  albumId         String
 
   @@map(name: "songs")
+}
+
+model SavedTrack {
+  id       String   @id @default(cuid())
+  added_at DateTime @default(now())
+
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  track   Track  @relation(fields: [trackId], references: [id])
+  trackId String
+
+  @@map(name: "saved_tracks")
+}
+
+model PlaylistTrack {
+  id       String   @id @default(cuid())
+  added_at DateTime @default(now())
+
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlistId String
+  track      Track    @relation(fields: [trackId], references: [id])
+  trackId    String
+
+  @@map(name: "playlist_tracks")
 }
