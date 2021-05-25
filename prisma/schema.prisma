@@ -83,7 +83,6 @@ model Track {
 }
 
 model SavedTrack {
-  id       String   @id @default(cuid())
   added_at DateTime @default(now())
 
   user    User   @relation(fields: [userId], references: [id])
@@ -91,11 +90,11 @@ model SavedTrack {
   track   Track  @relation(fields: [trackId], references: [id])
   trackId String
 
+  @@id([trackId, userId])
   @@map(name: "saved_tracks")
 }
 
 model PlaylistTrack {
-  id       String   @id @default(cuid())
   added_at DateTime @default(now())
 
   playlist   Playlist @relation(fields: [playlistId], references: [id])
@@ -103,5 +102,6 @@ model PlaylistTrack {
   track      Track    @relation(fields: [trackId], references: [id])
   trackId    String
 
+  @@id([trackId, playlistId])
   @@map(name: "playlist_tracks")
 }

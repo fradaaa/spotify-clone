@@ -5,9 +5,11 @@ import { PlaylistContext } from "../../Context";
 
 const PlaylistPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR(
-    `/api/playlists/${router.query.playlistId as string}`
-  );
+  const { data, error } = useSWR(() => {
+    return router.query.playlistId
+      ? `/api/playlists/${router.query.playlistId}`
+      : null;
+  });
 
   if (error) return <div>Failed to load</div>;
 

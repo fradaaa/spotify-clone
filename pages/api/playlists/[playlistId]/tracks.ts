@@ -6,9 +6,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === "GET") {
     await handleGET(playlistId as string, res);
-  } else if (req.method === "POST") {
+  } else if (req.method === "PUT") {
     const { trackId } = req.body;
-    await handlePOST(playlistId as string, trackId, res);
+    await handlePUT(playlistId as string, trackId, res);
   } else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`
@@ -29,20 +29,27 @@ const handleGET = async (playlistId: string, res: NextApiResponse) => {
         },
       },
     },
+    orderBy: {
+      added_at: "desc",
+    },
+    take: 50,
   });
 
-  const data = playlistTracks.map(({ track }) => track);
+  const data = playlistTracks.map(({ track, added_at }) => ({
+    ...track,
+    added_at,
+  }));
 
   res.status(200).json(data);
 };
 
-const handlePOST = async (
+const handlePUT = async (
   playlistId: string,
   trackId: string,
   res: NextApiResponse
 ) => {
-  const track = await prisma.playlistTrack.create({
-    data: {
+  const track = await prisma.playlistTrack.upsert({
+    create: {
       playlist: {
         connect: {
           id: playlistId,
@@ -54,7 +61,25 @@ const handlePOST = async (
         },
       },
     },
+    update: {
+      playlist: {
+        connect: {
+          id: playlistId,
+        },
+      },
+      track: {
+        connect: {
+          id: trackId,
+        },
+      },
+    },
+    where: {
+      trackId_playlistId: {
+        trackId,
+        playlistId,
+      },
+    },
   });
 
-  res.status(201).json(track);
+  res.status(200).json(track);
 };

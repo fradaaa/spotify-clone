@@ -36,6 +36,7 @@ export const ContentHeaderPlaylistPlaceholder = styled(FlexRow)`
   height: 200px;
   background-color: ${({ theme }) => theme.surface3};
   color: ${({ theme }) => theme.onSurface};
+  z-index: 1;
 
   & svg {
     display: block;

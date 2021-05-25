@@ -28,7 +28,7 @@ type ContentHeaderProps = {
   total_tracks: number;
   year?: number;
   desc?: string;
-  duration: string;
+  duration?: string;
 };
 
 const ContentHeader = ({
@@ -67,7 +67,9 @@ const ContentHeader = ({
         )}
       </ContentHeaderCoverContainer>
       <ContentHeaderInfoContainer>
-        <ContentHeaderType>{type}</ContentHeaderType>
+        <ContentHeaderType>
+          {type === "likedSongs" ? "playlist" : type}
+        </ContentHeaderType>
         <ContentHeaderTitle>{title}</ContentHeaderTitle>
         {desc && <ContentHeaderDesc>{desc}</ContentHeaderDesc>}
         <ContentHeaderInfo>
@@ -83,7 +85,9 @@ const ContentHeader = ({
           {total_tracks > 0 && (
             <>
               <ContentHeaderInfoText>{`${total_tracks} tracks`}</ContentHeaderInfoText>
-              <ContentHeaderInfoText>{duration}</ContentHeaderInfoText>
+              {duration && (
+                <ContentHeaderInfoText>{duration}</ContentHeaderInfoText>
+              )}
             </>
           )}
         </ContentHeaderInfo>

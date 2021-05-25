@@ -27,6 +27,7 @@ const PlaylistTrack = ({
   track_number,
   added_at,
   album,
+  is_saved,
 }: IPlaylistTrackProps) => {
   const { playTrack, pauseTrack } = useAudioHelpers();
   const { id: nowId } = useAppSelectior(
@@ -43,6 +44,7 @@ const PlaylistTrack = ({
       nowId={nowId}
       trackNumber={track_number}
       duration={duration}
+      is_saved={is_saved}
       handleClick={handleClick}
       pauseTrack={pauseTrack}
     >

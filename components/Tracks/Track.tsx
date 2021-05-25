@@ -1,6 +1,6 @@
-import { AiOutlineEllipsis, AiOutlineHeart } from "react-icons/ai";
 import { useShow } from "../../Hooks";
-import { TrackButton, TrackContainer, TrackDuration } from "./style";
+import SaveTrackButton from "./SaveTrackButton";
+import { TrackContainer, TrackDuration } from "./style";
 import TrackPlayButton from "./TrackPlayButton";
 import { ITrackProps } from "./types";
 import { convertTrackDuration } from "./utils";
@@ -10,6 +10,7 @@ const Track = ({
   nowId,
   trackNumber,
   duration,
+  is_saved,
   handleClick,
   pauseTrack,
   children,
@@ -27,15 +28,13 @@ const Track = ({
         pauseTrack={pauseTrack}
       />
       {children}
-      <TrackButton aria-label="Remove from your library" width="15" height="15">
-        <AiOutlineHeart />
-      </TrackButton>
+      <SaveTrackButton trackId={id} isSaved={is_saved} />
       <TrackDuration>{convertTrackDuration(duration)}</TrackDuration>
-      {show && (
+      {/* {show && (
         <TrackButton aria-label="More" width="25" height="25">
           <AiOutlineEllipsis />
         </TrackButton>
-      )}
+      )} */}
     </TrackContainer>
   );
 };

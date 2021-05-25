@@ -5,6 +5,7 @@ export interface ITrackProps {
   nowId: string;
   trackNumber: number;
   duration: number;
+  is_saved: boolean;
   handleClick: () => void;
   pauseTrack: () => void;
 }
@@ -26,6 +27,7 @@ export interface IAlbumTrackProps {
   artists: Artist[];
   duration: number;
   track_url: string;
+  is_saved: boolean;
 }
 
 export interface IPlaylistTrackProps extends IAlbumTrackProps {

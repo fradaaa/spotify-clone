@@ -16,8 +16,8 @@ export const libraryItems = [
   },
   {
     Icon: <AiOutlineHeart />,
-    link: "/collection/favorite-tracks",
-    text: "Favorite Songs",
+    link: "/collection/tracks",
+    text: "Liked Songs",
   },
   { Icon: <CgProfile />, link: "/collection/artists", text: "Artists" },
   { Icon: <BsCollectionPlay />, link: "/collection/albums", text: "Albums" },

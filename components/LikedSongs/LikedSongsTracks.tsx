@@ -1,22 +1,21 @@
-import { Album, Artist, Track } from ".prisma/client";
+import { Track, Artist, Album } from "@prisma/client";
 import useSWR from "swr";
-import { usePlaylist } from "../../Hooks";
 import { PlaylistTrack } from "../Tracks";
-import { PlaylistTracksContainer } from "./style";
+import { LikedSongsTracksContainer } from "./style";
 
 type Data = Track & { artists: Artist[]; album: Album; added_at: Date };
 
-const PlaylistTracks = () => {
-  const { id } = usePlaylist();
-  const { data } = useSWR<Data[]>(`/api/playlists/${id}/tracks`);
+const LikedSongsTracks = () => {
+  const { data } = useSWR<{ items: Data[]; total: number }>("/api/me/tracks");
   const { data: saved } = useSWR(
-    () => `/api/me/tracks/contains?ids=${data.map(({ id }) => id).join(",")}`
+    () =>
+      `/api/me/tracks/contains?ids=${data.items.map(({ id }) => id).join(",")}`
   );
 
   return (
-    <PlaylistTracksContainer>
+    <LikedSongsTracksContainer>
       {saved &&
-        data.map(
+        data.items.map(
           ({ id, title, artists, duration, track_url, album, added_at }, i) => (
             <PlaylistTrack
               key={id}
@@ -33,8 +32,8 @@ const PlaylistTracks = () => {
             />
           )
         )}
-    </PlaylistTracksContainer>
+    </LikedSongsTracksContainer>
   );
 };
 
-export default PlaylistTracks;
+export default LikedSongsTracks;

@@ -10,7 +10,7 @@ const AddToPlaylistButton = ({
 }) => {
   const handleClick = async () => {
     await fetch(`/api/playlists/${playlistId}/tracks`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "content-type": "application/json",
       },

@@ -14,6 +14,7 @@ const AlbumTrack = ({
   duration,
   track_url,
   image,
+  is_saved,
 }: IAlbumTrackProps) => {
   const { playTrack, pauseTrack } = useAudioHelpers();
   const { id: nowId } = useAppSelectior(
@@ -32,6 +33,7 @@ const AlbumTrack = ({
       duration={duration}
       handleClick={handleClick}
       pauseTrack={pauseTrack}
+      is_saved={is_saved}
     >
       <TrackTitleContainer>
         <TrackTitle highlight={id === nowId}>{title}</TrackTitle>

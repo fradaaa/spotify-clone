@@ -5,9 +5,11 @@ import { ArtistContext } from "../../Context";
 
 const ArtistPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR(
-    `/api/artists/${router.query.artistId as string}`
-  );
+  const { data, error } = useSWR(() => {
+    return router.query.artistId
+      ? `/api/artists/${router.query.artistId}`
+      : null;
+  });
 
   if (error) return <div>Failed to load</div>;
 

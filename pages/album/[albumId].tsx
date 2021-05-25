@@ -5,9 +5,9 @@ import { AlbumContext } from "../../Context";
 
 const AlbumPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR(
-    `/api/albums/${router.query.albumId as string}`
-  );
+  const { data, error } = useSWR(() => {
+    return router.query.albumId ? `/api/albums/${router.query.albumId}` : null;
+  });
 
   if (error) return <div>Failed to load</div>;
 
