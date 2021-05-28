@@ -10,6 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     },
     orderBy: { track_number: "asc" },
     include: {
+      album: true,
       artists: true,
     },
   });

@@ -18,13 +18,15 @@ import {
 } from "./style";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdClear } from "react-icons/md";
+import { useAppSelectior } from "../../redux/hooks";
 
 type Data = Track & { artists: Artist[]; album: Album };
 
 const AddTracks = () => {
   const { id: playlistId } = usePlaylist();
   const [searchString, setSearchString] = useState("");
-  const debouncedSearch = useDebounce(searchString, 250);
+  const debouncedSearch = useDebounce(searchString, 350);
+  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack.id);
   const { data } = useSWR<Data[]>(() =>
     debouncedSearch ? `/api/search?q=${debouncedSearch}&type=track` : null
   );
@@ -74,6 +76,7 @@ const AddTracks = () => {
               track_url={track_url}
               album={album}
               playlistId={playlistId}
+              highlight={id === nowId}
             />
           ))
         ) : searchString ? (

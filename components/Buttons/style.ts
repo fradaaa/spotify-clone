@@ -64,3 +64,20 @@ export const IconButton = styled.button<IconButtonProps>`
     height: ${({ height }) => `${height}px`};
   }
 `;
+
+export const RoundIconButton = styled(IconButton)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 10px;
+  margin-right: 30px;
+  background-color: ${({ theme }) => theme.primary};
+  transition: transform 0.1s ease-in;
+
+  &:hover {
+    color: #fff;
+    transform: scale(1.1);
+  }
+`;

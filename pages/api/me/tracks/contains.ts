@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user } = getSession(req, res);
+  const session = getSession(req, res);
   const ids = req.query.ids as string;
   const idsArr = ids.split(",");
 
@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         where: {
           trackId_userId: {
             trackId: id,
-            userId: user.sub,
+            userId: session?.user.sub,
           },
         },
       });

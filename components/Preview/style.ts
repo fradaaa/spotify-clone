@@ -3,6 +3,7 @@ import { FlexCol, FlexRow } from "../Globals";
 
 export const PreviewContainer = styled.div`
   padding: 20px;
+  width: 100%;
 `;
 
 export const PreviewTitle = styled.h2`
@@ -11,7 +12,11 @@ export const PreviewTitle = styled.h2`
   color: ${({ theme }) => theme.onSurface};
 `;
 
-export const PreviewList = styled(FlexRow)``;
+export const PreviewList = styled(FlexRow)`
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+`;
 
 export const PreviewItemContainer = styled(FlexCol)`
   justify-content: center;
@@ -21,12 +26,8 @@ export const PreviewItemContainer = styled(FlexCol)`
   color: ${({ theme }) => theme.onSurface};
   border-radius: var(--brsm);
   cursor: pointer;
-  margin-right: 20px;
   overflow: hidden;
-
-  &:last-of-type {
-    margin-right: 0;
-  }
+  transition: background-color 0.1s ease-in;
 
   &:hover {
     background-color: ${({ theme }) => theme.surface3};

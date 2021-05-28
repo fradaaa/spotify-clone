@@ -1,23 +1,30 @@
-import Image from "next/image";
 import { useArtist } from "../../Hooks";
+import { HeaderGradient } from "../ContentHeader/style";
 import {
-  ArtistImageContainer,
+  ArtistHeaderImage,
+  ArtistListeners,
   ArtistName,
-  ArtistNameContainer,
+  ArtistStats,
   StyledArtistHeader,
 } from "./style";
 
+const getRandomNumber = () => {
+  const arr = new Uint16Array(1);
+  crypto.getRandomValues(arr);
+  return arr[0];
+};
+
 const ArtistHeader = () => {
-  const { name, image } = useArtist();
+  const { name, header_image } = useArtist();
 
   return (
     <StyledArtistHeader>
-      <ArtistImageContainer>
-        <Image src={image} alt="" layout="fixed" width={200} height={200} />
-      </ArtistImageContainer>
-      <ArtistNameContainer>
+      <ArtistHeaderImage style={{ backgroundImage: `url(${header_image})` }} />
+      <HeaderGradient />
+      <ArtistStats>
         <ArtistName>{name}</ArtistName>
-      </ArtistNameContainer>
+        <ArtistListeners>{`${getRandomNumber()} monthly listeners`}</ArtistListeners>
+      </ArtistStats>
     </StyledArtistHeader>
   );
 };

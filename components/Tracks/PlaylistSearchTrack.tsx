@@ -28,11 +28,11 @@ const PlaylistSearchTrack = ({
   track_url,
   album: { id: albumId, name: albumName },
   playlistId,
+  highlight,
 }: IPlaylistSearchTrackProps) => {
   const { show, disableShow, enableShow } = useShow();
-  const { playTrack, pauseTrack } = useAudioHelpers();
+  const { playPause, playTrack } = useAudioHelpers();
   const isPlaying = useAppSelectior((state) => state.nowPlaying.isPlaying);
-  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack.id);
 
   const handleClick = useCallback(() => {
     playTrack({ id, image, title, duration, artists, track_url });
@@ -47,17 +47,19 @@ const PlaylistSearchTrack = ({
               aria-label={isPlaying ? "Pause" : "Play"}
               width="20"
               height="20"
-              onClick={id === nowId && isPlaying ? pauseTrack : handleClick}
+              onClick={highlight ? playPause : handleClick}
             >
-              {id === nowId && isPlaying ? <BsPauseFill /> : <BsPlayFill />}
+              {highlight && isPlaying ? <BsPauseFill /> : <BsPlayFill />}
             </TrackButton>
           )}
         </TrackCoverButton>
         <Image src={image} alt="" width={40} height={40} />
       </TrackCoverContainer>
       <TrackTitleContainer>
-        <TrackTitle highlight={id === nowId}>{title}</TrackTitle>
-        {convertArtists(artists, TrackArtistName)}
+        <div>
+          <TrackTitle highlight={highlight}>{title}</TrackTitle>
+          {convertArtists(artists, TrackArtistName)}
+        </div>
       </TrackTitleContainer>
       <TrackAlbumContainer>
         <Link href={`/album/${albumId}`}>

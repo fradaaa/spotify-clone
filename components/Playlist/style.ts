@@ -2,10 +2,6 @@ import styled from "@emotion/styled";
 import { IconButton } from "../Buttons/style";
 import { FlexRow, StyledInput } from "../Globals";
 
-export const PlaylistContainer = styled.div`
-  flex: 1;
-`;
-
 export const AddTracksContainer = styled.div`
   padding: 0 20px;
 `;
@@ -56,7 +52,7 @@ export const AddTracksSearchResults = styled.div`
 `;
 
 export const PlaylistTracksContainer = styled.div`
-  padding: 20px 10px;
+  padding: 0 20px;
 `;
 
 export const EmptyResults = styled.div`

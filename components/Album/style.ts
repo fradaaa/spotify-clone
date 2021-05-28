@@ -1,10 +1,8 @@
 import styled from "@emotion/styled";
-import { FlexCol } from "../Globals";
+import { IconButton } from "../Buttons/style";
 
-export const AlbumContainer = styled.div`
-  flex: 1;
-`;
-
-export const AlbumTracksContainer = styled(FlexCol)`
+export const AlbumTracksContainer = styled.div`
   padding: 20px;
 `;
+
+export const AlbumButton = styled(IconButton)``;

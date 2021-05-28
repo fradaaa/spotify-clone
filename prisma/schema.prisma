@@ -16,8 +16,8 @@ model User {
   image String @default("")
 
   playlists        Playlist[]
-  followed_artists Artist[]
-  saved_albums     Album[]
+  followed_artists FollowedArtist[]
+  saved_albums     SavedAlbum[]
   saved_tracks     SavedTrack[]
 
   @@map(name: "users")
@@ -39,11 +39,12 @@ model Playlist {
 model Artist {
   id    String @id @default(cuid())
   name  String @unique
+  header_image String @default("")
   image String @default("")
 
-  albums      Album[]
-  tracks      Track[]
-  followed_by User[]
+  albums   Album[]
+  tracks   Track[]
+  followed FollowedArtist[]
 
   @@map(name: "artists")
 }
@@ -57,9 +58,9 @@ model Album {
   total_tracks   Int
   album_duration Int    @default(0)
 
-  saved_by User[]
+  saved_by SavedAlbum[]
   tracks   Track[]
-  artist   Artist  @relation(fields: [artistId], references: [id])
+  artist   Artist       @relation(fields: [artistId], references: [id])
   artistId String
 
   @@map(name: "albums")
@@ -80,6 +81,30 @@ model Track {
   albumId         String
 
   @@map(name: "songs")
+}
+
+model FollowedArtist {
+  added_at DateTime @default(now())
+
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  artist   Artist @relation(fields: [artistId], references: [id])
+  artistId String
+
+  @@id([artistId, userId])
+  @@map(name: "followed_artists")
+}
+
+model SavedAlbum {
+  added_at DateTime @default(now())
+
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  album   Album  @relation(fields: [albumId], references: [id])
+  albumId String
+
+  @@id([albumId, userId])
+  @@map(name: "saved_albums")
 }
 
 model SavedTrack {

@@ -1,7 +1,8 @@
 import Head from "next/head";
+import { ContentGradient } from "../Globals";
+import PlaylistControls from "../Playlist/PlaylistControls";
 import LikedSongHeader from "./LikedSongHeader";
 import LikedSongsTracks from "./LikedSongsTracks";
-import { LikedSongsContainer } from "./style";
 
 const LikedSongs = () => {
   return (
@@ -9,10 +10,10 @@ const LikedSongs = () => {
       <Head>
         <title>Spotify Clone - Liked Songs</title>
       </Head>
-      <LikedSongsContainer>
-        <LikedSongHeader />
-        <LikedSongsTracks />
-      </LikedSongsContainer>
+      <LikedSongHeader />
+      <ContentGradient style={{ backgroundColor: "rgb(80, 56, 160)" }} />
+      <PlaylistControls />
+      <LikedSongsTracks />
     </>
   );
 };

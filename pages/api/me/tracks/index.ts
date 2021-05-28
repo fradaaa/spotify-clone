@@ -58,8 +58,8 @@ const handlePUT = async (
   trackId: string,
   res: NextApiResponse
 ) => {
-  const savedTrack = await prisma.savedTrack.upsert({
-    create: {
+  const savedTrack = await prisma.savedTrack.create({
+    data: {
       track: {
         connect: {
           id: trackId,
@@ -69,24 +69,6 @@ const handlePUT = async (
         connect: {
           id: userId,
         },
-      },
-    },
-    update: {
-      track: {
-        connect: {
-          id: trackId,
-        },
-      },
-      user: {
-        connect: {
-          id: userId,
-        },
-      },
-    },
-    where: {
-      trackId_userId: {
-        trackId,
-        userId,
       },
     },
   });

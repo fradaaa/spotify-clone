@@ -1,42 +1,95 @@
-import { useShow } from "../../Hooks";
-import SaveTrackButton from "./SaveTrackButton";
-import { TrackContainer, TrackDuration } from "./style";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback } from "react";
+import { useAudioHelpers, useShow } from "../../Hooks";
+import {
+  TrackAlbum,
+  TrackAlbumContainer,
+  TrackArtistName,
+  TrackContainer,
+  TrackCoverContainer,
+  TrackDate,
+  TrackDateContainer,
+  TrackPlayCount,
+  TrackPlayCountContainer,
+  TrackTitle,
+  TrackTitleContainer,
+} from "./style";
+import TrackExtra from "./TrackExtra";
 import TrackPlayButton from "./TrackPlayButton";
 import { ITrackProps } from "./types";
-import { convertTrackDuration } from "./utils";
+import { convertArtists, convertPlayCount, formatAddedAt } from "./utils";
 
-const Track = ({
+const DisplayTrack = ({
   id,
-  nowId,
   trackNumber,
+  title,
+  artists,
+  album,
+  dateAdded,
   duration,
-  is_saved,
-  handleClick,
-  pauseTrack,
-  children,
-}: React.PropsWithChildren<ITrackProps>) => {
+  playCount,
+  showImage,
+  showArtists,
+  meta: { trackURL, highlight, isSaved, index },
+}: ITrackProps) => {
   const { show, disableShow, enableShow } = useShow();
+  const { playTrack } = useAudioHelpers();
+
+  const handleClick = useCallback(() => {
+    playTrack({
+      id,
+      title,
+      image: album.image,
+      duration,
+      artists,
+      track_url: trackURL,
+    });
+  }, []);
 
   return (
     <TrackContainer onMouseOver={enableShow} onMouseLeave={disableShow}>
       <TrackPlayButton
-        id={id}
-        nowId={nowId}
+        highlight={highlight}
         show={show}
         trackNumber={trackNumber}
         handleClick={handleClick}
-        pauseTrack={pauseTrack}
       />
-      {children}
-      <SaveTrackButton trackId={id} isSaved={is_saved} />
-      <TrackDuration>{convertTrackDuration(duration)}</TrackDuration>
-      {/* {show && (
-        <TrackButton aria-label="More" width="25" height="25">
-          <AiOutlineEllipsis />
-        </TrackButton>
-      )} */}
+      <TrackTitleContainer>
+        {showImage && (
+          <TrackCoverContainer>
+            <Image src={album.image} alt="" width={40} height={40} />
+          </TrackCoverContainer>
+        )}
+        <div>
+          <TrackTitle highlight={highlight}>{title}</TrackTitle>
+          {showArtists && convertArtists(artists, TrackArtistName)}
+        </div>
+      </TrackTitleContainer>
+      {playCount ? (
+        <TrackPlayCountContainer>
+          <TrackPlayCount>{convertPlayCount(playCount)}</TrackPlayCount>
+        </TrackPlayCountContainer>
+      ) : (
+        <TrackAlbumContainer>
+          <Link href={`/album/${album.id}`}>
+            <TrackAlbum>{album.name}</TrackAlbum>
+          </Link>
+        </TrackAlbumContainer>
+      )}
+      {dateAdded && (
+        <TrackDateContainer>
+          <TrackDate>{formatAddedAt(dateAdded)}</TrackDate>
+        </TrackDateContainer>
+      )}
+      <TrackExtra
+        trackId={id}
+        isSaved={isSaved}
+        duration={duration}
+        index={index}
+      />
     </TrackContainer>
   );
 };
 
-export default Track;
+export default DisplayTrack;

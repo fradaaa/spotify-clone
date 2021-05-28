@@ -3,6 +3,7 @@ import StyledLink from "./StyledLink";
 import StyledTextArea from "./StyledTextArea";
 import StyledInput from "./StyledInput";
 import RingLoader from "./RingLoader";
+import { ContentGradient } from "./style";
 
 export {
   FlexCol,
@@ -11,4 +12,5 @@ export {
   StyledTextArea,
   StyledInput,
   RingLoader,
+  ContentGradient,
 };

@@ -1,4 +1,4 @@
-import { StyledMain, MainContainer } from "./style";
+import { MainContainer, StyledMain } from "./style";
 
 const Main = ({ children }: { children: React.ReactNode }) => {
   return (

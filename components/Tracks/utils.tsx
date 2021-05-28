@@ -1,5 +1,15 @@
 import { Artist } from ".prisma/client";
+import { differenceInDays, format, formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
+
+export const formatAddedAt = (addedAt: Date) => {
+  const date = new Date(addedAt);
+  if (differenceInDays(date, new Date()) > 30) {
+    return format(date, "MMMM d, yyyy");
+  } else {
+    return formatDistanceToNowStrict(date, { addSuffix: true });
+  }
+};
 
 export const convertDuration = (duration: number) => {
   const minutes = Math.floor(duration / 60);
@@ -28,4 +38,18 @@ export const convertArtists = (artists: Artist[], Wrapper: React.FC) => {
       ))}
     </div>
   );
+};
+
+export const convertPlayCount = (x: number) => {
+  const n = x.toString();
+  let s = "",
+    i,
+    j;
+  i = n.length;
+  while (i > 3) {
+    j = i - 3;
+    s = " " + n.slice(j, i) + s;
+    i = j;
+  }
+  return n.slice(0, i) + s;
 };

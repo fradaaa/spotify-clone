@@ -5,6 +5,7 @@ import useDebounce from "./useDebounce";
 import useShow from "./useShow";
 import useSlider from "./useSlider";
 import usePlaylist from "./usePlaylist";
+import useSavedMutate from "./useSavedMutate";
 
 export {
   useArtist,
@@ -14,4 +15,5 @@ export {
   useShow,
   useSlider,
   usePlaylist,
+  useSavedMutate,
 };

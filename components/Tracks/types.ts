@@ -2,37 +2,28 @@ import { Album, Artist } from ".prisma/client";
 
 export interface ITrackProps {
   id: string;
-  nowId: string;
   trackNumber: number;
+  title: string;
+  artists: Artist[];
+  album: Album;
+  dateAdded?: Date;
   duration: number;
-  is_saved: boolean;
-  handleClick: () => void;
-  pauseTrack: () => void;
+  playCount?: number;
+  showImage?: boolean;
+  showArtists?: boolean;
+  meta: {
+    trackURL: string;
+    highlight: boolean;
+    isSaved: boolean;
+    index: number;
+  };
 }
 
 export interface ITrackPlayButtonProps {
-  id: string;
-  nowId: string;
+  highlight: boolean;
   show: boolean;
   trackNumber: number;
   handleClick: () => void;
-  pauseTrack: () => void;
-}
-
-export interface IAlbumTrackProps {
-  id: string;
-  track_number: number;
-  image: string;
-  title: string;
-  artists: Artist[];
-  duration: number;
-  track_url: string;
-  is_saved: boolean;
-}
-
-export interface IPlaylistTrackProps extends IAlbumTrackProps {
-  album: Album;
-  added_at: string;
 }
 
 export interface IPlaylistSearchTrackProps {
@@ -44,8 +35,5 @@ export interface IPlaylistSearchTrackProps {
   track_url: string;
   album: Album;
   playlistId: string;
-}
-
-export interface IAristTrackProps extends IAlbumTrackProps {
-  play_count: number;
+  highlight: boolean;
 }

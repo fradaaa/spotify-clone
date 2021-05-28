@@ -1,39 +1,62 @@
 import { Album, Artist, Track } from ".prisma/client";
 import useSWR from "swr";
-import { usePlaylist } from "../../Hooks";
-import { PlaylistTrack } from "../Tracks";
+import { MutateContext } from "../../Context";
+import { usePlaylist, useSavedMutate } from "../../Hooks";
+import { useAppSelectior } from "../../redux/hooks";
+import DisplayTrack from "../Tracks/Track";
+import { PlaylistColumns } from "../Tracks/TrackColumnNames";
 import { PlaylistTracksContainer } from "./style";
 
 type Data = Track & { artists: Artist[]; album: Album; added_at: Date };
 
 const PlaylistTracks = () => {
   const { id } = usePlaylist();
-  const { data } = useSWR<Data[]>(`/api/playlists/${id}/tracks`);
-  const { data: saved } = useSWR(
-    () => `/api/me/tracks/contains?ids=${data.map(({ id }) => id).join(",")}`
+  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack.id);
+  const { data: tracks } = useSWR<Data[]>(() =>
+    id ? `/api/playlists/${id}/tracks` : null
   );
+  const { data: saved, mutate } = useSWR<boolean[]>(() => {
+    return tracks
+      ? `/api/me/tracks/contains?ids=${tracks.map(({ id }) => id).join(",")}`
+      : null;
+  });
+  const mutatefuncs = useSavedMutate(mutate);
 
   return (
-    <PlaylistTracksContainer>
-      {saved &&
-        data.map(
-          ({ id, title, artists, duration, track_url, album, added_at }, i) => (
-            <PlaylistTrack
-              key={id}
-              id={id}
-              track_number={i + 1}
-              title={title}
-              image={album.image}
-              artists={artists}
-              duration={duration}
-              track_url={track_url}
-              added_at={new Date(added_at).toISOString()}
-              album={album}
-              is_saved={saved[i]}
-            />
-          )
+    <MutateContext.Provider value={mutatefuncs}>
+      <PlaylistTracksContainer>
+        {saved && (
+          <>
+            <PlaylistColumns />
+            {tracks?.map(
+              (
+                { id, title, artists, duration, track_url, album, added_at },
+                i
+              ) => (
+                <DisplayTrack
+                  key={id}
+                  id={id}
+                  trackNumber={i + 1}
+                  title={title}
+                  artists={artists}
+                  album={album}
+                  dateAdded={added_at}
+                  duration={duration}
+                  showImage
+                  showArtists
+                  meta={{
+                    trackURL: track_url,
+                    highlight: id === nowId,
+                    isSaved: saved[i],
+                    index: i,
+                  }}
+                />
+              )
+            )}
+          </>
         )}
-    </PlaylistTracksContainer>
+      </PlaylistTracksContainer>
+    </MutateContext.Provider>
   );
 };
 

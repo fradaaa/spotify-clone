@@ -4,9 +4,8 @@ import {
   AiOutlineHome,
   AiOutlineSearch,
 } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
-import { IoAlbumsOutline } from "react-icons/io5";
 import { BsCollectionPlay } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
 
 export const libraryItems = [
   {
@@ -26,5 +25,4 @@ export const libraryItems = [
 export const menuItems = [
   { Icon: <AiOutlineHome />, link: "/", text: "Home" },
   { Icon: <AiOutlineSearch />, link: "/search", text: "Search" },
-  { Icon: <IoAlbumsOutline />, link: "/collection", text: "Collection" },
 ];

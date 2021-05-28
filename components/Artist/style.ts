@@ -1,42 +1,47 @@
 import styled from "@emotion/styled";
-import { FlexCol, FlexRow } from "../Globals";
-
-export const ArtistContainer = styled.div`
-  flex: 1;
-`;
+import { FlexRow } from "../Globals";
 
 export const StyledArtistHeader = styled.header`
+  display: flex;
+  position: relative;
   display: flex;
   padding: 0 20px 20px;
   height: 30vh;
   background-color: ${({ theme }) => theme.surface2};
 `;
 
-export const ArtistImageContainer = styled(FlexRow)`
-  border-radius: 50%;
-  overflow: hidden;
-  user-select: none;
+export const ArtistHeaderImage = styled.div`
+  position: absolute;
+  background-size: cover;
+  background-repeat: no-repeat;
+  inset: 0;
+`;
+
+export const ArtistStats = styled.div`
+  z-index: 1;
+  color: ${({ theme }) => theme.onSurface};
   align-self: flex-end;
 `;
 
-export const ArtistNameContainer = styled(FlexRow)`
-  flex: 1;
-  justify-content: center;
-`;
-
 export const ArtistName = styled.h1`
-  font-size: 90px;
+  font-size: 75px;
   font-weight: 600;
-  color: ${({ theme }) => theme.onSurface};
   margin: 0;
 `;
 
+export const ArtistListeners = styled.span`
+  font-size: 15px;
+`;
+
 export const ArtistTopTracksContainer = styled.div`
-  padding: 20px;
+  padding: 0 20px;
+  max-width: 70%;
 `;
 
 export const ArtistSubHeaderText = styled.h2`
+  padding: 0 20px;
   font-size: 20px;
   font-weight: 600;
+  margin: 0 0 10px;
   color: ${({ theme }) => theme.onSurface};
 `;

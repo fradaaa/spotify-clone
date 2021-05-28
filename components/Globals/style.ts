@@ -32,3 +32,19 @@ export const Spinner = styled.span`
     animation: ${spin} 0.8s ease infinite;
   }
 `;
+
+export const ContentGradient = styled.div`
+  height: 240px;
+  position: absolute;
+  width: 100%;
+  background-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    #1d1d1d 100%
+  );
+  z-index: -1;
+`;
+
+export const ContentControlsContainer = styled(FlexRow)`
+  padding: 20px;
+`;

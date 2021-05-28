@@ -1,18 +1,18 @@
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
+import { useAudioHelpers } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
 import Equalizer from "../Equalizer/Equalizer";
 import { TrackButton, TrackNumber } from "./style";
 import { ITrackPlayButtonProps } from "./types";
 
 const TrackPlayButton = ({
-  id,
-  nowId,
+  highlight,
   show,
   trackNumber,
   handleClick,
-  pauseTrack,
 }: ITrackPlayButtonProps) => {
   const isPlaying = useAppSelectior((state) => state.nowPlaying.isPlaying);
+  const { playPause } = useAudioHelpers();
 
   return (
     <TrackNumber>
@@ -21,11 +21,11 @@ const TrackPlayButton = ({
           aria-label={isPlaying ? "Pause" : "Play"}
           width="20"
           height="20"
-          onClick={id === nowId && isPlaying ? pauseTrack : handleClick}
+          onClick={highlight ? playPause : handleClick}
         >
-          {id === nowId && isPlaying ? <BsPauseFill /> : <BsPlayFill />}
+          {highlight && isPlaying ? <BsPauseFill /> : <BsPlayFill />}
         </TrackButton>
-      ) : id === nowId && isPlaying ? (
+      ) : highlight && isPlaying ? (
         <Equalizer />
       ) : (
         trackNumber
