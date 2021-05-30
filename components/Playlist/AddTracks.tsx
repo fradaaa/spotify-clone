@@ -2,23 +2,17 @@ import { Album, Artist, Track } from ".prisma/client";
 import { useCallback, useState } from "react";
 import useSWR from "swr";
 import { useDebounce, usePlaylist } from "../../Hooks";
+import { useAppSelectior } from "../../redux/hooks";
+import { SearchInput } from "../Forms";
+import Empty from "../Search/Empty";
 import PlaylistSearchTrack from "../Tracks/PlaylistSearchTrack";
 import {
   AddTracksContainer,
   AddTrackSearchContainer,
-  AddTracksSearchInput,
+  AddTracksSearchResults,
   AddTracksText,
   InputContainer,
-  AddTracksSearchResults,
-  SearchIcon,
-  ClearSearchIcon,
-  EmptyResultsTitle,
-  EmptyResultsPar,
-  EmptyResults,
 } from "./style";
-import { AiOutlineSearch } from "react-icons/ai";
-import { MdClear } from "react-icons/md";
-import { useAppSelectior } from "../../redux/hooks";
 
 type Data = Track & { artists: Artist[]; album: Album };
 
@@ -35,32 +29,21 @@ const AddTracks = () => {
     setSearchString(e.target.value);
   }, []);
 
+  const clearFiled = useCallback(() => {
+    setSearchString("");
+  }, []);
+
   return (
     <AddTracksContainer>
       <AddTrackSearchContainer>
         <AddTracksText>Let's find something for your playlist</AddTracksText>
         <InputContainer>
-          <SearchIcon>
-            <AiOutlineSearch />
-          </SearchIcon>
-          <AddTracksSearchInput
-            type="search"
-            name="searchInput"
-            id="searchInput"
+          <SearchInput
+            handleChange={handleChange}
+            clearField={clearFiled}
             placeholder="Search for songs"
             value={searchString}
-            onChange={handleChange}
           />
-          {searchString && (
-            <ClearSearchIcon
-              aria-label="Clear search"
-              width="20"
-              height="20"
-              onClick={() => setSearchString("")}
-            >
-              <MdClear />
-            </ClearSearchIcon>
-          )}
         </InputContainer>
       </AddTrackSearchContainer>
       <AddTracksSearchResults>
@@ -80,15 +63,7 @@ const AddTracks = () => {
             />
           ))
         ) : searchString ? (
-          <EmptyResults>
-            <EmptyResultsTitle>
-              No results found for &laquo;{debouncedSearch}&raquo;
-            </EmptyResultsTitle>
-            <EmptyResultsPar>
-              Please make sure your words are spelled correctly or use less or
-              different keywords.
-            </EmptyResultsPar>
-          </EmptyResults>
+          <Empty query={debouncedSearch} />
         ) : null}
       </AddTracksSearchResults>
     </AddTracksContainer>

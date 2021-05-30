@@ -1,5 +1,6 @@
 import { useArtist } from "../../Hooks";
 import { HeaderGradient } from "../ContentHeader/style";
+import { convertPlayCount } from "../Tracks/utils";
 import {
   ArtistHeaderImage,
   ArtistListeners,
@@ -23,7 +24,9 @@ const ArtistHeader = () => {
       <HeaderGradient />
       <ArtistStats>
         <ArtistName>{name}</ArtistName>
-        <ArtistListeners>{`${getRandomNumber()} monthly listeners`}</ArtistListeners>
+        <ArtistListeners>{`${convertPlayCount(
+          getRandomNumber()
+        )} monthly listeners`}</ArtistListeners>
       </ArtistStats>
     </StyledArtistHeader>
   );

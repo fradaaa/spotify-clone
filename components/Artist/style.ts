@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { FlexRow } from "../Globals";
+import { FlexRow, StyledLink } from "../Globals";
 
 export const StyledArtistHeader = styled.header`
   display: flex;
@@ -8,6 +8,7 @@ export const StyledArtistHeader = styled.header`
   padding: 0 20px 20px;
   height: 30vh;
   background-color: ${({ theme }) => theme.surface2};
+  min-height: 350px;
 `;
 
 export const ArtistHeaderImage = styled.div`
@@ -33,15 +34,46 @@ export const ArtistListeners = styled.span`
   font-size: 15px;
 `;
 
-export const ArtistTopTracksContainer = styled.div`
+export const ArtistTrackWrapper = styled(FlexRow)`
   padding: 0 20px;
-  max-width: 70%;
+  align-items: flex-start;
+`;
+
+export const ArtistTopTracksContainer = styled.div`
+  flex: 3;
+  height: 100%;
 `;
 
 export const ArtistSubHeaderText = styled.h2`
   padding: 0 20px;
   font-size: 20px;
   font-weight: 600;
-  margin: 0 0 10px;
+  margin: 0 0 20px;
   color: ${({ theme }) => theme.onSurface};
+`;
+
+export const ArtistLikedContainer = styled.div`
+  flex: 1;
+  margin-left: 20px;
+  color: ${({ theme }) => theme.onSurface};
+`;
+
+export const ArtistLikedSection = styled.div`
+  margin-left: 20px;
+`;
+
+export const ArtistLikedImage = styled(FlexRow)`
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
+export const ArtistLikedLink = styled(StyledLink)`
+  font-weight: 600;
+  font-size: 15px;
+  display: block;
+`;
+
+export const ArtistLikedText = styled.span`
+  font-size: 13px;
+  display: block;
 `;

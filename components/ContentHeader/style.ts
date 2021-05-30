@@ -85,6 +85,8 @@ export const ContentHeaderName = styled(StyledLink)`
 `;
 
 export const ContentHeaderInfoText = styled.span`
+  display: flex;
+  align-items: center;
   font-size: 14px;
 
   ::before {

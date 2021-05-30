@@ -4,7 +4,12 @@ import { MutateContext } from "../../Context";
 import { useArtist, useSavedMutate } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
 import DisplayTrack from "../Tracks/Track";
-import { ArtistSubHeaderText, ArtistTopTracksContainer } from "./style";
+import ArtistLikedSongs from "./ArtistLikedInfo";
+import {
+  ArtistSubHeaderText,
+  ArtistTopTracksContainer,
+  ArtistTrackWrapper,
+} from "./style";
 
 type TopTrack = Track & { album: Album; artists: Artist[] };
 
@@ -23,37 +28,48 @@ const ArtistTopTracks = () => {
 
   return (
     <MutateContext.Provider value={mutatefuncs}>
-      <ArtistTopTracksContainer>
-        {saved && (
-          <>
-            <ArtistSubHeaderText>Top tracks</ArtistSubHeaderText>
-            {tracks?.map(
-              (
-                { id, title, artists, duration, track_url, album, play_count },
-                i
-              ) => (
-                <DisplayTrack
-                  key={id}
-                  id={id}
-                  trackNumber={i + 1}
-                  title={title}
-                  artists={artists}
-                  album={album}
-                  duration={duration}
-                  showImage
-                  playCount={play_count}
-                  meta={{
-                    trackURL: track_url,
-                    highlight: id === nowId,
-                    isSaved: saved[i],
-                    index: i,
-                  }}
-                />
-              )
-            )}
-          </>
-        )}
-      </ArtistTopTracksContainer>
+      <ArtistTrackWrapper>
+        <ArtistTopTracksContainer>
+          {saved && (
+            <>
+              <ArtistSubHeaderText>Top tracks</ArtistSubHeaderText>
+              {tracks?.map(
+                (
+                  {
+                    id,
+                    title,
+                    artists,
+                    duration,
+                    track_url,
+                    album,
+                    play_count,
+                  },
+                  i
+                ) => (
+                  <DisplayTrack
+                    key={id}
+                    id={id}
+                    trackNumber={i + 1}
+                    title={title}
+                    artists={artists}
+                    album={album}
+                    duration={duration}
+                    showImage
+                    playCount={play_count}
+                    meta={{
+                      trackURL: track_url,
+                      highlight: id === nowId,
+                      isSaved: saved[i],
+                      index: i,
+                    }}
+                  />
+                )
+              )}
+            </>
+          )}
+        </ArtistTopTracksContainer>
+        <ArtistLikedSongs />
+      </ArtistTrackWrapper>
     </MutateContext.Provider>
   );
 };

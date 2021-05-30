@@ -6,6 +6,7 @@ export const StyledNav = styled.nav`
   height: 100%;
   min-width: 250px;
   overflow: hidden;
+  border-right: ${({ theme }) => `1px solid ${theme.darkBorder}`};
 `;
 
 export const NavContainer = styled(FlexCol)`

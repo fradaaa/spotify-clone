@@ -21,7 +21,7 @@ export const PreviewList = styled(FlexRow)`
 export const PreviewItemContainer = styled(FlexCol)`
   justify-content: center;
   max-width: 250px;
-  padding: 10px;
+  padding: 20px;
   background-color: ${({ theme }) => theme.surface2};
   color: ${({ theme }) => theme.onSurface};
   border-radius: var(--brsm);

@@ -17,32 +17,7 @@ export const AddTrackSearchContainer = styled.div`
 `;
 
 export const InputContainer = styled(FlexRow)`
-  position: relative;
   width: 50%;
-`;
-
-export const AddTracksSearchInput = styled(StyledInput)`
-  width: 100%;
-  height: 40px;
-  text-align: left;
-  padding: 0 25px;
-  background-color: ${({ theme }) => theme.surface2};
-`;
-
-export const SearchIcon = styled.label`
-  position: absolute;
-  left: 5px;
-  color: ${({ theme }) => theme.primary};
-
-  & svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
-
-export const ClearSearchIcon = styled(IconButton)`
-  position: absolute;
-  right: 5px;
 `;
 
 export const AddTracksSearchResults = styled.div`
@@ -54,14 +29,3 @@ export const AddTracksSearchResults = styled.div`
 export const PlaylistTracksContainer = styled.div`
   padding: 0 20px;
 `;
-
-export const EmptyResults = styled.div`
-  text-align: center;
-`;
-
-export const EmptyResultsTitle = styled.div`
-  font-size: 25px;
-  font-weight: 600;
-`;
-
-export const EmptyResultsPar = styled.p``;
