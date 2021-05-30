@@ -1,17 +1,20 @@
 import { Album, Artist, Track } from ".prisma/client";
+import { useCallback } from "react";
 import useSWR from "swr";
 import { MutateContext } from "../../Context";
-import { useAlbum, useSavedMutate } from "../../Hooks";
+import { useAlbum, useAudioHelpers, useSavedMutate } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
 import DisplayTrack from "../Tracks/Track";
 import { AlbumColumns } from "../Tracks/TrackColumnNames";
+import AlbumControls from "./AlbumControls";
 import { AlbumTracksContainer } from "./style";
 
 type AlbumTrack = Track & { artists: Artist[]; album: Album };
 
 const AlbumTracks = () => {
   const { id } = useAlbum();
-  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack.id);
+  const { playContent } = useAudioHelpers();
+  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { data: tracks } = useSWR<AlbumTrack[]>(() =>
     id ? `/api/albums/${id}/tracks` : null
   );
@@ -22,8 +25,15 @@ const AlbumTracks = () => {
   );
   const mutatefuncs = useSavedMutate(mutate);
 
+  const playAlbum = useCallback(() => {
+    if (tracks) {
+      playContent(tracks, id);
+    }
+  }, [tracks]);
+
   return (
     <MutateContext.Provider value={mutatefuncs}>
+      {tracks && <AlbumControls playAlbum={playAlbum} />}
       <AlbumTracksContainer>
         {saved && (
           <>

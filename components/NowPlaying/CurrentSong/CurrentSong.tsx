@@ -4,9 +4,14 @@ import CurrentSongInfo from "./CurrentSongInfo";
 import { CurrentSongContainer } from "./style";
 
 const CurrentSong = () => {
-  const { image, title, artists } = useAppSelectior(
+  const currentTrack = useAppSelectior(
     (state) => state.nowPlaying.currentTrack
   );
+  const {
+    album: { image },
+    title,
+    artists,
+  } = currentTrack!;
 
   return (
     <CurrentSongContainer>

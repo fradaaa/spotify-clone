@@ -1,6 +1,8 @@
 import { Artist } from ".prisma/client";
 import { differenceInDays, format, formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
+import { CurrentTrack } from "../../redux/slices/nowPlayingSlice";
+import DisplayTrack from "./Track";
 
 export const formatAddedAt = (addedAt: Date) => {
   const date = new Date(addedAt);
@@ -52,4 +54,39 @@ export const convertPlayCount = (x: number) => {
     i = j;
   }
   return n.slice(0, i) + s;
+};
+
+export const renderSingleTrack = (
+  {
+    id,
+    track_number,
+    title,
+    artists,
+    album,
+    duration,
+    track_url,
+  }: CurrentTrack,
+  isSaved: boolean,
+  nowId: string,
+  index: number
+) => {
+  return (
+    <DisplayTrack
+      key={id}
+      id={id}
+      trackNumber={1}
+      title={title}
+      artists={artists}
+      album={album}
+      duration={duration}
+      showArtists
+      showImage
+      meta={{
+        trackURL: track_url,
+        highlight: id === nowId,
+        isSaved,
+        index,
+      }}
+    />
+  );
 };

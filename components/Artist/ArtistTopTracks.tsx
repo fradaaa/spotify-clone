@@ -15,7 +15,7 @@ type TopTrack = Track & { album: Album; artists: Artist[] };
 
 const ArtistTopTracks = () => {
   const { id } = useArtist();
-  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack.id);
+  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { data: tracks } = useSWR<TopTrack[]>(() =>
     id ? `/api/artists/${id}/top-tracks` : null
   );

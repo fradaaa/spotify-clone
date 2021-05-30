@@ -12,7 +12,7 @@ type Data = Track & { artists: Artist[]; album: Album; added_at: Date };
 
 const LikedSongsTracks = () => {
   const { user } = useUser();
-  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack.id);
+  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { data: tracks } = useSWR<{ items: Data[]; total: number }>(() =>
     user ? "/api/me/tracks" : null
   );

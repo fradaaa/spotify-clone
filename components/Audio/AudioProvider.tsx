@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
-import { AudioHelpersContext } from "../../Context";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AudioHelpersContext, QueueContext } from "../../Context";
 import { useAppDispatch, useAppSelectior } from "../../redux/hooks";
 import {
   CurrentTrack,
@@ -10,60 +10,100 @@ import {
   toggleIsPlaying,
   updateCurrentTime,
   updateVolume,
+  changeContext,
+  toPrev,
+  toNext,
 } from "../../redux/slices/nowPlayingSlice";
 
 const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const audio = useRef<HTMLAudioElement>(null);
+  const queue = useAppSelectior((state) => state.nowPlaying.queue);
+  const currentIndex = useAppSelectior((state) => state.nowPlaying.curentIndex);
   const volume = useAppSelectior((state) => state.nowPlaying.volume);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    audio.current.volume = volume / 100;
+    if (audio.current) {
+      audio.current.volume = volume / 100;
+    }
   }, []);
 
   const playTrack = useCallback((track: CurrentTrack) => {
     const { track_url } = track;
 
-    if (audio.current.src !== track_url) {
+    if (audio.current && audio.current.src !== track_url) {
       audio.current.src = track_url;
       dispatch(setNowPlaying(track));
     }
 
-    audio.current.play();
+    audio.current!.play();
     dispatch(play());
   }, []);
 
   const pauseTrack = useCallback(() => {
-    audio.current.pause();
+    audio.current!.pause();
     dispatch(pause());
   }, []);
 
   const playPause = useCallback(() => {
-    if (audio.current.paused) {
+    if (audio.current && audio.current.paused) {
       audio.current.play();
     } else {
-      audio.current.pause();
+      audio.current!.pause();
     }
     dispatch(toggleIsPlaying());
   }, []);
 
-  const changeVolume = useCallback((newVolume: number /* percent */) => {
-    if (newVolume < 0) {
-      audio.current.volume = 0;
-    } else if (newVolume > 100) {
-      audio.current.volume = 1;
+  const playContent = useCallback(
+    (content: CurrentTrack[], contextId: string) => {
+      dispatch(changeContext({ content, contextId }));
+      playTrack(content[0]);
+    },
+    []
+  );
+
+  const prevTrack = useCallback(() => {
+    if (currentIndex === 0) {
+      audio.current!.currentTime = 0;
+      dispatch(toPrev(false));
     } else {
-      audio.current.volume = newVolume / 100;
+      playTrack(queue[currentIndex - 1]);
+      dispatch(toPrev(true));
+    }
+  }, [queue, currentIndex]);
+
+  const nextTrack = useCallback(() => {
+    if (currentIndex === queue.length - 1) {
+      dispatch(pause());
+    } else {
+      playTrack(queue[currentIndex + 1]);
+      dispatch(toNext());
+    }
+  }, [queue, currentIndex]);
+
+  const changeVolume = useCallback((newVolume: number /* percent */) => {
+    if (audio.current) {
+      if (newVolume < 0) {
+        audio.current.volume = 0;
+      } else if (newVolume > 100) {
+        audio.current.volume = 1;
+      } else {
+        audio.current.volume = newVolume / 100;
+      }
     }
   }, []);
 
   const changeCurrentTime = useCallback((to: number /* percent */) => {
-    audio.current.currentTime = (audio.current.duration / 100) * to;
+    if (audio.current) {
+      audio.current.currentTime = (audio.current.duration / 100) * to;
+    }
   }, []);
 
   const toggleMute = useCallback(() => {
-    audio.current.muted = !audio.current.muted;
-    dispatch(muteUnmute());
+    if (audio.current) {
+      audio.current.muted = !audio.current.muted;
+      dispatch(muteUnmute());
+    }
   }, []);
 
   const handleTimeUpdate = useCallback(
@@ -84,6 +124,7 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
 
   const helpers = useMemo(
     () => ({
+      playContent,
       playTrack,
       pauseTrack,
       playPause,
@@ -94,14 +135,25 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
     []
   );
 
+  const queueHelpers = useMemo(
+    () => ({
+      prevTrack,
+      nextTrack,
+    }),
+    [queue, currentIndex]
+  );
+
   return (
     <AudioHelpersContext.Provider value={helpers}>
-      <audio
-        onTimeUpdate={handleTimeUpdate}
-        onVolumeChange={handleVolumeChange}
-        ref={audio}
-      />
-      {children}
+      <QueueContext.Provider value={queueHelpers}>
+        <audio
+          onEnded={nextTrack}
+          onTimeUpdate={handleTimeUpdate}
+          onVolumeChange={handleVolumeChange}
+          ref={audio}
+        />
+        {children}
+      </QueueContext.Provider>
     </AudioHelpersContext.Provider>
   );
 };

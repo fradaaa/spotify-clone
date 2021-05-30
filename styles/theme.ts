@@ -1,4 +1,5 @@
 const theme = {
+  gray: "rgb(179, 179, 179)",
   primary: "#1db954",
   primaryVariant: "#15883e",
   secondary: "#db4064",

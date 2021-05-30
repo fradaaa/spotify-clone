@@ -11,7 +11,7 @@ type Data = Track & { artists: Artist[]; album: Album; added_at: Date };
 
 const PlaylistTracks = () => {
   const { id } = usePlaylist();
-  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack.id);
+  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { data: tracks } = useSWR<Data[]>(() =>
     id ? `/api/playlists/${id}/tracks` : null
   );

@@ -20,7 +20,7 @@ const AddTracks = () => {
   const { id: playlistId } = usePlaylist();
   const [searchString, setSearchString] = useState("");
   const debouncedSearch = useDebounce(searchString, 350);
-  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack.id);
+  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { data } = useSWR<Data[]>(() =>
     debouncedSearch ? `/api/search?q=${debouncedSearch}&type=track` : null
   );

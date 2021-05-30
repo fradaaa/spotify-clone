@@ -5,7 +5,7 @@ import { FlexRow } from "../Globals";
 import { ContentControlsContainer } from "../Globals/style";
 import SaveAlbumButton from "./AlbumSaveButton";
 
-const AlbumControls = () => {
+const AlbumControls = ({ playAlbum }: { playAlbum: () => void }) => {
   const { id } = useAlbum();
   const { data } = useSWR<boolean[]>(() =>
     id ? `/api/me/albums/contains?ids=${id}` : null
@@ -14,7 +14,7 @@ const AlbumControls = () => {
   return (
     <ContentControlsContainer>
       <FlexRow>
-        <PlayContentButton />
+        <PlayContentButton playC={playAlbum} id={id} />
         {data && <SaveAlbumButton albumId={id} isSaved={data[0]} />}
       </FlexRow>
     </ContentControlsContainer>

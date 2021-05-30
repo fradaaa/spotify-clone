@@ -12,7 +12,7 @@ type Data = Track & { added_at: Date; artists: Artist[]; album: Album };
 
 const ArtistLikedSongs = () => {
   const router = useRouter();
-  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack.id);
+  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { data } = useSWR<Artist>(() => {
     return router.query.artistId
       ? `/api/artists/${router.query.artistId}`

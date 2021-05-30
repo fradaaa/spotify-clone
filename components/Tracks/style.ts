@@ -12,7 +12,7 @@ import {
 
 export const TrackContainer = styled(FlexRow)`
   height: 55px;
-  color: ${({ theme }) => theme.onSurface};
+  color: ${({ theme }) => theme.gray};
   padding: 0 15px;
   border-radius: var(--brsm);
   transition: background-color 0.1s ease-in;
@@ -58,7 +58,7 @@ type TrackTitleProps = {
 
 export const TrackTitle = styled(FlexRow)<TrackTitleProps>`
   flex: 2;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 16px;
   color: ${({ theme, highlight }) =>
     highlight ? theme.primary : theme.onSurface};

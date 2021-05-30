@@ -40,10 +40,13 @@ const DisplayTrack = ({
     playTrack({
       id,
       title,
-      image: album.image,
+      album,
+      albumId: album.id,
       duration,
       artists,
       track_url: trackURL,
+      play_count: playCount!,
+      track_number: trackNumber,
     });
   }, []);
 

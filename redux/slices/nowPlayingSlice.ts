@@ -1,37 +1,34 @@
-import { Artist } from ".prisma/client";
+import { Album, Artist, Track } from ".prisma/client";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type CurrentTrack = {
-  id: string;
-  title: string;
-  image: string;
-  duration: number;
-  artists: Artist[];
-  track_url: string;
-};
+export type CurrentTrack = Track & { artists: Artist[]; album: Album };
 
 type State = {
   currentTime: number;
+  curentIndex: number;
   volume: number;
   isPlaying: boolean;
   isMuted: boolean;
-  currentTrack: CurrentTrack;
+  currentTrack: CurrentTrack | null;
+  queue: CurrentTrack[];
+  context: {
+    id: string | null;
+  };
+  loop: boolean;
+  shuffle: boolean;
 };
 
 const initialState: State = {
   currentTime: 0,
+  curentIndex: 0,
   volume: 25,
   isPlaying: false,
   isMuted: false,
-  currentTrack: {
-    id: "1G79vIY7FPXPjBj9cpweZD",
-    title: "Miracle",
-    duration: 188,
-    track_url:
-      "https://firebasestorage.googleapis.com/v0/b/instagram-clone-13fab.appspot.com/o/music%2FCHVRCHES%2F2018%20-%20Love%20Is%20Dead%2F07%20-%20Miracle.mp3?alt=media&token=169a5341-4de0-4186-a8c8-6d25768068c0",
-    image: "https://i.scdn.co/image/ab67616d0000b273d0cac97a7157fb08cd3af351",
-    artists: [{ id: "3CjlHNtplJyTf9npxaPl5w", image: "", name: "CHRVCHES" }],
-  },
+  currentTrack: null,
+  queue: [],
+  context: { id: null },
+  loop: false,
+  shuffle: false,
 };
 
 export const nowPlayingSlice = createSlice({
@@ -59,6 +56,24 @@ export const nowPlayingSlice = createSlice({
     muteUnmute: (state) => {
       state.isMuted = !state.isMuted;
     },
+    changeContext: (
+      state,
+      action: PayloadAction<{ content: CurrentTrack[]; contextId: string }>
+    ) => {
+      state.queue = action.payload.content;
+      state.context.id = action.payload.contextId;
+      state.curentIndex = 0;
+    },
+    toPrev: (state, action: PayloadAction<boolean>) => {
+      if (action.payload) {
+        state.curentIndex -= 1;
+      } else {
+        state.currentTime = 0;
+      }
+    },
+    toNext: (state) => {
+      state.curentIndex += 1;
+    },
   },
 });
 
@@ -70,6 +85,9 @@ export const {
   play,
   pause,
   muteUnmute,
+  changeContext,
+  toPrev,
+  toNext,
 } = nowPlayingSlice.actions;
 
 export default nowPlayingSlice.reducer;

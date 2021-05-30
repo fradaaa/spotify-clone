@@ -23,7 +23,6 @@ const Album = () => {
         <>
           <AlbumHeader bg={data} />
           <ContentGradient style={{ backgroundColor: data }} />
-          <AlbumControls />
           <AlbumTracks />
           <AlbumSuggestions />
         </>

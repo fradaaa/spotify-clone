@@ -2,6 +2,7 @@ import "@emotion/react";
 
 declare module "@emotion/react" {
   export interface Theme {
+    gray: string;
     primary: string;
     primaryVariant: string;
     secondary: string;

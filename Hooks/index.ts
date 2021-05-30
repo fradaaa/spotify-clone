@@ -5,6 +5,7 @@ import useDebounce from "./useDebounce";
 import useShow from "./useShow";
 import useSlider from "./useSlider";
 import usePlaylist from "./usePlaylist";
+import useQueue from "./useQueue";
 import useSavedMutate from "./useSavedMutate";
 
 export {
@@ -15,5 +16,6 @@ export {
   useShow,
   useSlider,
   usePlaylist,
+  useQueue,
   useSavedMutate,
 };
