@@ -38,10 +38,17 @@ export const NavList = styled.div`
   flex: 1;
 `;
 
-export const NavItem = styled.div`
+type NavItemProps = {
+  highlight?: boolean;
+};
+
+export const NavItem = styled.div<NavItemProps>`
   padding: 10px 10px 10px 30px;
   cursor: pointer;
   transition: color 0.1s ease-in;
+
+  color: ${({ highlight, theme }) =>
+    highlight ? theme.primary : theme.onSurface};
 
   &:hover {
     color: ${({ theme }) => theme.primary};

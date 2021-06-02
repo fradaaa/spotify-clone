@@ -1,69 +1,43 @@
-import { Album, Artist, Track } from ".prisma/client";
+import { Artist } from ".prisma/client";
 import { useRouter } from "next/dist/client/router";
+import { useCallback } from "react";
 import useSWR from "swr";
-import { MutateContext } from "../../Context";
-import { useSavedMutate } from "../../Hooks";
-import { useAppSelectior } from "../../redux/hooks";
-import DisplayTrack from "../Tracks/Track";
-import { PlaylistColumns } from "../Tracks/TrackColumnNames";
+import { PlayContext } from "../../Context";
+import { useAudioHelpers } from "../../Hooks";
+import TracksPage from "../Tracks/TracksPage";
 import { ArtistSubHeaderText, ArtistTopTracksContainer } from "./style";
-
-type Data = Track & { added_at: Date; artists: Artist[]; album: Album };
 
 const ArtistLikedSongs = () => {
   const router = useRouter();
-  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { data } = useSWR<Artist>(() => {
     return router.query.artistId
       ? `/api/artists/${router.query.artistId}`
       : null;
   });
-  const { data: tracks } = useSWR<Data[]>(() =>
-    data ? `/api/artists/${data.id}/liked` : null
+  const { playContent } = useAudioHelpers();
+
+  const play = useCallback(
+    (index: number) => {
+      playContent(router.query.artistId as string, "likedArtist", index);
+    },
+    [router.query.artistId, playContent]
   );
-  const { data: saved, mutate } = useSWR<boolean[]>(() => {
-    return tracks
-      ? `/api/me/tracks/contains?ids=${tracks.map(({ id }) => id).join(",")}`
-      : null;
-  });
-  const mutatefuncs = useSavedMutate(mutate);
 
   return data ? (
-    <MutateContext.Provider value={mutatefuncs}>
+    <PlayContext.Provider value={play}>
       <ArtistTopTracksContainer>
         <ArtistSubHeaderText>{`Liked Songs By ${data.name}`}</ArtistSubHeaderText>
-        {saved && (
-          <>
-            <PlaylistColumns />
-            {tracks?.map(
-              (
-                { id, title, artists, duration, track_url, album, added_at },
-                i
-              ) => (
-                <DisplayTrack
-                  key={id}
-                  id={id}
-                  trackNumber={i + 1}
-                  title={title}
-                  artists={artists}
-                  album={album}
-                  dateAdded={added_at}
-                  duration={duration}
-                  showImage
-                  showArtists
-                  meta={{
-                    trackURL: track_url,
-                    highlight: id === nowId,
-                    isSaved: saved[i],
-                    index: i,
-                  }}
-                />
-              )
-            )}
-          </>
-        )}
+        <TracksPage
+          url={`/api/artists/${data.id}/liked`}
+          artist
+          config={{
+            showImage: true,
+            showArtists: true,
+            showPlay: true,
+          }}
+        />
       </ArtistTopTracksContainer>
-    </MutateContext.Provider>
+    </PlayContext.Provider>
   ) : null;
 };
 

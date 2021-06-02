@@ -36,10 +36,10 @@ export const convertSearchAlbums = (albums: (Album & { artist: Artist })[]) => {
   ) : null;
 };
 
-export const isEmpty = (data: { [key: string]: any[] }) => {
+export const isEmpty = (data: { [key: string]: unknown[] }) => {
   const r: boolean[] = [];
 
-  for (let key of Object.keys(data)) {
+  for (const key of Object.keys(data)) {
     r.push(data[key].length === 0);
   }
 

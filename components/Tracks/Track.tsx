@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback } from "react";
-import { useAudioHelpers, useShow } from "../../Hooks";
+import { useShow } from "../../Hooks";
 import {
   TrackAlbum,
   TrackAlbumContainer,
@@ -29,35 +28,21 @@ const DisplayTrack = ({
   dateAdded,
   duration,
   playCount,
-  showImage,
-  showArtists,
-  meta: { trackURL, highlight, isSaved, index },
+  config: { showArtists, showImage, showPlayCount, showPlay },
+  meta: { highlight, isSaved, index },
 }: ITrackProps) => {
   const { show, disableShow, enableShow } = useShow();
-  const { playTrack } = useAudioHelpers();
-
-  const handleClick = useCallback(() => {
-    playTrack({
-      id,
-      title,
-      album,
-      albumId: album.id,
-      duration,
-      artists,
-      track_url: trackURL,
-      play_count: playCount!,
-      track_number: trackNumber,
-    });
-  }, []);
 
   return (
     <TrackContainer onMouseOver={enableShow} onMouseLeave={disableShow}>
-      <TrackPlayButton
-        highlight={highlight}
-        show={show}
-        trackNumber={trackNumber}
-        handleClick={handleClick}
-      />
+      {showPlay && (
+        <TrackPlayButton
+          highlight={highlight}
+          show={show}
+          trackNumber={trackNumber}
+          index={index}
+        />
+      )}
       <TrackTitleContainer>
         {showImage && (
           <TrackCoverContainer>
@@ -69,7 +54,7 @@ const DisplayTrack = ({
           {showArtists && convertArtists(artists, TrackArtistName)}
         </div>
       </TrackTitleContainer>
-      {playCount ? (
+      {showPlayCount && playCount ? (
         <TrackPlayCountContainer>
           <TrackPlayCount>{convertPlayCount(playCount)}</TrackPlayCount>
         </TrackPlayCountContainer>
@@ -85,12 +70,7 @@ const DisplayTrack = ({
           <TrackDate>{formatAddedAt(dateAdded)}</TrackDate>
         </TrackDateContainer>
       )}
-      <TrackExtra
-        trackId={id}
-        isSaved={isSaved}
-        duration={duration}
-        index={index}
-      />
+      <TrackExtra trackId={id} isSaved={isSaved} duration={duration} />
     </TrackContainer>
   );
 };

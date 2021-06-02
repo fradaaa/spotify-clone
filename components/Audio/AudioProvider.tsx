@@ -1,23 +1,31 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { unwrapResult } from "@reduxjs/toolkit";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { AudioHelpersContext, QueueContext } from "../../Context";
 import { useAppDispatch, useAppSelectior } from "../../redux/hooks";
 import {
   CurrentTrack,
+  fetchContext,
   muteUnmute,
   pause,
   play,
+  setIndex,
   setNowPlaying,
   toggleIsPlaying,
+  toNext,
+  toPrev,
   updateCurrentTime,
   updateVolume,
-  changeContext,
-  toPrev,
-  toNext,
 } from "../../redux/slices/nowPlayingSlice";
 
-const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
+const AudioProvider = ({
+  children,
+}: React.PropsWithChildren<Record<string, never>>) => {
   const audio = useRef<HTMLAudioElement>(null);
+  const contextId = useAppSelectior((state) => state.nowPlaying.context.id);
   const queue = useAppSelectior((state) => state.nowPlaying.queue);
+  const currentTrack = useAppSelectior(
+    (state) => state.nowPlaying.currentTrack
+  );
   const currentIndex = useAppSelectior((state) => state.nowPlaying.curentIndex);
   const volume = useAppSelectior((state) => state.nowPlaying.volume);
   const dispatch = useAppDispatch();
@@ -26,60 +34,61 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
     if (audio.current) {
       audio.current.volume = volume / 100;
     }
-  }, []);
+  });
 
-  const playTrack = useCallback((track: CurrentTrack) => {
-    const { track_url } = track;
-
-    if (audio.current && audio.current.src !== track_url) {
-      audio.current.src = track_url;
-      dispatch(setNowPlaying(track));
+  useEffect(() => {
+    if (currentTrack) {
+      const { track_url } = currentTrack;
+      if (audio.current) {
+        audio.current.src = track_url;
+        audio.current.play().catch((e) => console.error(e));
+        dispatch(play());
+      }
     }
-
-    audio.current!.play();
-    dispatch(play());
-  }, []);
-
-  const pauseTrack = useCallback(() => {
-    audio.current!.pause();
-    dispatch(pause());
-  }, []);
+  }, [currentTrack, dispatch]);
 
   const playPause = useCallback(() => {
-    if (audio.current && audio.current.paused) {
-      audio.current.play();
-    } else {
-      audio.current!.pause();
+    if (audio.current) {
+      if (audio.current.paused) {
+        audio.current.play();
+      } else {
+        audio.current.pause();
+      }
     }
+
     dispatch(toggleIsPlaying());
-  }, []);
+  }, [dispatch]);
 
   const playContent = useCallback(
-    (content: CurrentTrack[], contextId: string) => {
-      dispatch(changeContext({ content, contextId }));
-      playTrack(content[0]);
+    async (id: string, type: string, index: number) => {
+      if (contextId === id) {
+        dispatch(setNowPlaying(queue[index]));
+        dispatch(setIndex(index));
+        return;
+      } else {
+        dispatch(fetchContext({ id, type, index }));
+      }
     },
-    []
+    [dispatch, contextId, queue]
   );
 
   const prevTrack = useCallback(() => {
     if (currentIndex === 0) {
       audio.current!.currentTime = 0;
-      dispatch(toPrev(false));
     } else {
-      playTrack(queue[currentIndex - 1]);
-      dispatch(toPrev(true));
+      dispatch(setNowPlaying(queue[currentIndex - 1]));
+      dispatch(toPrev());
     }
-  }, [queue, currentIndex]);
+  }, [queue, currentIndex, dispatch]);
 
   const nextTrack = useCallback(() => {
     if (currentIndex === queue.length - 1) {
       dispatch(pause());
     } else {
-      playTrack(queue[currentIndex + 1]);
+      dispatch(setNowPlaying(queue[currentIndex + 1]));
       dispatch(toNext());
     }
-  }, [queue, currentIndex]);
+  }, [queue, currentIndex, dispatch]);
 
   const changeVolume = useCallback((newVolume: number /* percent */) => {
     if (audio.current) {
@@ -104,14 +113,14 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
       audio.current.muted = !audio.current.muted;
       dispatch(muteUnmute());
     }
-  }, []);
+  }, [dispatch]);
 
   const handleTimeUpdate = useCallback(
     (e: React.SyntheticEvent<HTMLAudioElement>) => {
       const node = e.currentTarget;
       dispatch(updateCurrentTime(node.currentTime));
     },
-    []
+    [dispatch]
   );
 
   const handleVolumeChange = useCallback(
@@ -119,20 +128,18 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
       const node = e.currentTarget;
       dispatch(updateVolume(node.volume));
     },
-    []
+    [dispatch]
   );
 
   const helpers = useMemo(
     () => ({
       playContent,
-      playTrack,
-      pauseTrack,
       playPause,
       changeVolume,
       changeCurrentTime,
       toggleMute,
     }),
-    []
+    [playContent, playPause, changeVolume, changeCurrentTime, toggleMute]
   );
 
   const queueHelpers = useMemo(
@@ -140,7 +147,7 @@ const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
       prevTrack,
       nextTrack,
     }),
-    [queue, currentIndex]
+    [nextTrack, prevTrack]
   );
 
   return (

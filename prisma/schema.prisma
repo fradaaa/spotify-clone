@@ -56,7 +56,6 @@ model Album {
   release_date   String
   image          String @default("")
   total_tracks   Int
-  album_duration Int    @default(0)
 
   saved_by SavedAlbum[]
   tracks   Track[]

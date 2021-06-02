@@ -8,12 +8,12 @@ const AlbumHeader = ({ bg }: { bg: string }) => {
     image,
     release_date,
     total_tracks,
-    album_duration,
+    duration,
     artist: { id, name: artistName, image: artistImage },
   } = useAlbum();
   const year = new Date(release_date).getFullYear();
-  const minutes = Math.floor(album_duration / 60);
-  const seconds = album_duration % 60;
+  const minutes = Math.floor(duration / 60);
+  const seconds = duration % 60;
   const dur = `${minutes} min ${seconds} sec`;
 
   return (

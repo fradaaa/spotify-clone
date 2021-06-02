@@ -6,13 +6,12 @@ type TrackExtraProps = {
   trackId: string;
   isSaved: boolean;
   duration: number;
-  index: number;
 };
 
-const TrackExtra = ({ trackId, isSaved, duration, index }: TrackExtraProps) => {
+const TrackExtra = ({ trackId, isSaved, duration }: TrackExtraProps) => {
   return (
     <TrackExtraContainer>
-      <SaveTrackButton trackId={trackId} isSaved={isSaved} index={index} />
+      <SaveTrackButton trackId={trackId} isSaved={isSaved} />
       <TrackDuration>{convertTrackDuration(duration)}</TrackDuration>
     </TrackExtraContainer>
   );

@@ -5,7 +5,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { playlistId } = req.query;
 
   if (req.method === "GET") {
-    await handleGET(playlistId as string, res);
+    const { offset, take } = req.query;
+    await handleGET(
+      playlistId as string,
+      offset as string,
+      take as string,
+      res
+    );
   } else if (req.method === "PUT") {
     const { trackId } = req.body;
     await handlePUT(playlistId as string, trackId, res);
@@ -16,7 +22,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const handleGET = async (playlistId: string, res: NextApiResponse) => {
+const handleGET = async (
+  playlistId: string,
+  offset: string,
+  take: string,
+  res: NextApiResponse
+) => {
   const playlistTracks = await prisma.playlistTrack.findMany({
     where: {
       playlistId,
@@ -32,7 +43,8 @@ const handleGET = async (playlistId: string, res: NextApiResponse) => {
     orderBy: {
       added_at: "desc",
     },
-    take: 50,
+    skip: Number(offset),
+    take: Number(take),
   });
 
   const data = playlistTracks.map(({ track, added_at }) => ({
@@ -40,7 +52,7 @@ const handleGET = async (playlistId: string, res: NextApiResponse) => {
     added_at,
   }));
 
-  res.status(200).json(data);
+  res.status(200).json({ items: data });
 };
 
 const handlePUT = async (

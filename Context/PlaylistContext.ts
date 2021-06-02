@@ -3,7 +3,7 @@ import { createContext } from "react";
 
 const PlaylistContext =
   createContext<
-    Playlist & { owner: User; _count: number; _sum: { duration: number } }
+    (Playlist & { owner: User; total: number; duration: number }) | null
   >(null);
 PlaylistContext.displayName = "Playlist";
 

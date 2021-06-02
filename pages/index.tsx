@@ -1,18 +1,13 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import Head from "next/head";
+import Home from "../components/Home/Home";
 
-export default function Home() {
-  const { user, error, isLoading } = useUser();
-
-  !isLoading && !error && console.log(user);
-
+export default function HomePage() {
   return (
-    <div>
-      <a href="/api/auth/login">
-        <button>LOGIN</button>
-      </a>
-      <a href="/api/auth/logout">
-        <button>LOGOUT</button>
-      </a>
-    </div>
+    <>
+      <Head>
+        <title>Spotify Clone</title>
+      </Head>
+      <Home />
+    </>
   );
 }

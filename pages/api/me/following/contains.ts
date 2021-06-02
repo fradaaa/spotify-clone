@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         where: {
           artistId_userId: {
             artistId: id as string,
-            userId: session?.user.sub,
+            userId: session?.user.sub || "",
           },
         },
       });

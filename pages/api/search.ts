@@ -72,11 +72,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
         ],
       },
+      orderBy: {
+        play_count: "desc",
+      },
       include: {
         album: true,
         artists: true,
       },
-      take: 30,
+      take: 15,
     });
 
     const artists = await prisma.artist.findMany({

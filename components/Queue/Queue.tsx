@@ -1,26 +1,38 @@
+import { useCallback } from "react";
 import useSWR from "swr";
-import { MutateContext } from "../../Context";
-import { useSavedMutate } from "../../Hooks";
+import { PlayContext } from "../../Context";
+import { useAudioHelpers } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
-import { CurrentTrack } from "../../redux/slices/nowPlayingSlice";
 import { ArtistSubHeaderText } from "../Artist/style";
 import DisplayTrack from "../Tracks/Track";
 import { renderSingleTrack } from "../Tracks/utils";
 import { QueueContainer, QueueSection, QueueSubHeader } from "./style";
 
 const Queue = () => {
+  const { playContent } = useAudioHelpers();
   const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const queue = useAppSelectior((state) => state.nowPlaying.queue);
+  const contextId = useAppSelectior((state) => state.nowPlaying.context.id);
   const currentIndex = useAppSelectior((state) => state.nowPlaying.curentIndex);
-  const { data: saved, mutate } = useSWR<boolean[]>(() =>
-    queue.length > 0
-      ? `/api/me/tracks/contains?ids=${queue.map(({ id }) => id)}`
-      : null
+  const { data: saved } = useSWR<boolean[]>(
+    () =>
+      queue.length > 0
+        ? `/api/me/tracks/contains?ids=${queue.map(({ id }) => id)}`
+        : null,
+    { revalidateOnFocus: false }
   );
-  const mutatefuncs = useSavedMutate(mutate);
+
+  const play = useCallback(
+    (index: number) => {
+      if (contextId) {
+        playContent(contextId, "", index);
+      }
+    },
+    [playContent, contextId]
+  );
 
   return (
-    <MutateContext.Provider value={mutatefuncs}>
+    <PlayContext.Provider value={play}>
       <QueueContainer>
         <ArtistSubHeaderText as="h1">Queue</ArtistSubHeaderText>
         {saved && (
@@ -48,8 +60,11 @@ const Queue = () => {
                       artists={artists}
                       album={album}
                       duration={duration}
-                      showArtists
-                      showImage
+                      config={{
+                        showArtists: true,
+                        showImage: true,
+                        showPlay: true,
+                      }}
                       meta={{
                         trackURL: track_url,
                         highlight: id === nowId,
@@ -64,7 +79,7 @@ const Queue = () => {
           </>
         )}
       </QueueContainer>
-    </MutateContext.Provider>
+    </PlayContext.Provider>
   );
 };
 

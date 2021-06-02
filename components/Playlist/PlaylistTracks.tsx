@@ -1,62 +1,37 @@
-import { Album, Artist, Track } from ".prisma/client";
-import useSWR from "swr";
-import { MutateContext } from "../../Context";
-import { usePlaylist, useSavedMutate } from "../../Hooks";
-import { useAppSelectior } from "../../redux/hooks";
-import DisplayTrack from "../Tracks/Track";
+import { useState } from "react";
+import { usePlaylist } from "../../Hooks";
 import { PlaylistColumns } from "../Tracks/TrackColumnNames";
+import TracksPage from "../Tracks/TracksPage";
 import { PlaylistTracksContainer } from "./style";
 
-type Data = Track & { artists: Artist[]; album: Album; added_at: Date };
-
 const PlaylistTracks = () => {
-  const { id } = usePlaylist();
-  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
-  const { data: tracks } = useSWR<Data[]>(() =>
-    id ? `/api/playlists/${id}/tracks` : null
-  );
-  const { data: saved, mutate } = useSWR<boolean[]>(() => {
-    return tracks
-      ? `/api/me/tracks/contains?ids=${tracks.map(({ id }) => id).join(",")}`
-      : null;
-  });
-  const mutatefuncs = useSavedMutate(mutate);
+  const { id, total } = usePlaylist();
+  const [cnt, setCnt] = useState(1);
+
+  const tracks = [];
+  for (let i = 1; i <= cnt; i++) {
+    tracks.push(
+      <TracksPage
+        key={i}
+        page={i}
+        url={`/api/playlists/${id}/tracks`}
+        config={{
+          showArtists: true,
+          showImage: true,
+          showPlay: true,
+        }}
+      />
+    );
+  }
 
   return (
-    <MutateContext.Provider value={mutatefuncs}>
-      <PlaylistTracksContainer>
-        {saved && (
-          <>
-            <PlaylistColumns />
-            {tracks?.map(
-              (
-                { id, title, artists, duration, track_url, album, added_at },
-                i
-              ) => (
-                <DisplayTrack
-                  key={id}
-                  id={id}
-                  trackNumber={i + 1}
-                  title={title}
-                  artists={artists}
-                  album={album}
-                  dateAdded={added_at}
-                  duration={duration}
-                  showImage
-                  showArtists
-                  meta={{
-                    trackURL: track_url,
-                    highlight: id === nowId,
-                    isSaved: saved[i],
-                    index: i,
-                  }}
-                />
-              )
-            )}
-          </>
-        )}
-      </PlaylistTracksContainer>
-    </MutateContext.Provider>
+    <PlaylistTracksContainer>
+      <PlaylistColumns />
+      {tracks}
+      {total > tracks.length * 10 && (
+        <button onClick={() => setCnt(cnt + 1)}>Load More</button>
+      )}
+    </PlaylistTracksContainer>
   );
 };
 

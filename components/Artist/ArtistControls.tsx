@@ -11,7 +11,7 @@ const ArtistControls = () => {
 
   return (
     <ContentControlsContainer>
-      <PlayContentButton />
+      <PlayContentButton id={id} />
       {data && <FollowArtistButton artistId={id} isFollowed={data[0]} />}
     </ContentControlsContainer>
   );

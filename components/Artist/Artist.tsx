@@ -1,6 +1,8 @@
 import { useColor } from "color-thief-react";
 import Head from "next/head";
-import { useArtist } from "../../Hooks";
+import { useCallback } from "react";
+import { PlayContext } from "../../Context";
+import { useArtist, useAudioHelpers } from "../../Hooks";
 import { ContentGradient } from "../Globals";
 import ArtistAlbums from "./ArtistAlbums";
 import ArtistControls from "./ArtistControls";
@@ -8,14 +10,22 @@ import ArtistHeader from "./ArtistHeader";
 import ArtistTopTracks from "./ArtistTopTracks";
 
 const Artist = () => {
-  const { name, header_image } = useArtist();
+  const { id, name, header_image } = useArtist();
   const { data } = useColor(header_image, "rgbString", {
     crossOrigin: "*",
     quality: 5,
   });
+  const { playContent } = useAudioHelpers();
+
+  const play = useCallback(
+    (index: number) => {
+      playContent(id, "artist", index);
+    },
+    [id, playContent]
+  );
 
   return (
-    <>
+    <PlayContext.Provider value={play}>
       <Head>
         <title>{`Spotify Clone - ${name}`}</title>
       </Head>
@@ -28,7 +38,7 @@ const Artist = () => {
           <ArtistAlbums />
         </>
       )}
-    </>
+    </PlayContext.Provider>
   );
 };
 

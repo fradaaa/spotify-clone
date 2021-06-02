@@ -1,21 +1,30 @@
 import { useColor } from "color-thief-react";
 import Head from "next/head";
-import { useAlbum } from "../../Hooks";
+import { useCallback } from "react";
+import { PlayContext } from "../../Context";
+import { useAlbum, useAudioHelpers } from "../../Hooks";
 import { ContentGradient } from "../Globals";
-import AlbumControls from "./AlbumControls";
 import AlbumHeader from "./AlbumHeader";
 import AlbumSuggestions from "./AlbumSuggestions";
 import AlbumTracks from "./AlbumTracks";
 
 const Album = () => {
-  const { name, image } = useAlbum();
+  const { id, name, image } = useAlbum();
   const { data } = useColor(image, "rgbString", {
     crossOrigin: "*",
     quality: 5,
   });
+  const { playContent } = useAudioHelpers();
+
+  const play = useCallback(
+    (index: number) => {
+      playContent(id, "album", index);
+    },
+    [id, playContent]
+  );
 
   return (
-    <>
+    <PlayContext.Provider value={play}>
       <Head>
         <title>{`Spotify Clone - ${name}`}</title>
       </Head>
@@ -27,7 +36,7 @@ const Album = () => {
           <AlbumSuggestions />
         </>
       )}
-    </>
+    </PlayContext.Provider>
   );
 };
 

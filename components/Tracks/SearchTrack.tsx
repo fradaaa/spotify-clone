@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { useAudioHelpers, useShow } from "../../Hooks";
-import { useAppSelectior } from "../../redux/hooks";
+import { useAppDispatch, useAppSelectior } from "../../redux/hooks";
+import { setNowPlaying } from "../../redux/slices/nowPlayingSlice";
 import { AddToPlaylistButton } from "../Buttons";
 import {
   TrackAlbum,
@@ -19,24 +20,16 @@ import {
 import { IPlaylistSearchTrackProps } from "./types";
 import { convertArtists } from "./utils";
 
-const PlaylistSearchTrack = ({
-  id,
-  image,
-  title,
-  artists,
-  duration,
-  track_url,
-  album: { id: albumId, name: albumName },
-  playlistId,
-  highlight,
-}: IPlaylistSearchTrackProps) => {
+const SearchTrack = (props: IPlaylistSearchTrackProps) => {
+  const { id, image, title, artists, album, playlistId, highlight } = props;
   const { show, disableShow, enableShow } = useShow();
-  const { playPause, playTrack } = useAudioHelpers();
+  const { playPause } = useAudioHelpers();
   const isPlaying = useAppSelectior((state) => state.nowPlaying.isPlaying);
+  const dispatch = useAppDispatch();
 
   const handleClick = useCallback(() => {
-    playTrack({ id, image, title, duration, artists, track_url });
-  }, []);
+    dispatch(setNowPlaying({ ...props, albumId: props.album.id }));
+  }, [props, dispatch]);
 
   return (
     <TrackContainer onMouseOver={enableShow} onMouseLeave={disableShow}>
@@ -62,8 +55,8 @@ const PlaylistSearchTrack = ({
         </div>
       </TrackTitleContainer>
       <TrackAlbumContainer>
-        <Link href={`/album/${albumId}`}>
-          <TrackAlbum>{albumName}</TrackAlbum>
+        <Link href={`/album/${album.id}`}>
+          <TrackAlbum>{album.name}</TrackAlbum>
         </Link>
       </TrackAlbumContainer>
       <AddToPlaylistButton trackId={id} playlistId={playlistId} />
@@ -71,4 +64,4 @@ const PlaylistSearchTrack = ({
   );
 };
 
-export default PlaylistSearchTrack;
+export default SearchTrack;

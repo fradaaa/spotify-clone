@@ -1,4 +1,3 @@
-import { mutate } from "swr";
 import { Button } from "./style";
 
 const AddToPlaylistButton = ({
@@ -18,7 +17,6 @@ const AddToPlaylistButton = ({
         trackId,
       }),
     });
-    mutate(`/api/playlists/${playlistId}/tracks`);
   };
 
   return (

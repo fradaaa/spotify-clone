@@ -1,22 +1,25 @@
+import { BsPauseFill, BsPlayFill } from "react-icons/bs";
+import { useAudioHelpers, usePlay } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
 import { RoundIconButton } from "./style";
-import { BsPlayFill, BsPauseFill } from "react-icons/bs";
-import { useAudioHelpers } from "../../Hooks";
 
-const PlayContentButton = ({
-  playC,
-  id,
-}: {
-  playC: () => void;
+type PlayContentProps = {
   id: string;
-}) => {
+};
+
+const PlayContentButton = ({ id }: PlayContentProps) => {
+  const playContext = usePlay();
   const isPlaying = useAppSelectior((state) => state.nowPlaying.isPlaying);
   const contextId = useAppSelectior((state) => state.nowPlaying.context.id);
   const { playPause } = useAudioHelpers();
 
+  const handleClick = () => {
+    playContext(0);
+  };
+
   return (
     <RoundIconButton
-      onClick={id === contextId ? playPause : playC}
+      onClick={id === contextId ? playPause : handleClick}
       aria-label=""
       width="30"
       height="30"

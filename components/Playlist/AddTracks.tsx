@@ -5,7 +5,7 @@ import { useDebounce, usePlaylist } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
 import { SearchInput } from "../Forms";
 import Empty from "../Search/Empty";
-import PlaylistSearchTrack from "../Tracks/PlaylistSearchTrack";
+import SearchTrack from "../Tracks/SearchTrack";
 import {
   AddTracksContainer,
   AddTrackSearchContainer,
@@ -48,20 +48,33 @@ const AddTracks = () => {
       </AddTrackSearchContainer>
       <AddTracksSearchResults>
         {data && data.length ? (
-          data.map(({ id, artists, album, track_url, title, duration }) => (
-            <PlaylistSearchTrack
-              key={id}
-              id={id}
-              image={album.image}
-              title={title}
-              artists={artists}
-              duration={duration}
-              track_url={track_url}
-              album={album}
-              playlistId={playlistId}
-              highlight={id === nowId}
-            />
-          ))
+          data.map(
+            ({
+              id,
+              artists,
+              album,
+              track_url,
+              title,
+              duration,
+              play_count,
+              track_number,
+            }) => (
+              <SearchTrack
+                key={id}
+                id={id}
+                image={album.image}
+                title={title}
+                artists={artists}
+                duration={duration}
+                track_url={track_url}
+                album={album}
+                playlistId={playlistId}
+                play_count={play_count}
+                track_number={track_number}
+                highlight={id === nowId}
+              />
+            )
+          )
         ) : searchString ? (
           <Empty query={debouncedSearch} />
         ) : null}

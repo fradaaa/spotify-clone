@@ -2,9 +2,11 @@ import { createContext } from "react";
 import { CurrentTrack } from "../redux/slices/nowPlayingSlice";
 
 type AudioHelpersContextType = {
-  playContent: (content: CurrentTrack[], contextId: string) => void;
-  playTrack: (track: CurrentTrack) => void;
-  pauseTrack: () => void;
+  playContent: (
+    contextId: string,
+    type: string,
+    index: number
+  ) => Promise<void>;
   playPause: () => void;
   changeVolume: (newVolume: number) => void;
   changeCurrentTime: (newTime: number) => void;

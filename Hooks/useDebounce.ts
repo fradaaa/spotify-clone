@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const usePlaylist = (value: string, delay: number) => {
+const useDebounce = (value: string, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
@@ -16,4 +16,4 @@ const usePlaylist = (value: string, delay: number) => {
   return debouncedValue;
 };
 
-export default usePlaylist;
+export default useDebounce;

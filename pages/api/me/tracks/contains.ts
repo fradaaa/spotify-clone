@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         where: {
           trackId_userId: {
             trackId: id,
-            userId: session?.user.sub,
+            userId: session?.user.sub || "",
           },
         },
       });

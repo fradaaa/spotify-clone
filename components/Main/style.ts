@@ -9,4 +9,5 @@ export const StyledMain = styled.main`
 export const MainContainer = styled.div`
   isolation: isolate;
   position: relative;
+  height: 100%;
 `;

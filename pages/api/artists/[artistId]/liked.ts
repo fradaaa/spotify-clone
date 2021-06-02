@@ -71,5 +71,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     added_at,
   }));
 
-  res.status(200).json(tracks);
+  res.status(200).json({ items: tracks });
 };

@@ -32,15 +32,13 @@ const CreatePlaylistForm = ({ closeModal }: { closeModal: () => void }) => {
         validationSchema={validationSchema}
         onSubmit={async (values: Values) => {
           try {
-            const res = await fetch("/api/playlists/create", {
+            await fetch("/api/playlists/create", {
               method: "POST",
               headers: {
                 "content-type": "application/json",
               },
               body: JSON.stringify(values),
             });
-            const json = await res.json();
-            console.log(json);
             mutate("/api/me/playlists");
             closeModal();
           } catch (error) {
@@ -56,15 +54,16 @@ const CreatePlaylistForm = ({ closeModal }: { closeModal: () => void }) => {
             name="name"
             placeholder="Add a name"
           />
-          <label htmlFor="description"></label>
-          <Field
-            as={CreatePlaylistTextArea}
-            id="description"
-            name="description"
-            placeholder="Add an optional description"
-            autoComplete="off"
-            autoCorrect="off"
-          />
+          <label id="description" htmlFor="description">
+            <Field
+              as={CreatePlaylistTextArea}
+              id="description"
+              name="description"
+              placeholder="Add an optional description"
+              autoComplete="off"
+              autoCorrect="off"
+            />
+          </label>
           <SubmitButton>Create</SubmitButton>
         </StyledCreatePlaylistForm>
       </Formik>

@@ -4,28 +4,27 @@ import prisma from "../../../lib/prisma";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { albumId } = req.query;
 
-  const duration = await prisma.track.aggregate({
-    where: {
-      albumId: albumId as string,
-    },
-    _sum: {
-      duration: true,
-    },
-  });
+  const requestedData = await prisma.$transaction([
+    prisma.track.aggregate({
+      where: {
+        albumId: albumId as string,
+      },
+      _sum: {
+        duration: true,
+      },
+    }),
+    prisma.album.findUnique({
+      where: {
+        id: albumId as string,
+      },
+      include: {
+        artist: true,
+      },
+    }),
+  ]);
 
-  const album = await prisma.album.findUnique({
-    where: {
-      id: albumId as string,
-    },
-    include: {
-      artist: true,
-    },
-  });
-
-  const {
-    _sum: { duration: album_duration },
-  } = duration;
-  const data = { ...album, album_duration };
+  const [duration, album] = requestedData;
+  const data = { ...album, duration: duration._sum.duration };
 
   res.status(200).json(data);
 };

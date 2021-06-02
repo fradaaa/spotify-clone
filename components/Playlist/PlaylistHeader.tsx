@@ -8,8 +8,8 @@ const PlaylistHeader = () => {
     image,
     description,
     owner: { id, name },
-    _count,
-    _sum: { duration },
+    total,
+    duration,
   } = usePlaylist();
 
   return (
@@ -19,7 +19,7 @@ const PlaylistHeader = () => {
       title={playlistName}
       infoId={id}
       infoName={name}
-      total_tracks={_count}
+      total_tracks={total}
       duration={convertDuration(duration)}
       desc={description}
     />

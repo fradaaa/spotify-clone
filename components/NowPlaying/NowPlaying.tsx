@@ -3,6 +3,7 @@ import Controls from "./Controls/Controls";
 import CurrentSong from "./CurrentSong/CurrentSong";
 import ExtraControls from "./ExtraControls/ExtraControls";
 import PlaybackBar from "./PlaybackBar/PlaybackBar";
+import StateControls from "./StateControls/StateControls";
 import { NowPlayingContainer } from "./style";
 
 const NowPlaying = () => {
@@ -17,6 +18,7 @@ const NowPlaying = () => {
           <CurrentSong />
           <Controls />
           <PlaybackBar />
+          <StateControls />
           <ExtraControls />
         </>
       ) : null}

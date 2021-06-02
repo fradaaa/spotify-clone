@@ -3,16 +3,17 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user } = getSession(req, res);
+  const session = getSession(req, res);
 
   if (req.method === "GET") {
-    await handleGET(user.sub, res);
+    const { offset, take } = req.query;
+    await handleGET(session?.user.sub, offset as string, take as string, res);
   } else if (req.method === "PUT") {
     const { trackId } = req.body;
-    await handlePUT(user.sub, trackId, res);
+    await handlePUT(session?.user.sub, trackId, res);
   } else if (req.method === "DELETE") {
     const { trackId } = req.body;
-    await handleDELETE(user.sub, trackId, res);
+    await handleDELETE(session?.user.sub, trackId, res);
   } else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`
@@ -20,30 +21,33 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const handleGET = async (userId: string, res: NextApiResponse) => {
-  const total = await prisma.savedTrack.count({
-    where: {
-      userId,
-    },
-  });
-
-  const savedTracks = await prisma.savedTrack.findMany({
-    where: {
-      userId: userId,
-    },
-    include: {
-      track: {
-        include: {
-          album: true,
-          artists: true,
+const handleGET = async (
+  userId: string,
+  offset: string,
+  take: string,
+  res: NextApiResponse
+) => {
+  const [savedTracks, total] = await prisma.$transaction([
+    prisma.savedTrack.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        track: {
+          include: {
+            album: true,
+            artists: true,
+          },
         },
       },
-    },
-    orderBy: {
-      added_at: "desc",
-    },
-    take: 50,
-  });
+      orderBy: {
+        added_at: "desc",
+      },
+      skip: Number(offset),
+      take: Number(take),
+    }),
+    prisma.savedTrack.count({ where: { userId } }),
+  ]);
 
   const items = savedTracks.map(({ track, added_at }) => ({
     ...track,

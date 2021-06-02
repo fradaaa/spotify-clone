@@ -17,8 +17,11 @@ const Search = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchString, setSearchString] = useState("");
   const debouncedSearch = useDebounce(searchString, 350);
-  const { data } = useSWR<Data>(() =>
-    debouncedSearch ? `/api/search?q=${debouncedSearch}` : null
+  const { data } = useSWR<Data>(
+    () => (debouncedSearch ? `/api/search?q=${debouncedSearch}` : null),
+    {
+      revalidateOnFocus: false,
+    }
   );
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

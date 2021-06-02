@@ -9,8 +9,12 @@ export interface ITrackProps {
   dateAdded?: Date;
   duration: number;
   playCount?: number;
-  showImage?: boolean;
-  showArtists?: boolean;
+  config: {
+    showImage?: boolean;
+    showArtists?: boolean;
+    showPlayCount?: boolean;
+    showPlay?: boolean;
+  };
   meta: {
     trackURL: string;
     highlight: boolean;
@@ -23,7 +27,7 @@ export interface ITrackPlayButtonProps {
   highlight: boolean;
   show: boolean;
   trackNumber: number;
-  handleClick: () => void;
+  index: number;
 }
 
 export interface IPlaylistSearchTrackProps {
@@ -36,4 +40,6 @@ export interface IPlaylistSearchTrackProps {
   album: Album;
   playlistId: string;
   highlight: boolean;
+  track_number: number;
+  play_count: number;
 }

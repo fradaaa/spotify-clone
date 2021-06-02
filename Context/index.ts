@@ -1,15 +1,15 @@
-import ArtistContext from "./ArtistContext";
 import AlbumContext from "./AlbumContext";
+import ArtistContext from "./ArtistContext";
 import AudioHelpersContext from "./AudioHelpersContext";
+import PlayContext from "./PlayContext";
 import PlaylistContext from "./PlaylistContext";
-import MutateContext from "./MutateContext";
 import QueueContext from "./QueueContext";
 
 export {
-  AudioHelpersContext,
-  ArtistContext,
   AlbumContext,
+  ArtistContext,
+  AudioHelpersContext,
+  PlayContext,
   PlaylistContext,
-  MutateContext,
   QueueContext,
 };

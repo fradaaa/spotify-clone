@@ -1,21 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
+import { IoMusicalNotesOutline } from "react-icons/io5";
 import {
-  HeaderBackground,
-  ContentHeaderType,
-  ContentHeaderInfoText,
-  ContentHeaderName,
-  ContentHeaderInfo,
-  ContentHeaderInfoPhoto,
-  ContentHeaderTitle,
-  ContentHeaderInfoContainer,
-  HeaderGradient,
-  StyledContentHeader,
   ContentHeaderCoverContainer,
   ContentHeaderDesc,
+  ContentHeaderInfo,
+  ContentHeaderInfoContainer,
+  ContentHeaderInfoPhoto,
+  ContentHeaderInfoText,
+  ContentHeaderName,
   ContentHeaderPlaylistPlaceholder,
+  ContentHeaderTitle,
+  ContentHeaderType,
+  HeaderBackground,
+  HeaderGradient,
+  StyledContentHeader,
 } from "./style";
-import { IoMusicalNotesOutline } from "react-icons/io5";
 
 type ContentHeaderProps = {
   bg?: string;

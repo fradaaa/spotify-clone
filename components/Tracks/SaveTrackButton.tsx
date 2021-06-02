@@ -1,12 +1,13 @@
+import { useUser } from "@auth0/nextjs-auth0";
+import { useState } from "react";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useShow } from "../../Hooks";
+import { LoginModal, Modal } from "../Modals";
 import { TrackButton } from "./style";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { useContext, useState } from "react";
-import { MutateContext } from "../../Context";
 
 type SaveTrackProps = {
   trackId: string;
   isSaved: boolean;
-  index: number;
 };
 
 const removeTrack = async (trackId: string) => {
@@ -19,8 +20,6 @@ const removeTrack = async (trackId: string) => {
       trackId,
     }),
   });
-
-  return false;
 };
 
 const saveTrack = async (trackId: string) => {
@@ -33,38 +32,59 @@ const saveTrack = async (trackId: string) => {
       trackId,
     }),
   });
-
-  return true;
 };
 
-const SaveTrackButton = ({ trackId, isSaved, index }: SaveTrackProps) => {
-  const { localMutate, asyncMutate } = useContext(MutateContext)!;
+const SaveTrackButton = ({ trackId, isSaved }: SaveTrackProps) => {
+  const { user } = useUser();
+  const { show, enableShow, disableShow } = useShow();
+  const [saved, setSaved] = useState(isSaved);
   const [disabled, setDisabled] = useState(false);
 
   const handleCLick = async () => {
+    if (!user) {
+      enableShow();
+      return;
+    }
+
     setDisabled(true);
 
-    if (isSaved) {
-      localMutate(index, false);
-      asyncMutate(index, async () => removeTrack(trackId));
-    } else {
-      localMutate(index, true);
-      asyncMutate(index, async () => saveTrack(trackId));
+    try {
+      if (saved) {
+        setSaved(false);
+        await removeTrack(trackId);
+      } else {
+        setSaved(true);
+        await saveTrack(trackId);
+      }
+    } catch (error) {
+      console.error(error);
+      setSaved(!saved);
     }
 
     setDisabled(false);
   };
 
   return (
-    <TrackButton
-      disabled={disabled}
-      onClick={handleCLick}
-      aria-label=""
-      width="25"
-      height="25"
-    >
-      {isSaved ? <AiFillHeart /> : <AiOutlineHeart />}
-    </TrackButton>
+    <>
+      <TrackButton
+        disabled={disabled}
+        onClick={handleCLick}
+        aria-label=""
+        width="25"
+        height="25"
+      >
+        {saved ? <AiFillHeart /> : <AiOutlineHeart />}
+      </TrackButton>
+      {show && (
+        <Modal
+          contentLabel="Login modal"
+          isOpen={show}
+          onRequestClose={disableShow}
+        >
+          <LoginModal />
+        </Modal>
+      )}
+    </>
   );
 };
 
