@@ -1,5 +1,6 @@
 import { Album, Artist, Track } from ".prisma/client";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "../store";
 
 const shuffleArray = (arr: Array<unknown>) => {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -44,26 +45,36 @@ const initialState: State = {
   shuffle: false,
 };
 
-export const fetchContext = createAsyncThunk(
-  "context/fetchContext",
-  async (
-    { id, type, index }: { id: string; type: string; index: number },
-    { dispatch }
-  ) => {
-    let data;
-    if (type === "liked") {
-      data = await fetch(`/api/me/tracks/play?type=liked`);
-    } else if (type === "likedArtist") {
-      data = await fetch(`/api/me/tracks/play?type=likedArtist&id=${id}`);
-    } else {
-      data = await fetch(`/api/play?type=${type}&id=${id}`);
-    }
-    const json = (await data.json()) as CurrentTrack[];
-    const track = json[index];
-    dispatch(changeContext({ content: json, contextId: id, index }));
-    dispatch(setNowPlaying(track));
+export const fetchContext = createAsyncThunk<
+  void,
+  {
+    id: string;
+    type: string;
+    index: number;
+  },
+  {
+    dispatch: AppDispatch;
+    state: RootState;
   }
-);
+>("context/fetchContext", async ({ id, type, index }, { dispatch }) => {
+  let data;
+
+  if (type === "liked" || type === "likedArtist") {
+    data = await fetch(`/api/me/tracks/play?type=${type}&id=${id}`);
+  } else {
+    data = await fetch(`/api/play?type=${type}&id=${id}`);
+  }
+
+  const tracks = (await data.json()) as CurrentTrack[];
+
+  dispatch(
+    setContext({
+      tracks,
+      contextId: id,
+      index,
+    })
+  );
+});
 
 export const nowPlayingSlice = createSlice({
   name: "nowPlaying",
@@ -71,7 +82,6 @@ export const nowPlayingSlice = createSlice({
   reducers: {
     setNowPlaying: (state, action: PayloadAction<CurrentTrack>) => {
       state.currentTrack = action.payload;
-      state.recentlyPlayed.push(action.payload);
     },
     updateVolume: (state, action: PayloadAction<number>) => {
       state.volume = action.payload * 100;
@@ -91,26 +101,35 @@ export const nowPlayingSlice = createSlice({
     muteUnmute: (state) => {
       state.isMuted = !state.isMuted;
     },
-    changeContext: (
+    setContext: (
       state,
       action: PayloadAction<{
-        content: CurrentTrack[];
+        tracks: CurrentTrack[];
         contextId: string;
         index: number;
       }>
     ) => {
-      state.queue = action.payload.content;
-      state.context.id = action.payload.contextId;
-      state.curentIndex = action.payload.index;
+      const { contextId, tracks, index } = action.payload;
+
+      state.context.id = contextId;
+
+      if (state.shuffle) {
+        state.originalQueue = tracks;
+        state.originalIndex = index;
+        const coppiedTracks = [...tracks];
+        const [trackToPlay] = coppiedTracks.splice(index, 1);
+        shuffleArray(coppiedTracks);
+        state.queue = [trackToPlay, ...coppiedTracks];
+        state.curentIndex = 0;
+      } else {
+        state.queue = action.payload.tracks;
+        state.curentIndex = action.payload.index;
+      }
+
+      state.currentTrack = state.queue[state.curentIndex];
     },
     setIndex: (state, action: PayloadAction<number>) => {
       state.curentIndex = action.payload;
-    },
-    toPrev: (state) => {
-      state.curentIndex -= 1;
-    },
-    toNext: (state) => {
-      state.curentIndex += 1;
     },
     toggleShuffle: (state) => {
       if (state.queue.length === 0) {
@@ -120,8 +139,9 @@ export const nowPlayingSlice = createSlice({
 
       if (state.shuffle) {
         state.curentIndex = state.originalIndex;
-        state.currentTrack = state.originalQueue[state.curentIndex];
+        state.currentTrack = state.originalQueue[state.originalIndex];
         state.queue = [...state.originalQueue];
+        state.originalQueue = [];
         state.shuffle = false;
       } else {
         state.originalIndex = state.curentIndex;
@@ -131,6 +151,12 @@ export const nowPlayingSlice = createSlice({
         state.currentTrack = state.queue[0];
         state.shuffle = true;
       }
+    },
+    addToRecent: (state, action: PayloadAction<CurrentTrack>) => {
+      state.recentlyPlayed.unshift(action.payload);
+    },
+    toggleLoop: (state) => {
+      state.loop = !state.loop;
     },
   },
 });
@@ -143,11 +169,11 @@ export const {
   play,
   pause,
   muteUnmute,
-  changeContext,
+  setContext,
   setIndex,
-  toPrev,
-  toNext,
   toggleShuffle,
+  addToRecent,
+  toggleLoop,
 } = nowPlayingSlice.actions;
 
 export default nowPlayingSlice.reducer;

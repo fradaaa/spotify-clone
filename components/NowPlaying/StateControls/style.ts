@@ -9,6 +9,7 @@ type ControlsButtonProps = {
 };
 
 export const StyledControlsButton = styled(ControlsButton)<ControlsButtonProps>`
+  margin-left: 10px;
   color: ${({ theme, highlight }) =>
     highlight ? theme.primary : theme.onSurface};
 `;

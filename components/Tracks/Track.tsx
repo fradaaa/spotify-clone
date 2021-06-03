@@ -1,77 +1,46 @@
-import Image from "next/image";
-import Link from "next/link";
-import { useShow } from "../../Hooks";
+import { useMemo } from "react";
+import TrackContext, { TrackContextType } from "../../Context/TrackContext";
+import { useShow, useTrackConfig } from "../../Hooks";
 import {
   TrackAlbum,
-  TrackAlbumContainer,
-  TrackArtistName,
-  TrackContainer,
-  TrackCoverContainer,
   TrackDate,
-  TrackDateContainer,
+  TrackExtra,
+  TrackPlayButton,
   TrackPlayCount,
-  TrackPlayCountContainer,
   TrackTitle,
-  TrackTitleContainer,
-} from "./style";
-import TrackExtra from "./TrackExtra";
-import TrackPlayButton from "./TrackPlayButton";
+} from "./Blocks";
+import { TrackContainer } from "./style";
+import TrackAddToPlaylistButton from "./TrackAddToPlaylistButton";
 import { ITrackProps } from "./types";
-import { convertArtists, convertPlayCount, formatAddedAt } from "./utils";
 
 const DisplayTrack = ({
-  id,
-  trackNumber,
-  title,
-  artists,
-  album,
-  dateAdded,
-  duration,
-  playCount,
-  config: { showArtists, showImage, showPlayCount, showPlay },
-  meta: { highlight, isSaved, index },
+  track,
+  highlight,
+  index,
+  isSaved,
+  altIndex,
 }: ITrackProps) => {
   const { show, disableShow, enableShow } = useShow();
+  const { showPlayCount, showPlay, showDate, playlist } = useTrackConfig();
+
+  const trackContextValue = useMemo<TrackContextType>(
+    () => ({
+      ...track,
+      meta: { highlight, index, isSaved, altIndex },
+    }),
+    [track, highlight, index, isSaved, altIndex]
+  );
 
   return (
-    <TrackContainer onMouseOver={enableShow} onMouseLeave={disableShow}>
-      {showPlay && (
-        <TrackPlayButton
-          highlight={highlight}
-          show={show}
-          trackNumber={trackNumber}
-          index={index}
-        />
-      )}
-      <TrackTitleContainer>
-        {showImage && (
-          <TrackCoverContainer>
-            <Image src={album.image} alt="" width={40} height={40} />
-          </TrackCoverContainer>
-        )}
-        <div>
-          <TrackTitle highlight={highlight}>{title}</TrackTitle>
-          {showArtists && convertArtists(artists, TrackArtistName)}
-        </div>
-      </TrackTitleContainer>
-      {showPlayCount && playCount ? (
-        <TrackPlayCountContainer>
-          <TrackPlayCount>{convertPlayCount(playCount)}</TrackPlayCount>
-        </TrackPlayCountContainer>
-      ) : (
-        <TrackAlbumContainer>
-          <Link href={`/album/${album.id}`}>
-            <TrackAlbum>{album.name}</TrackAlbum>
-          </Link>
-        </TrackAlbumContainer>
-      )}
-      {dateAdded && (
-        <TrackDateContainer>
-          <TrackDate>{formatAddedAt(dateAdded)}</TrackDate>
-        </TrackDateContainer>
-      )}
-      <TrackExtra trackId={id} isSaved={isSaved} duration={duration} />
-    </TrackContainer>
+    <TrackContext.Provider value={trackContextValue}>
+      <TrackContainer onMouseOver={enableShow} onMouseLeave={disableShow}>
+        {showPlay && <TrackPlayButton show={show} />}
+        <TrackTitle />
+        {showPlayCount ? <TrackPlayCount /> : <TrackAlbum />}
+        {showDate && <TrackDate />}
+        {playlist ? <TrackAddToPlaylistButton /> : <TrackExtra />}
+      </TrackContainer>
+    </TrackContext.Provider>
   );
 };
 

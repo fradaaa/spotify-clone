@@ -25,10 +25,6 @@ export default withApiAuthRequired(
           added_at: "desc",
         },
       });
-
-      const data = tracks.map(({ track }) => ({ ...track }));
-
-      res.status(200).json(data);
     } else if (type === "likedArtist") {
       tracks = await prisma.savedTrack.findMany({
         where: {

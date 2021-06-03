@@ -1,9 +1,15 @@
 import { Artist } from ".prisma/client";
 import { useRouter } from "next/dist/client/router";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import { PlayContext } from "../../Context";
+import TrackConfigContext, {
+  TrackConfigContextType,
+} from "../../Context/TrackConfigContext";
 import { useAudioHelpers } from "../../Hooks";
+import { PlayContentButton } from "../Buttons";
+import { RingLoader } from "../Globals";
+import { ContentControlsContainer } from "../Globals/style";
 import TracksPage from "../Tracks/TracksPage";
 import { ArtistSubHeaderText, ArtistTopTracksContainer } from "./style";
 
@@ -23,22 +29,32 @@ const ArtistLikedSongs = () => {
     [router.query.artistId, playContent]
   );
 
+  const trackConfig = useMemo<TrackConfigContextType>(
+    () => ({
+      showArtists: true,
+      showImage: true,
+      showPlayCount: false,
+      showPlay: true,
+      showDate: true,
+    }),
+    []
+  );
+
   return data ? (
-    <PlayContext.Provider value={play}>
-      <ArtistTopTracksContainer>
-        <ArtistSubHeaderText>{`Liked Songs By ${data.name}`}</ArtistSubHeaderText>
-        <TracksPage
-          url={`/api/artists/${data.id}/liked`}
-          artist
-          config={{
-            showImage: true,
-            showArtists: true,
-            showPlay: true,
-          }}
-        />
-      </ArtistTopTracksContainer>
-    </PlayContext.Provider>
-  ) : null;
+    <TrackConfigContext.Provider value={trackConfig}>
+      <PlayContext.Provider value={play}>
+        <ContentControlsContainer>
+          <PlayContentButton id={router.query.artistId as string} />
+        </ContentControlsContainer>
+        <ArtistTopTracksContainer>
+          <ArtistSubHeaderText>{`Liked Songs By ${data.name}`}</ArtistSubHeaderText>
+          <TracksPage url={`/api/artists/${data.id}/liked`} altIndex />
+        </ArtistTopTracksContainer>
+      </PlayContext.Provider>
+    </TrackConfigContext.Provider>
+  ) : (
+    <RingLoader />
+  );
 };
 
 export default ArtistLikedSongs;

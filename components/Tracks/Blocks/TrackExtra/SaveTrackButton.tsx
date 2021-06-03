@@ -1,9 +1,9 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useShow } from "../../Hooks";
-import { LoginModal, Modal } from "../Modals";
-import { TrackButton } from "./style";
+import { useShow } from "../../../../Hooks";
+import { LoginModal, Modal } from "../../../Modals";
+import { TrackButton } from "../style";
 
 type SaveTrackProps = {
   trackId: string;

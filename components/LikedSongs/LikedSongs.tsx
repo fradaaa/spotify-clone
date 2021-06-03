@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import useSWR from "swr";
 import { PlayContext } from "../../Context";
 import { useAudioHelpers } from "../../Hooks";
+import { RingLoader } from "../Globals";
 import LikedSongHeader from "./LikedSongHeader";
 import LikedSongsTracks from "./LikedSongsTracks";
 
@@ -31,7 +32,9 @@ const LikedSongs = () => {
       <LikedSongHeader userName={user.nickname!} total={data.total} />
       <LikedSongsTracks total={data.total} />
     </PlayContext.Provider>
-  ) : null;
+  ) : (
+    <RingLoader />
+  );
 };
 
 export default LikedSongs;

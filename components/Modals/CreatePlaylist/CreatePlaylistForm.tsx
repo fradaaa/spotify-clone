@@ -1,6 +1,7 @@
 import { Field, Formik } from "formik";
 import { mutate } from "swr";
 import * as Yup from "yup";
+import { usePlaylist } from "../../../Hooks";
 import { SubmitButton } from "../../Buttons";
 import TextInput from "../../Forms/TextInput";
 import {
@@ -8,6 +9,7 @@ import {
   CreatePlaylistTextArea,
   StyledCreatePlaylistForm,
 } from "../style";
+import { PlaylistModalProps } from "./CreatePlaylistModal";
 
 type Values = {
   name: string;
@@ -24,7 +26,12 @@ const validationSchema = Yup.object({
   description: Yup.string().max(255, "Max 255 characters").trim(),
 });
 
-const CreatePlaylistForm = ({ closeModal }: { closeModal: () => void }) => {
+const CreatePlaylistForm = ({
+  closeModal,
+  buttonText,
+  method,
+  playlistId,
+}: PlaylistModalProps & { playlistId?: string }) => {
   return (
     <CreatePlaylistFormContainer>
       <Formik
@@ -32,13 +39,21 @@ const CreatePlaylistForm = ({ closeModal }: { closeModal: () => void }) => {
         validationSchema={validationSchema}
         onSubmit={async (values: Values) => {
           try {
-            await fetch("/api/playlists/create", {
-              method: "POST",
+            await fetch("/api/playlists", {
+              method,
               headers: {
                 "content-type": "application/json",
               },
-              body: JSON.stringify(values),
+              body: JSON.stringify({
+                ...values,
+                id: playlistId ? playlistId : "",
+              }),
             });
+
+            if (playlistId) {
+              mutate(`/api/playlists/${playlistId}`);
+            }
+
             mutate("/api/me/playlists");
             closeModal();
           } catch (error) {
@@ -54,7 +69,7 @@ const CreatePlaylistForm = ({ closeModal }: { closeModal: () => void }) => {
             name="name"
             placeholder="Add a name"
           />
-          <label id="description" htmlFor="description">
+          <label id="description" htmlFor="description" style={{ flex: 1 }}>
             <Field
               as={CreatePlaylistTextArea}
               id="description"
@@ -64,7 +79,7 @@ const CreatePlaylistForm = ({ closeModal }: { closeModal: () => void }) => {
               autoCorrect="off"
             />
           </label>
-          <SubmitButton>Create</SubmitButton>
+          <SubmitButton>{buttonText}</SubmitButton>
         </StyledCreatePlaylistForm>
       </Formik>
     </CreatePlaylistFormContainer>

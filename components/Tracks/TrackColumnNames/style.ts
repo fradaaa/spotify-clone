@@ -46,5 +46,5 @@ export const TrackColumnPlayCount = styled(FlexRow)`
 
 export const TrackColumnExtra = styled(FlexRow)`
   justify-content: center;
-  flex: 0 100px;
+  flex: 0 120px;
 `;

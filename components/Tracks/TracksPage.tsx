@@ -1,27 +1,29 @@
 import { Album, Artist, Track } from "@prisma/client";
 import useSWR from "swr";
 import { useAppSelectior } from "../../redux/hooks";
+import { RingLoader } from "../Globals";
 import DisplayTrack from "./Track";
-
-type Data = Track & { artists: Artist[]; album: Album; added_at: Date };
 
 type TracksPageProps = {
   page?: number;
   url: string;
-  artist?: boolean;
-  config: {
-    showImage?: boolean;
-    showArtists?: boolean;
-    showPlayCount?: boolean;
-    showPlay?: boolean;
-  };
+  altIndex?: boolean;
+  revalidate?: boolean;
 };
 
-const TracksPage = ({ page, url, artist, config }: TracksPageProps) => {
+type Data = Track & {
+  artists: Artist[];
+  album: Album;
+  added_at: Date;
+};
+
+const TAKE = 50;
+
+const TracksPage = ({ page, url, altIndex, revalidate }: TracksPageProps) => {
   const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { data: tracks } = useSWR<{ items: Data[] }>(
-    () => (page ? `${url}?offset=${10 * (page - 1)}&take=10` : url),
-    { revalidateOnFocus: false }
+    () => (page ? `${url}?offset=${TAKE * (page - 1)}&take=${TAKE}` : url),
+    { revalidateOnFocus: revalidate || false }
   );
   const { data: saved } = useSWR<boolean[]>(
     () => {
@@ -31,50 +33,27 @@ const TracksPage = ({ page, url, artist, config }: TracksPageProps) => {
             .join(",")}`
         : null;
     },
-    { revalidateOnFocus: false }
+    { revalidateOnFocus: revalidate || false }
   );
 
   return tracks && saved ? (
     <>
-      {tracks.items.map(
-        (
-          {
-            id,
-            title,
-            artists,
-            duration,
-            track_url,
-            track_number,
-            album,
-            added_at,
-            play_count,
-          },
-          i
-        ) => (
-          <DisplayTrack
-            key={id}
-            id={id}
-            trackNumber={
-              page ? (page - 1) * 10 + i + 1 : artist ? i + 1 : track_number
-            }
-            title={title}
-            artists={artists}
-            album={album}
-            dateAdded={added_at}
-            duration={duration}
-            config={config}
-            playCount={play_count}
-            meta={{
-              trackURL: track_url,
-              highlight: id === nowId,
-              isSaved: saved[i],
-              index: i,
-            }}
-          />
-        )
-      )}
+      {tracks.items.map((track, i) => (
+        <DisplayTrack
+          key={track.id}
+          track={track}
+          highlight={track.id === nowId}
+          index={i}
+          isSaved={saved[i]}
+          altIndex={
+            altIndex ? (page ? TAKE * (page - 1) + i + 1 : i + 1) : undefined
+          }
+        />
+      ))}
     </>
-  ) : null;
+  ) : (
+    <RingLoader />
+  );
 };
 
 export default TracksPage;

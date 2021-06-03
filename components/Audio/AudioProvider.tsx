@@ -1,18 +1,16 @@
-import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { AudioHelpersContext, QueueContext } from "../../Context";
 import { useAppDispatch, useAppSelectior } from "../../redux/hooks";
 import {
-  CurrentTrack,
+  addToRecent,
   fetchContext,
   muteUnmute,
   pause,
   play,
+  setContext,
   setIndex,
   setNowPlaying,
   toggleIsPlaying,
-  toNext,
-  toPrev,
   updateCurrentTime,
   updateVolume,
 } from "../../redux/slices/nowPlayingSlice";
@@ -21,8 +19,13 @@ const AudioProvider = ({
   children,
 }: React.PropsWithChildren<Record<string, never>>) => {
   const audio = useRef<HTMLAudioElement>(null);
+  const loop = useAppSelectior((state) => state.nowPlaying.loop);
+  const shuffle = useAppSelectior((state) => state.nowPlaying.shuffle);
   const contextId = useAppSelectior((state) => state.nowPlaying.context.id);
   const queue = useAppSelectior((state) => state.nowPlaying.queue);
+  const originalQueue = useAppSelectior(
+    (state) => state.nowPlaying.originalQueue
+  );
   const currentTrack = useAppSelectior(
     (state) => state.nowPlaying.currentTrack
   );
@@ -44,6 +47,7 @@ const AudioProvider = ({
         audio.current.play().catch((e) => console.error(e));
         dispatch(play());
       }
+      dispatch(addToRecent(currentTrack));
     }
   }, [currentTrack, dispatch]);
 
@@ -62,14 +66,17 @@ const AudioProvider = ({
   const playContent = useCallback(
     async (id: string, type: string, index: number) => {
       if (contextId === id) {
-        dispatch(setNowPlaying(queue[index]));
-        dispatch(setIndex(index));
-        return;
+        if (shuffle) {
+          dispatch(setContext({ tracks: originalQueue, contextId, index }));
+        } else {
+          dispatch(setNowPlaying(queue[index]));
+          dispatch(setIndex(index));
+        }
       } else {
         dispatch(fetchContext({ id, type, index }));
       }
     },
-    [dispatch, contextId, queue]
+    [dispatch, contextId, queue, originalQueue, shuffle]
   );
 
   const prevTrack = useCallback(() => {
@@ -77,7 +84,7 @@ const AudioProvider = ({
       audio.current!.currentTime = 0;
     } else {
       dispatch(setNowPlaying(queue[currentIndex - 1]));
-      dispatch(toPrev());
+      dispatch(setIndex(currentIndex - 1));
     }
   }, [queue, currentIndex, dispatch]);
 
@@ -86,7 +93,7 @@ const AudioProvider = ({
       dispatch(pause());
     } else {
       dispatch(setNowPlaying(queue[currentIndex + 1]));
-      dispatch(toNext());
+      dispatch(setIndex(currentIndex + 1));
     }
   }, [queue, currentIndex, dispatch]);
 
@@ -131,6 +138,17 @@ const AudioProvider = ({
     [dispatch]
   );
 
+  const handleTimeEnded = useCallback(() => {
+    if (loop) {
+      if (audio.current) {
+        audio.current.currentTime = 0;
+        audio.current.play();
+      }
+    } else {
+      nextTrack();
+    }
+  }, [loop, nextTrack]);
+
   const helpers = useMemo(
     () => ({
       playContent,
@@ -154,7 +172,7 @@ const AudioProvider = ({
     <AudioHelpersContext.Provider value={helpers}>
       <QueueContext.Provider value={queueHelpers}>
         <audio
-          onEnded={nextTrack}
+          onEnded={handleTimeEnded}
           onTimeUpdate={handleTimeUpdate}
           onVolumeChange={handleVolumeChange}
           ref={audio}

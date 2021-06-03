@@ -57,31 +57,20 @@ export const convertPlayCount = (x: number) => {
 };
 
 export const renderSingleTrack = (
-  { id, title, artists, album, duration, track_url }: CurrentTrack,
+  track: CurrentTrack,
   isSaved: boolean,
   nowId: string,
-  index: number
+  index: number,
+  altIndex?: number
 ) => {
   return (
     <DisplayTrack
-      key={id}
-      id={id}
-      trackNumber={1}
-      title={title}
-      artists={artists}
-      album={album}
-      duration={duration}
-      config={{
-        showArtists: true,
-        showImage: true,
-        showPlay: true,
-      }}
-      meta={{
-        trackURL: track_url,
-        highlight: id === nowId,
-        isSaved,
-        index,
-      }}
+      key={track.id}
+      track={track}
+      highlight={track.id === nowId}
+      isSaved={isSaved}
+      index={index}
+      altIndex={altIndex}
     />
   );
 };

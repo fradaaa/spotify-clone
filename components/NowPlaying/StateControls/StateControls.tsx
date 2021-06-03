@@ -1,6 +1,11 @@
 import { BiShuffle } from "react-icons/bi";
+import { ImLoop, ImLoop2 } from "react-icons/im";
+import { TiArrowLoop } from "react-icons/ti";
 import { useAppDispatch, useAppSelectior } from "../../../redux/hooks";
-import { toggleShuffle } from "../../../redux/slices/nowPlayingSlice";
+import {
+  toggleLoop,
+  toggleShuffle,
+} from "../../../redux/slices/nowPlayingSlice";
 import { StateControlsContainer, StyledControlsButton } from "./style";
 
 const StateControls = () => {
@@ -10,6 +15,10 @@ const StateControls = () => {
 
   const handleShuffle = () => {
     dispatch(toggleShuffle());
+  };
+
+  const handleToggle = () => {
+    dispatch(toggleLoop());
   };
 
   return (
@@ -22,6 +31,15 @@ const StateControls = () => {
         highlight={shuffle}
       >
         <BiShuffle />
+      </StyledControlsButton>
+      <StyledControlsButton
+        onClick={handleToggle}
+        aria-label="Toggle loop"
+        width="20"
+        height="20"
+        highlight={loop}
+      >
+        <ImLoop />
       </StyledControlsButton>
     </StateControlsContainer>
   );

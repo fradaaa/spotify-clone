@@ -23,7 +23,7 @@ const ArtistLikedSongs = () => {
       <ArtistSubHeaderText>Liked Songs</ArtistSubHeaderText>
       <FlexRow>
         <ArtistLikedImage>
-          <Image src={image} alt="" width={70} height={70} />
+          <Image layout="fixed" src={image} alt="" width={70} height={70} />
         </ArtistLikedImage>
         <ArtistLikedSection>
           <Link href={`/artist/${id}/liked`}>

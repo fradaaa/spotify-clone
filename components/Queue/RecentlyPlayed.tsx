@@ -1,6 +1,9 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import { PlayContext } from "../../Context";
+import TrackConfigContext, {
+  TrackConfigContextType,
+} from "../../Context/TrackConfigContext";
 import { useAudioHelpers } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
 import { ArtistSubHeaderText } from "../Artist/style";
@@ -31,41 +34,42 @@ const RecentlyPlayed = () => {
     [playContent, contextId]
   );
 
+  const trackConfig = useMemo<TrackConfigContextType>(
+    () => ({
+      showArtists: true,
+      showImage: true,
+      showPlayCount: false,
+      showPlay: true,
+      showDate: false,
+      onlyPlay: true,
+    }),
+    []
+  );
+
   return (
-    <PlayContext.Provider value={play}>
-      <QueueContainer>
-        <ArtistSubHeaderText as="h1">Recently Played</ArtistSubHeaderText>
-        {saved && (
-          <QueueSection>
-            {recentlyPlayed
-              .reverse()
-              .map(({ id, title, artists, track_url, duration, album }, i) => {
-                return (
+    <TrackConfigContext.Provider value={trackConfig}>
+      <PlayContext.Provider value={play}>
+        <QueueContainer>
+          <ArtistSubHeaderText as="h1">Recently Played</ArtistSubHeaderText>
+          {saved && (
+            <QueueSection>
+              {recentlyPlayed.map((track, i) => {
+                return i > 49 ? null : (
                   <DisplayTrack
-                    key={id + i}
-                    id={id}
-                    trackNumber={i + 1}
-                    title={title}
-                    artists={artists}
-                    album={album}
-                    duration={duration}
-                    config={{
-                      showArtists: true,
-                      showImage: true,
-                    }}
-                    meta={{
-                      trackURL: track_url,
-                      highlight: id === nowId,
-                      isSaved: saved[i],
-                      index: i,
-                    }}
+                    key={track.id + i}
+                    track={track}
+                    highlight={track.id === nowId}
+                    isSaved={saved[i]}
+                    index={i}
+                    altIndex={i + 1}
                   />
                 );
               })}
-          </QueueSection>
-        )}
-      </QueueContainer>
-    </PlayContext.Provider>
+            </QueueSection>
+          )}
+        </QueueContainer>
+      </PlayContext.Provider>
+    </TrackConfigContext.Provider>
   );
 };
 

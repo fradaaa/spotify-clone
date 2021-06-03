@@ -1,5 +1,5 @@
 import { usePlaylist } from "../../Hooks";
-import { PlayContentButton } from "../Buttons";
+import { EditPlaylistButton, PlayContentButton } from "../Buttons";
 import { ContentControlsContainer } from "../Globals/style";
 
 const PlaylistControls = () => {
@@ -8,6 +8,7 @@ const PlaylistControls = () => {
   return (
     <ContentControlsContainer>
       <PlayContentButton id={id} />
+      <EditPlaylistButton />
     </ContentControlsContainer>
   );
 };

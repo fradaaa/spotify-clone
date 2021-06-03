@@ -1,26 +1,11 @@
-import { Album, Artist } from ".prisma/client";
+import { Album, Artist, Track } from ".prisma/client";
 
 export interface ITrackProps {
-  id: string;
-  trackNumber: number;
-  title: string;
-  artists: Artist[];
-  album: Album;
-  dateAdded?: Date;
-  duration: number;
-  playCount?: number;
-  config: {
-    showImage?: boolean;
-    showArtists?: boolean;
-    showPlayCount?: boolean;
-    showPlay?: boolean;
-  };
-  meta: {
-    trackURL: string;
-    highlight: boolean;
-    isSaved: boolean;
-    index: number;
-  };
+  track: Track & { artists: Artist[]; album: Album };
+  highlight: boolean;
+  isSaved: boolean;
+  index: number;
+  altIndex?: number;
 }
 
 export interface ITrackPlayButtonProps {

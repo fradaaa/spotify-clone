@@ -20,7 +20,11 @@ const CreatePlaylistButton = () => {
           isOpen={show}
           onRequestClose={disableShow}
         >
-          <CreatePlaylistModal closeModal={disableShow} />
+          <CreatePlaylistModal
+            closeModal={disableShow}
+            buttonText="Create"
+            method="POST"
+          />
         </Modal>
       )}
     </>

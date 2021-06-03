@@ -1,13 +1,13 @@
 import CreatePlaylistButton from "./CreatePlaylistButton";
-import SubmitButton from "./SubmitButton";
-import PlayContentButton from "./PlayContentButton";
-import AddToPlaylistButton from "./AddToPlaylistButton";
 import FollowArtistButton from "./FollowArtistButton";
+import PlayContentButton from "./PlayContentButton";
+import SubmitButton from "./SubmitButton";
+import EditPlaylistButton from "./EditPlaylistButton";
 
 export {
   CreatePlaylistButton,
   SubmitButton,
-  AddToPlaylistButton,
   PlayContentButton,
   FollowArtistButton,
+  EditPlaylistButton,
 };

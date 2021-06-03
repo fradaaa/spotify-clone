@@ -1,10 +1,14 @@
-import { useState } from "react";
-import { usePlaylist } from "../../Hooks";
+import { useMemo, useRef, useState } from "react";
+import TrackConfigContext, {
+  TrackConfigContextType,
+} from "../../Context/TrackConfigContext";
+import { usePagination, usePlaylist } from "../../Hooks";
 import { PlaylistColumns } from "../Tracks/TrackColumnNames";
 import TracksPage from "../Tracks/TracksPage";
 import { PlaylistTracksContainer } from "./style";
 
 const PlaylistTracks = () => {
+  const node = useRef<HTMLDivElement>(null);
   const { id, total } = usePlaylist();
   const [cnt, setCnt] = useState(1);
 
@@ -15,23 +19,33 @@ const PlaylistTracks = () => {
         key={i}
         page={i}
         url={`/api/playlists/${id}/tracks`}
-        config={{
-          showArtists: true,
-          showImage: true,
-          showPlay: true,
-        }}
+        altIndex
+        revalidate
       />
     );
   }
 
+  const trackConfig = useMemo<TrackConfigContextType>(
+    () => ({
+      showArtists: true,
+      showImage: true,
+      showPlayCount: false,
+      showPlay: true,
+      showDate: true,
+    }),
+    []
+  );
+
+  usePagination({ targetRef: node, callback: () => setCnt(cnt + 1) });
+
   return (
-    <PlaylistTracksContainer>
-      <PlaylistColumns />
-      {tracks}
-      {total > tracks.length * 10 && (
-        <button onClick={() => setCnt(cnt + 1)}>Load More</button>
-      )}
-    </PlaylistTracksContainer>
+    <TrackConfigContext.Provider value={trackConfig}>
+      <PlaylistTracksContainer>
+        <PlaylistColumns />
+        {tracks}
+        {total > tracks.length * 50 && <div ref={node}></div>}
+      </PlaylistTracksContainer>
+    </TrackConfigContext.Provider>
   );
 };
 

@@ -1,5 +1,6 @@
 import { Album, Artist } from ".prisma/client";
 import useSWR from "swr";
+import { RingLoader } from "../Globals";
 import { Preview, PreviewItem } from "../Preview";
 
 type Data = { items: (Album & { artist: Artist })[] };
@@ -9,7 +10,7 @@ const AlbumsCollection = () => {
 
   return (
     <Preview title="Albums">
-      {data &&
+      {data ? (
         data.items.map(({ id, image, name, artist: { name: artistName } }) => (
           <PreviewItem
             key={id}
@@ -19,7 +20,10 @@ const AlbumsCollection = () => {
             subText={artistName}
             type="album"
           />
-        ))}
+        ))
+      ) : (
+        <RingLoader />
+      )}
     </Preview>
   );
 };

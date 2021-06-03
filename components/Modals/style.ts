@@ -71,4 +71,6 @@ export const StyledCreatePlaylistForm = styled(Form)`
 export const CreatePlaylistTextArea = styled(StyledTextArea)`
   border-radius: var(--brmd);
   flex: 1;
+  width: 100%;
+  height: 100%;
 `;
