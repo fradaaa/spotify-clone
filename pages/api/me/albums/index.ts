@@ -1,24 +1,26 @@
-import { getSession } from "@auth0/nextjs-auth0";
+import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = getSession(req, res);
+export default withApiAuthRequired(
+  async (req: NextApiRequest, res: NextApiResponse) => {
+    const session = getSession(req, res);
 
-  if (req.method === "GET") {
-    await handleGET(session?.user.sub, res);
-  } else if (req.method === "PUT") {
-    const { albumId } = req.body;
-    await handlePUT(session?.user.sub, albumId, res);
-  } else if (req.method === "DELETE") {
-    const { albumId } = req.body;
-    await handleDELETE(session?.user.sub, albumId, res);
-  } else {
-    throw new Error(
-      `The HTTP ${req.method} method is not supported at this route.`
-    );
+    if (req.method === "GET") {
+      await handleGET(session?.user.sub, res);
+    } else if (req.method === "PUT") {
+      const { albumId } = req.body;
+      await handlePUT(session?.user.sub, albumId, res);
+    } else if (req.method === "DELETE") {
+      const { albumId } = req.body;
+      await handleDELETE(session?.user.sub, albumId, res);
+    } else {
+      throw new Error(
+        `The HTTP ${req.method} method is not supported at this route.`
+      );
+    }
   }
-};
+);
 
 const handleGET = async (userId: string, res: NextApiResponse) => {
   const savedAlbums = await prisma.savedAlbum.findMany({

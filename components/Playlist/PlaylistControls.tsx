@@ -1,14 +1,16 @@
+import { useUser } from "@auth0/nextjs-auth0";
 import { usePlaylist } from "../../Hooks";
 import { EditPlaylistButton, PlayContentButton } from "../Buttons";
 import { ContentControlsContainer } from "../Globals/style";
 
 const PlaylistControls = () => {
-  const { id } = usePlaylist();
+  const { user } = useUser();
+  const { id, ownerId } = usePlaylist();
 
   return (
     <ContentControlsContainer>
       <PlayContentButton id={id} />
-      <EditPlaylistButton />
+      {user?.sub === ownerId && <EditPlaylistButton />}
     </ContentControlsContainer>
   );
 };
