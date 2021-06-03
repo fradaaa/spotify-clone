@@ -4,7 +4,7 @@ import CurrentSong from "./CurrentSong/CurrentSong";
 import ExtraControls from "./ExtraControls/ExtraControls";
 import PlaybackBar from "./PlaybackBar/PlaybackBar";
 import StateControls from "./StateControls/StateControls";
-import { NowPlayingContainer } from "./style";
+import { NowPlayingContainer, NowPlayingText } from "./style";
 
 const NowPlaying = () => {
   const currentTrack = useAppSelectior(
@@ -21,7 +21,9 @@ const NowPlaying = () => {
           <StateControls />
           <ExtraControls />
         </>
-      ) : null}
+      ) : (
+        <NowPlayingText>Play something to see the player</NowPlayingText>
+      )}
     </NowPlayingContainer>
   );
 };

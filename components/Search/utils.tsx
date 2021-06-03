@@ -1,5 +1,42 @@
-import { Album, Artist } from ".prisma/client";
+import { Album, Artist, Track } from ".prisma/client";
+import useSWR from "swr";
+import { useAppSelectior } from "../../redux/hooks";
+import { ArtistSubHeaderText } from "../Artist/style";
 import { Preview, PreviewItem } from "../Preview";
+import DisplayTrack from "../Tracks/Track";
+
+export const ConvertSearchTracks = ({
+  tracks,
+}: {
+  tracks: (Track & { artists: Artist[]; album: Album })[];
+}) => {
+  const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
+  const { data: saved } = useSWR<boolean[]>(
+    () => {
+      return tracks
+        ? `/api/me/tracks/contains?ids=${tracks.map(({ id }) => id).join(",")}`
+        : null;
+    },
+    { revalidateOnFocus: false }
+  );
+
+  return (
+    <>
+      {tracks.length > 0 && <ArtistSubHeaderText>Tracks</ArtistSubHeaderText>}
+      {saved &&
+        tracks.map((track, i) => (
+          <DisplayTrack
+            key={track.id}
+            track={track}
+            highlight={track.id === nowId}
+            isSaved={saved[i]}
+            index={i}
+            altIndex={i + 1}
+          />
+        ))}
+    </>
+  );
+};
 
 export const convertSeachArtists = (artists: Artist[]) => {
   return artists.length > 0 ? (

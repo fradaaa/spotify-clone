@@ -2,8 +2,9 @@ import { Album, Artist } from ".prisma/client";
 import Link from "next/link";
 import useSWR from "swr";
 import { ArtistSubHeaderText } from "../Artist/style";
-import { RingLoader, StyledLink } from "../Globals";
+import { RingLoader } from "../Globals";
 import { Preview, PreviewItem } from "../Preview";
+import { SearchLink } from "./style";
 
 type Data = Album & { artist: Artist };
 
@@ -22,7 +23,7 @@ const HomeContent = () => {
           <ArtistSubHeaderText as="h1">
             Check Artists and Albums or{" "}
             <Link href="/search">
-              <StyledLink>Search</StyledLink>
+              <SearchLink>Search</SearchLink>
             </Link>
           </ArtistSubHeaderText>
           <Preview title="Artists">

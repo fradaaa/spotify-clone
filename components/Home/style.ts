@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { FlexRow } from "../Globals";
+import { FlexRow, StyledLink } from "../Globals";
 
 export const HomeContainer = styled(FlexRow)`
   justify-content: center;
@@ -8,4 +8,8 @@ export const HomeContainer = styled(FlexRow)`
 
 export const ButtonsContainer = styled(FlexRow)`
   justify-content: center;
+`;
+
+export const SearchLink = styled(StyledLink)`
+  text-decoration: underline;
 `;

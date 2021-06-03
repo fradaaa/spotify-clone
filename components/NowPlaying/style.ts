@@ -44,3 +44,11 @@ export const ProgressButton = styled.button<ProgressProps>`
   border: none;
   opacity: ${({ show }) => (show ? 1 : 0)};
 `;
+
+export const NowPlayingText = styled(FlexRow)`
+  justify-content: center;
+  width: 100%;
+  color: ${({ theme }) => theme.onSurface};
+  font-size: 30px;
+  font-weight: 600;
+`;
