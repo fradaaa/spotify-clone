@@ -8,14 +8,16 @@ const EditPlaylistButton = () => {
   const { id } = usePlaylist();
 
   return (
-    <RoundIconButton
-      onClick={enableShow}
-      type="button"
-      aria-label=""
-      width="30"
-      height="30"
-    >
-      <BsPencil />
+    <>
+      <RoundIconButton
+        onClick={enableShow}
+        type="button"
+        aria-label=""
+        width="30"
+        height="30"
+      >
+        <BsPencil />
+      </RoundIconButton>
       {show && (
         <Modal
           contentLabel="Create playlist modal"
@@ -30,7 +32,7 @@ const EditPlaylistButton = () => {
           />
         </Modal>
       )}
-    </RoundIconButton>
+    </>
   );
 };
 
