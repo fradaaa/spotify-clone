@@ -3,16 +3,16 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user } = getSession(req, res);
+  const session = getSession(req, res);
 
   if (req.method === "GET") {
-    await handleGET(user.sub, res);
+    await handleGET(session?.user.sub, res);
   } else if (req.method === "PUT") {
     const { artistId } = req.body;
-    await handlePUT(user.sub, artistId, res);
+    await handlePUT(session?.user.sub, artistId, res);
   } else if (req.method === "DELETE") {
     const { artistId } = req.body;
-    await handleDELETE(user.sub, artistId, res);
+    await handleDELETE(session?.user.sub, artistId, res);
   } else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`

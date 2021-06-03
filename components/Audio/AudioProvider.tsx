@@ -15,9 +15,7 @@ import {
   updateVolume,
 } from "../../redux/slices/nowPlayingSlice";
 
-const AudioProvider = ({
-  children,
-}: React.PropsWithChildren<Record<string, never>>) => {
+const AudioProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const audio = useRef<HTMLAudioElement>(null);
   const loop = useAppSelectior((state) => state.nowPlaying.loop);
   const shuffle = useAppSelectior((state) => state.nowPlaying.shuffle);

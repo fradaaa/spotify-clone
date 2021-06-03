@@ -4,10 +4,10 @@ import prisma from "../../../lib/prisma";
 
 export default withApiAuthRequired(
   async (req: NextApiRequest, res: NextApiResponse) => {
-    const { user } = getSession(req, res);
+    const session = getSession(req, res);
     const playlists = await prisma.playlist.findMany({
       where: {
-        ownerId: user.sub,
+        ownerId: session?.user.sub,
       },
     });
 
