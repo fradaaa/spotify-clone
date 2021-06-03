@@ -1,3 +1,4 @@
+import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
 import Link from "next/link";
 import useSWR from "swr";
@@ -13,9 +14,10 @@ import {
 } from "./style";
 
 const ArtistLikedSongs = () => {
+  const { user } = useUser();
   const { id, image, name } = useArtist();
   const { data } = useSWR<number>(() =>
-    id ? `/api/artists/${id}/liked-count` : null
+    user && id ? `/api/artists/${id}/liked-count` : null
   );
 
   return data && data > 0 ? (

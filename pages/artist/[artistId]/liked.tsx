@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/dist/frontend";
 import Head from "next/head";
 import ArtistLikedSongs from "../../../components/Artist/ArtistLikedSongs";
 
@@ -12,4 +13,4 @@ const Liked = () => {
   );
 };
 
-export default Liked;
+export default withPageAuthRequired(Liked);

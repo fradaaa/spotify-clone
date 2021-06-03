@@ -45,7 +45,9 @@ const ContentHeader = ({
   duration,
 }: ContentHeaderProps) => {
   const ownerLink =
-    type === "playlist" ? `/user/${infoId}` : `/artist/${infoId}`;
+    type === "playlist" || type === "likedSongs"
+      ? `/user/${infoId}`
+      : `/artist/${infoId}`;
 
   return (
     <StyledContentHeader>

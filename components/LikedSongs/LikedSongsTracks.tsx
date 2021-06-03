@@ -3,6 +3,8 @@ import TrackConfigContext, {
   TrackConfigContextType,
 } from "../../Context/TrackConfigContext";
 import { usePagination } from "../../Hooks";
+import { ArtistSubHeaderText } from "../Artist/style";
+import { FlexRow } from "../Globals";
 import { PlaylistColumns } from "../Tracks/TrackColumnNames";
 import TracksPage from "../Tracks/TracksPage";
 import { LikedSongsTracksContainer } from "./style";
@@ -35,6 +37,13 @@ const LikedSongsTracks = ({ total }: { total: number }) => {
         <PlaylistColumns />
         {tracks}
         {total > tracks.length * 50 && <div ref={node}></div>}
+        {total === 0 && (
+          <FlexRow style={{ justifyContent: "center", height: "100%" }}>
+            <ArtistSubHeaderText>
+              Like a song to see it here
+            </ArtistSubHeaderText>
+          </FlexRow>
+        )}
       </LikedSongsTracksContainer>
     </TrackConfigContext.Provider>
   );

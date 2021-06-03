@@ -20,7 +20,7 @@ const LikedSongHeader = ({ userName, total }: HeaderProps) => {
         bg="rgb(80, 56, 160)"
       />
       <ContentGradient style={{ backgroundColor: "rgb(80, 56, 160)" }} />
-      <LikedSongsControls />
+      {total > 0 && <LikedSongsControls />}
     </>
   );
 };

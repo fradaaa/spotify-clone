@@ -1,3 +1,4 @@
+import { useUser } from "@auth0/nextjs-auth0";
 import { useMemo } from "react";
 import TrackConfigContext, {
   TrackConfigContextType,
@@ -13,6 +14,7 @@ import {
 
 const ArtistTopTracks = () => {
   const { id } = useArtist();
+  const { user } = useUser();
 
   const trackConfig = useMemo<TrackConfigContextType>(
     () => ({
@@ -32,7 +34,7 @@ const ArtistTopTracks = () => {
           <ArtistSubHeaderText>Top tracks</ArtistSubHeaderText>
           <TracksPage url={`/api/artists/${id}/top-tracks`} altIndex />
         </ArtistTopTracksContainer>
-        <ArtistLikedSongs />
+        {user && <ArtistLikedSongs />}
       </ArtistTrackWrapper>
     </TrackConfigContext.Provider>
   );

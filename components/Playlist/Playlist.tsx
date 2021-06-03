@@ -1,3 +1,4 @@
+import { useUser } from "@auth0/nextjs-auth0";
 import Head from "next/head";
 import { useCallback } from "react";
 import { PlayContext } from "../../Context";
@@ -8,7 +9,8 @@ import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
 
 const Playlist = () => {
-  const { id, name } = usePlaylist();
+  const { user } = useUser();
+  const { id, name, ownerId } = usePlaylist();
   const { playContent } = useAudioHelpers();
 
   const play = useCallback(
@@ -26,7 +28,7 @@ const Playlist = () => {
       <PlaylistHeader />
       <PlaylistControls />
       <PlaylistTracks />
-      <AddTracks />
+      {user?.sub === ownerId && <AddTracks />}
     </PlayContext.Provider>
   );
 };
