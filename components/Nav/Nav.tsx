@@ -1,9 +1,10 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
-import { AiOutlineLogin } from "react-icons/ai";
+import { AiFillGithub, AiOutlineLogin } from "react-icons/ai";
 import { CreatePlaylistButton } from "../Buttons";
 import { Button } from "../Buttons/style";
+import { StyledLink } from "../Globals";
 import { libraryItems, menuItems } from "./items";
 import NavPlaylists from "./NavPlaylists";
 import {
@@ -39,6 +40,20 @@ const Nav = () => {
             <img src="/icon.png" alt="logo" />
           </NavAltLogo>
           <NavMenu>
+            <NavItem highlight={false}>
+              <StyledLink
+                href="https://github.com/fradaaa"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <NavItemLink>
+                  <NavItemIcon>
+                    <AiFillGithub />
+                  </NavItemIcon>
+                  <NavItemText>Github</NavItemText>
+                </NavItemLink>
+              </StyledLink>
+            </NavItem>
             {menuItems.map(({ Icon, link, text }, i) => (
               <NavItem highlight={router.asPath === link} key={i}>
                 <Link href={link}>
