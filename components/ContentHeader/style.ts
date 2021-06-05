@@ -34,7 +34,7 @@ export const ContentHeaderPlaylistPlaceholder = styled(FlexRow)`
   justify-content: center;
   width: 200px;
   height: 200px;
-  background-color: ${({ theme }) => theme.surface3};
+  background-color: ${({ theme }) => theme.surface4};
   color: ${({ theme }) => theme.onSurface};
   z-index: 1;
 
@@ -88,6 +88,7 @@ export const ContentHeaderInfoText = styled.span`
   display: flex;
   align-items: center;
   font-size: 14px;
+  white-space: nowrap;
 
   ::before {
     content: "•";

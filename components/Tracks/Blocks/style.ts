@@ -7,7 +7,7 @@ import {
   TrackColumnNumber,
   TrackColumnPlayCount,
   TrackColumnTitle,
-} from "../TrackColumnNames/style";
+} from "../TrackRows/style";
 
 export const TrackNumber = styled(TrackColumnNumber)`
   font-size: 16px;
@@ -24,18 +24,26 @@ export const TrackCoverContainer = styled(FlexRow)`
   overflow: hidden;
   position: relative;
   margin-right: 15px;
+  min-width: 40px;
+`;
+
+export const TrackTitleInfo = styled.div`
+  overflow: hidden;
 `;
 
 type TrackTitleProps = {
   highlight: boolean;
 };
 
-export const TrackTitleText = styled(FlexRow)<TrackTitleProps>`
+export const TrackTitleText = styled.div<TrackTitleProps>`
   flex: 2;
   font-weight: 400;
   font-size: 16px;
   color: ${({ theme, highlight }) =>
     highlight ? theme.primary : theme.onSurface};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const TrackArtistName = styled(StyledLink)`
@@ -46,14 +54,11 @@ export const TrackPlayCountContainer = styled(TrackColumnPlayCount)``;
 
 export const TrackPlayCountText = styled.div`
   font-size: 14px;
-  width: 11ch;
+  width: 13ch;
   text-align: right;
 `;
 
-export const TrackAlbumContainer = styled(TrackColumnAlbum)`
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
+export const TrackAlbumContainer = styled(TrackColumnAlbum)``;
 
 export const TrackAlbumText = styled(StyledLink)`
   font-size: 14px;

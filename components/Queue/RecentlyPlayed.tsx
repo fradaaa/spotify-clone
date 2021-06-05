@@ -16,7 +16,7 @@ const RecentlyPlayed = () => {
   const recentlyPlayed = useAppSelectior(
     (state) => state.nowPlaying.recentlyPlayed
   );
-  const contextId = useAppSelectior((state) => state.nowPlaying.context.id);
+  const { id, type } = useAppSelectior((state) => state.nowPlaying.context);
   const { data: saved } = useSWR<boolean[]>(
     () =>
       recentlyPlayed.length > 0
@@ -27,11 +27,11 @@ const RecentlyPlayed = () => {
 
   const play = useCallback(
     (index: number) => {
-      if (contextId) {
-        playContent(contextId, "", index);
+      if (id && type) {
+        playContent(id, type, index);
       }
     },
-    [playContent, contextId]
+    [playContent, id, type]
   );
 
   const trackConfig = useMemo<TrackConfigContextType>(

@@ -9,13 +9,13 @@ const CurrentTime = () => {
   return <PlaybackTime>{convertTrackDuration(currentTime)}</PlaybackTime>;
 };
 
-const PlaybackBar = () => {
+const PlaybackBar = ({ show }: { show?: boolean }) => {
   const duration = useAppSelectior(
     (state) => state.nowPlaying.currentTrack?.duration
   );
 
   return (
-    <PlaybackBarContainer>
+    <PlaybackBarContainer show={!!show}>
       <CurrentTime />
       <PlaybackProgressBar duration={duration || 0} />
       <PlaybackTime>{convertTrackDuration(duration || 0)}</PlaybackTime>

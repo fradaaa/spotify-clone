@@ -15,7 +15,7 @@ const Queue = () => {
   const { playContent } = useAudioHelpers();
   const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const queue = useAppSelectior((state) => state.nowPlaying.queue);
-  const contextId = useAppSelectior((state) => state.nowPlaying.context.id);
+  const { id, type } = useAppSelectior((state) => state.nowPlaying.context);
   const currentIndex = useAppSelectior((state) => state.nowPlaying.curentIndex);
   const { data: saved } = useSWR<boolean[]>(
     () =>
@@ -27,11 +27,11 @@ const Queue = () => {
 
   const play = useCallback(
     (index: number) => {
-      if (contextId) {
-        playContent(contextId, "", index);
+      if (id && type) {
+        playContent(id, type, index);
       }
     },
-    [playContent, contextId]
+    [playContent, id, type]
   );
 
   const trackConfig = useMemo<TrackConfigContextType>(

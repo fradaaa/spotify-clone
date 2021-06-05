@@ -1,15 +1,14 @@
 import { Album } from ".prisma/client";
 import useSWR from "swr";
 import { useArtist } from "../../Hooks";
+import { RingLoader } from "../Globals";
 import { Preview, PreviewItem } from "../Preview";
 
 const ArtistAlbums = () => {
   const { id } = useArtist();
-  const { data, error } = useSWR<Album[]>(`/api/artists/${id}/albums`);
+  const { data } = useSWR<Album[]>(`/api/artists/${id}/albums`);
 
-  if (error) return <div>Failed to load</div>;
-
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <RingLoader />;
 
   return (
     <Preview title="Albums">

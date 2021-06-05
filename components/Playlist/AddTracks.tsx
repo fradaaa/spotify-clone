@@ -1,6 +1,7 @@
 import { Album, Artist, Track } from ".prisma/client";
 import { useCallback, useMemo, useState } from "react";
 import useSWR from "swr";
+import { MutateContext } from "../../Context";
 import TrackConfigContext, {
   TrackConfigContextType,
 } from "../../Context/TrackConfigContext";
@@ -23,7 +24,7 @@ const AddTracks = () => {
   const [searchString, setSearchString] = useState("");
   const debouncedSearch = useDebounce(searchString, 350);
   const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
-  const { data } = useSWR<Data[]>(
+  const { data, mutate } = useSWR<Data[]>(
     () =>
       debouncedSearch ? `/api/search?q=${debouncedSearch}&type=track` : null,
     {
@@ -52,38 +53,51 @@ const AddTracks = () => {
     []
   );
 
+  const mutateSearch = useCallback(
+    (trackId: string) => {
+      mutate((data) => {
+        return data?.filter(({ id }) => id !== trackId);
+      }, false);
+    },
+    [mutate]
+  );
+
   return (
-    <TrackConfigContext.Provider value={trackConfig}>
-      <AddTracksContainer>
-        <AddTrackSearchContainer>
-          <AddTracksText>Let's find something for your playlist</AddTracksText>
-          <InputContainer>
-            <SearchInput
-              handleChange={handleChange}
-              clearField={clearFiled}
-              placeholder="Search for songs"
-              value={searchString}
-            />
-          </InputContainer>
-        </AddTrackSearchContainer>
-        <AddTracksSearchResults>
-          {data && data.length ? (
-            data.map((track, i) => (
-              <DisplayTrack
-                key={track.id}
-                track={track}
-                highlight={track.id === nowId}
-                isSaved={false}
-                index={i}
-                altIndex={i + 1}
+    <MutateContext.Provider value={mutateSearch}>
+      <TrackConfigContext.Provider value={trackConfig}>
+        <AddTracksContainer>
+          <AddTrackSearchContainer>
+            <AddTracksText>
+              Let's find something for your playlist
+            </AddTracksText>
+            <InputContainer>
+              <SearchInput
+                handleChange={handleChange}
+                clearField={clearFiled}
+                placeholder="Search for songs"
+                value={searchString}
               />
-            ))
-          ) : searchString ? (
-            <Empty query={debouncedSearch} />
-          ) : null}
-        </AddTracksSearchResults>
-      </AddTracksContainer>
-    </TrackConfigContext.Provider>
+            </InputContainer>
+          </AddTrackSearchContainer>
+          <AddTracksSearchResults>
+            {data && data.length ? (
+              data.map((track, i) => (
+                <DisplayTrack
+                  key={track.id}
+                  track={track}
+                  highlight={track.id === nowId}
+                  isSaved={false}
+                  index={i}
+                  altIndex={i + 1}
+                />
+              ))
+            ) : searchString ? (
+              <Empty query={debouncedSearch} />
+            ) : null}
+          </AddTracksSearchResults>
+        </AddTracksContainer>
+      </TrackConfigContext.Provider>
+    </MutateContext.Provider>
   );
 };
 

@@ -20,6 +20,7 @@ const useSlider = (updateFunction: (value: number) => void) => {
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
+      e.preventDefault();
       const value = calculateRelativeMousePositionPercent(
         e.clientX,
         element.current!
@@ -29,14 +30,19 @@ const useSlider = (updateFunction: (value: number) => void) => {
     [updateFunction]
   );
 
-  const handleMouseUp = useCallback(() => {
-    setIsDragging(false);
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  }, [handleMouseMove]);
+  const handleMouseUp = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    },
+    [handleMouseMove]
+  );
 
   const handleMouseDown = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault();
       if (!element.current) element.current = e.currentTarget;
 
       setIsDragging(true);

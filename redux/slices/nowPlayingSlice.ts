@@ -24,6 +24,7 @@ type State = {
   originalQueue: CurrentTrack[];
   context: {
     id: string | null;
+    type: string | null;
   };
   loop: boolean;
   shuffle: boolean;
@@ -40,7 +41,7 @@ const initialState: State = {
   recentlyPlayed: [],
   queue: [],
   originalQueue: [],
-  context: { id: null },
+  context: { id: null, type: null },
   loop: false,
   shuffle: false,
 };
@@ -70,7 +71,7 @@ export const fetchContext = createAsyncThunk<
   dispatch(
     setContext({
       tracks,
-      contextId: id,
+      context: { id, type },
       index,
     })
   );
@@ -105,27 +106,32 @@ export const nowPlayingSlice = createSlice({
       state,
       action: PayloadAction<{
         tracks: CurrentTrack[];
-        contextId: string;
+        context: { id: string; type: string };
         index: number;
       }>
     ) => {
-      const { contextId, tracks, index } = action.payload;
-
-      state.context.id = contextId;
+      const { context, tracks, index } = action.payload;
+      let coppiedTracks;
 
       if (state.shuffle) {
-        state.originalQueue = tracks;
-        state.originalIndex = index;
-        const coppiedTracks = [...tracks];
+        if (state.context.id !== context.id) {
+          state.originalQueue = tracks;
+          state.originalIndex = 0;
+          coppiedTracks = [...tracks];
+        } else {
+          coppiedTracks = [...state.queue];
+        }
+
         const [trackToPlay] = coppiedTracks.splice(index, 1);
         shuffleArray(coppiedTracks);
         state.queue = [trackToPlay, ...coppiedTracks];
         state.curentIndex = 0;
       } else {
-        state.queue = action.payload.tracks;
-        state.curentIndex = action.payload.index;
+        state.queue = tracks;
+        state.curentIndex = index;
       }
 
+      state.context = context;
       state.currentTrack = state.queue[state.curentIndex];
     },
     setIndex: (state, action: PayloadAction<number>) => {

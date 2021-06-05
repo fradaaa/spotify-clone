@@ -27,8 +27,8 @@ const Playlist = () => {
       </Head>
       <PlaylistHeader />
       <PlaylistControls />
-      <PlaylistTracks />
       {user?.sub === ownerId && <AddTracks />}
+      <PlaylistTracks />
     </PlayContext.Provider>
   );
 };

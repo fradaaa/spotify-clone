@@ -64,17 +64,21 @@ const AudioProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const playContent = useCallback(
     async (id: string, type: string, index: number) => {
       if (contextId === id) {
-        if (shuffle) {
-          dispatch(setContext({ tracks: originalQueue, contextId, index }));
+        /* if (shuffle) {
+          dispatch(
+            setContext({ tracks: originalQueue, context: { id, type }, index })
+          );
         } else {
           dispatch(setNowPlaying(queue[index]));
           dispatch(setIndex(index));
-        }
+        } */
+        dispatch(setNowPlaying(queue[index]));
+        dispatch(setIndex(index));
       } else {
         dispatch(fetchContext({ id, type, index }));
       }
     },
-    [dispatch, contextId, queue, originalQueue, shuffle]
+    [dispatch, contextId, queue]
   );
 
   const prevTrack = useCallback(() => {

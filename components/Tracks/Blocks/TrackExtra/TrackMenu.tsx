@@ -1,4 +1,4 @@
-import { Playlist } from ".prisma/client";
+import { Artist, Playlist } from ".prisma/client";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
@@ -23,13 +23,17 @@ const TrackMenu = () => {
   return (
     <Dropdown icon={<IoEllipsisHorizontalSharp />}>
       <TrackMenuContainer>
-        <TrackMenuOption>
-          <Link href={`/artist/${artists[0].id}`}>
-            <TrackMenuLink href={`/artist/${artists[0].id}`}>
-              Go to artist
-            </TrackMenuLink>
-          </Link>
-        </TrackMenuOption>
+        {artists.length > 1 ? (
+          <TrackMenuArtists artists={artists} />
+        ) : (
+          <TrackMenuOption>
+            <Link href={`/artist/${artists[0].id}`}>
+              <TrackMenuLink href={`/artist/${artists[0].id}`}>
+                Go to artist
+              </TrackMenuLink>
+            </Link>
+          </TrackMenuOption>
+        )}
         <TrackMenuOption>
           <Link href={`/album/${album.id}`}>
             <TrackMenuLink href={`/album/${album.id}`}>
@@ -40,6 +44,27 @@ const TrackMenu = () => {
         {user && <AddToPlaylists />}
       </TrackMenuContainer>
     </Dropdown>
+  );
+};
+
+const TrackMenuArtists = ({ artists }: { artists: Artist[] }) => {
+  const { show, disableShow, enableShow } = useShow();
+
+  return (
+    <TrackMenuOptionList onMouseOver={enableShow} onMouseLeave={disableShow}>
+      <AiFillCaretLeft /> Go to artist
+      {show && (
+        <TrackMenuOptionsListContainer>
+          {artists.map(({ id, name }) => (
+            <TrackMenuOption key={id}>
+              <Link href={`/artist/${id}`}>
+                <TrackMenuLink href={`/artist/${id}`}>{name}</TrackMenuLink>
+              </Link>
+            </TrackMenuOption>
+          ))}
+        </TrackMenuOptionsListContainer>
+      )}
+    </TrackMenuOptionList>
   );
 };
 

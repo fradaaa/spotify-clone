@@ -35,3 +35,8 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# create api
+/pages/api/albums/create.ts
+/pages/api/artists/create.ts
+/pages/api/tracks/create.ts

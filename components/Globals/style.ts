@@ -48,3 +48,9 @@ export const ContentGradient = styled.div`
 export const ContentControlsContainer = styled(FlexRow)`
   padding: 20px;
 `;
+
+export const TextOverflow = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;

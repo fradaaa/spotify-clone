@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { FlexRow, StyledLink } from "../Globals";
+import { mq } from "../../styles/breakpoints";
+import { FlexCol, FlexRow, StyledLink } from "../Globals";
 
 export const StyledArtistHeader = styled.header`
   display: flex;
@@ -15,6 +16,7 @@ export const ArtistHeaderImage = styled.div`
   position: absolute;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: 50% 15%;
   inset: 0;
 `;
 
@@ -34,14 +36,19 @@ export const ArtistListeners = styled.span`
   font-size: 15px;
 `;
 
-export const ArtistTrackWrapper = styled(FlexRow)`
+export const ArtistTrackWrapper = styled(FlexCol)`
   padding: 0 20px;
   align-items: flex-start;
+
+  ${mq["xl"]} {
+    flex-flow: row;
+  }
 `;
 
 export const ArtistTopTracksContainer = styled.div`
   flex: 3;
   height: 100%;
+  width: 100%;
 `;
 
 export const ArtistSubHeaderText = styled.h2`
@@ -54,8 +61,12 @@ export const ArtistSubHeaderText = styled.h2`
 
 export const ArtistLikedContainer = styled.div`
   flex: 1;
-  margin-left: 20px;
+  margin: 20px 0 0 20px;
   color: ${({ theme }) => theme.onSurface};
+
+  ${mq["xl"]} {
+    margin: 0 0 0 20px;
+  }
 `;
 
 export const ArtistLikedSection = styled.div`

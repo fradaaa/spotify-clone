@@ -23,7 +23,7 @@ export const InputContainer = styled(FlexRow)`
 export const AddTracksSearchResults = styled.div`
   padding: 30px 0;
   color: ${({ theme }) => theme.onSurface};
-  height: 600px;
+  /* height: 600px; */
 `;
 
 export const PlaylistTracksContainer = styled.div`

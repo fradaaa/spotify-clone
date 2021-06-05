@@ -1,10 +1,16 @@
 import styled from "@emotion/styled";
+import { mq } from "../../styles/breakpoints";
 
 export const PlaylistIcon = styled.span`
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-right: 10px;
+  margin-right: 0;
   font-size: 25px;
+
+  ${mq["lg"]} {
+    margin-right: 10px;
+  }
 `;
 
 export const Button = styled.button`
@@ -70,6 +76,7 @@ export const RoundIconButton = styled(IconButton)`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  min-width: 50px;
   overflow: hidden;
   padding: 10px;
   margin-right: 30px;
@@ -79,5 +86,13 @@ export const RoundIconButton = styled(IconButton)`
   &:hover {
     color: #fff;
     transform: scale(1.1);
+  }
+`;
+
+export const AddPlaylistText = styled.span`
+  display: none;
+
+  ${mq["lg"]} {
+    display: inline-block;
   }
 `;

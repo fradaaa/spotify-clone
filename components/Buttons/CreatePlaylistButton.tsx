@@ -1,4 +1,4 @@
-import { Button, PlaylistIcon } from "./style";
+import { AddPlaylistText, Button, PlaylistIcon } from "./style";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useShow } from "../../Hooks";
 import { CreatePlaylistModal, Modal } from "../Modals";
@@ -12,7 +12,7 @@ const CreatePlaylistButton = () => {
         <PlaylistIcon>
           <AiOutlinePlusCircle />
         </PlaylistIcon>
-        Create Playlist
+        <AddPlaylistText>Create Playlist</AddPlaylistText>
       </Button>
       {show && (
         <Modal

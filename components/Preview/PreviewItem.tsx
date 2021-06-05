@@ -1,10 +1,12 @@
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
+import { IoMusicalNotesOutline } from "react-icons/io5";
+import { ContentHeaderPlaylistPlaceholder } from "../ContentHeader/style";
 import {
   PreviewItemContainer,
   PreviewItemCoverContainer,
-  PreviewItemTitle,
   PreviewItemSubText,
+  PreviewItemTitle,
 } from "./style";
 
 type PreviewItemProps = {
@@ -32,7 +34,13 @@ const PreviewItem = ({
   return (
     <PreviewItemContainer onClick={handleClick}>
       <PreviewItemCoverContainer style={round ? { borderRadius: "50%" } : {}}>
-        <Image src={image} alt="" width={250} height={250} />
+        {!image && type === "playlist" ? (
+          <ContentHeaderPlaylistPlaceholder>
+            <IoMusicalNotesOutline />
+          </ContentHeaderPlaylistPlaceholder>
+        ) : (
+          <Image src={image} alt="" width={250} height={250} />
+        )}
       </PreviewItemCoverContainer>
       <PreviewItemTitle title={title}>{title}</PreviewItemTitle>
       <PreviewItemSubText>{subText}</PreviewItemSubText>

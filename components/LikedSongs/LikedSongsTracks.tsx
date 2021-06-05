@@ -5,7 +5,7 @@ import TrackConfigContext, {
 import { usePagination } from "../../Hooks";
 import { ArtistSubHeaderText } from "../Artist/style";
 import { FlexRow } from "../Globals";
-import { PlaylistColumns } from "../Tracks/TrackColumnNames";
+import { PlaylistColumns } from "../Tracks/TrackRows";
 import TracksPage from "../Tracks/TracksPage";
 import { LikedSongsTracksContainer } from "./style";
 

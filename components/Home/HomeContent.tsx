@@ -17,7 +17,7 @@ const HomeContent = () => {
   });
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", height: "100%" }}>
       {artists && albums ? (
         <>
           <ArtistSubHeaderText as="h1">

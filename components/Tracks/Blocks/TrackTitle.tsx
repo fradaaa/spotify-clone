@@ -6,6 +6,7 @@ import {
   TrackCoverContainer,
   TrackTitleContainer,
   TrackTitleText,
+  TrackTitleInfo,
 } from "./style";
 
 const TrackTitle = () => {
@@ -21,13 +22,19 @@ const TrackTitle = () => {
     <TrackTitleContainer>
       {showImage && (
         <TrackCoverContainer>
-          <Image src={album.image} alt="" width={40} height={40} />
+          <Image
+            layout="fixed"
+            src={album.image}
+            alt=""
+            width={40}
+            height={40}
+          />
         </TrackCoverContainer>
       )}
-      <div>
+      <TrackTitleInfo>
         <TrackTitleText highlight={highlight}>{title}</TrackTitleText>
         {showArtists && convertArtists(artists, TrackArtistName)}
-      </div>
+      </TrackTitleInfo>
     </TrackTitleContainer>
   );
 };

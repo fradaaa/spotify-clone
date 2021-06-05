@@ -1,8 +1,15 @@
 import styled from "@emotion/styled";
+import { mq } from "../../../styles/breakpoints";
 import { FlexRow } from "../../Globals";
 import { ControlsButton } from "../Controls/style";
 
-export const StateControlsContainer = styled(FlexRow)``;
+export const StateControlsContainer = styled(FlexRow)`
+  display: none;
+
+  ${mq["lg"]} {
+    display: flex;
+  }
+`;
 
 type ControlsButtonProps = {
   highlight: boolean;

@@ -1,6 +1,6 @@
 import {
   ColumnName,
-  TrackColumnNamesContainer,
+  TrackColumnNames,
   TrackColumnNumber,
   TrackColumnTitle,
   TrackColumnAlbum,
@@ -11,7 +11,7 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 
 const PlaylistColumns = () => {
   return (
-    <TrackColumnNamesContainer>
+    <TrackColumnNames>
       <TrackColumnNumber>
         <ColumnName>#</ColumnName>
       </TrackColumnNumber>
@@ -27,7 +27,7 @@ const PlaylistColumns = () => {
       <TrackColumnExtra>
         <AiOutlineClockCircle />
       </TrackColumnExtra>
-    </TrackColumnNamesContainer>
+    </TrackColumnNames>
   );
 };
 

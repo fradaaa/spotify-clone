@@ -3,7 +3,7 @@ import TrackConfigContext, {
   TrackConfigContextType,
 } from "../../Context/TrackConfigContext";
 import { usePagination, usePlaylist } from "../../Hooks";
-import { PlaylistColumns } from "../Tracks/TrackColumnNames";
+import { PlaylistColumns } from "../Tracks/TrackRows";
 import TracksPage from "../Tracks/TracksPage";
 import { PlaylistTracksContainer } from "./style";
 

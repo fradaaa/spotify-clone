@@ -1,32 +1,27 @@
-import { Playlist } from ".prisma/client";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
-import useSWR from "swr";
+import { AiOutlineLogin } from "react-icons/ai";
 import { CreatePlaylistButton } from "../Buttons";
 import { Button } from "../Buttons/style";
-import { RingLoader } from "../Globals";
 import { libraryItems, menuItems } from "./items";
+import NavPlaylists from "./NavPlaylists";
 import {
+  NavAltLogo,
   NavContainer,
   NavItem,
   NavItemIcon,
   NavItemLink,
   NavItemText,
   NavLibrary,
-  NavList,
   NavLogo,
   NavMenu,
-  NavPlaylists,
   NavSectionName,
   StyledNav,
 } from "./style";
 
 const Nav = () => {
   const { user, isLoading } = useUser();
-  const { data } = useSWR<Playlist[]>(() =>
-    user ? "/api/me/playlists" : null
-  );
   const router = useRouter();
 
   const handleLogin = () => {
@@ -34,64 +29,55 @@ const Nav = () => {
   };
 
   return (
-    <StyledNav>
-      <NavContainer>
-        <NavLogo>
-          <img src="/logo.png" alt="logo" />
-        </NavLogo>
-        <NavMenu>
-          {menuItems.map(({ Icon, link, text }, i) => (
-            <NavItem highlight={router.asPath === link} key={i}>
-              <Link href={link}>
-                <NavItemLink>
-                  <NavItemIcon>{Icon}</NavItemIcon>
-                  <NavItemText>{text}</NavItemText>
-                </NavItemLink>
-              </Link>
-            </NavItem>
-          ))}
-        </NavMenu>
-        <NavLibrary>
-          <NavSectionName>Your Library</NavSectionName>
-          {libraryItems.map(({ Icon, link, text }, i) => (
-            <NavItem highlight={router.asPath === link} key={i}>
-              <Link href={link}>
-                <NavItemLink>
-                  <NavItemIcon>{Icon}</NavItemIcon>
-                  <NavItemText>{text}</NavItemText>
-                </NavItemLink>
-              </Link>
-            </NavItem>
-          ))}
-        </NavLibrary>
-        <NavPlaylists>
-          <NavSectionName>Playlists</NavSectionName>
-          <NavList>
-            {!user ? null : data ? (
-              data.map(({ name, id }, i) => (
-                <NavItem
-                  highlight={router.asPath === `/playlist/${id}`}
-                  key={i}
-                >
-                  <Link href={`/playlist/${id}`}>
-                    <NavItemLink>
-                      <NavItemText>{name}</NavItemText>
-                    </NavItemLink>
-                  </Link>
-                </NavItem>
-              ))
-            ) : (
-              <RingLoader />
-            )}
-          </NavList>
-        </NavPlaylists>
-        {isLoading ? null : user ? (
-          <CreatePlaylistButton />
-        ) : (
-          <Button onClick={handleLogin}>LOGIN</Button>
-        )}
-      </NavContainer>
-    </StyledNav>
+    <>
+      <StyledNav>
+        <NavContainer>
+          <NavLogo>
+            <img src="/logo.png" alt="logo" />
+          </NavLogo>
+          <NavAltLogo>
+            <img src="/icon.png" alt="logo" />
+          </NavAltLogo>
+          <NavMenu>
+            {menuItems.map(({ Icon, link, text }, i) => (
+              <NavItem highlight={router.asPath === link} key={i}>
+                <Link href={link}>
+                  <NavItemLink>
+                    <NavItemIcon>{Icon}</NavItemIcon>
+                    <NavItemText>{text}</NavItemText>
+                  </NavItemLink>
+                </Link>
+              </NavItem>
+            ))}
+          </NavMenu>
+          <NavLibrary>
+            <NavSectionName>Your Library</NavSectionName>
+            {libraryItems.map(({ Icon, link, text }, i) => (
+              <NavItem highlight={router.asPath === link} key={i}>
+                <Link href={link}>
+                  <NavItemLink>
+                    <NavItemIcon>{Icon}</NavItemIcon>
+                    <NavItemText>{text}</NavItemText>
+                  </NavItemLink>
+                </Link>
+              </NavItem>
+            ))}
+          </NavLibrary>
+          <NavPlaylists />
+          {isLoading ? null : user ? (
+            <CreatePlaylistButton />
+          ) : (
+            <Button onClick={handleLogin}>
+              <NavItemIcon>
+                <AiOutlineLogin />
+              </NavItemIcon>
+              <NavItemText>LOGIN</NavItemText>
+            </Button>
+          )}
+        </NavContainer>
+      </StyledNav>
+      <div id="playlist"></div>
+    </>
   );
 };
 

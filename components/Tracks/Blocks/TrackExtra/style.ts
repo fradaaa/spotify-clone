@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { FlexRow, StyledLink } from "../../../Globals";
-import { TrackColumnExtra } from "../../TrackColumnNames/style";
+import { TrackColumnExtra } from "../../TrackRows/style";
 
 export const TrackDurationText = styled(FlexRow)`
   margin: 0 10px;

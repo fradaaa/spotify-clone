@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { mq } from "../../styles/breakpoints";
 import { FlexRow } from "../Globals";
 
 export const NowPlayingContainer = styled(FlexRow)`
@@ -49,6 +50,18 @@ export const NowPlayingText = styled(FlexRow)`
   justify-content: center;
   width: 100%;
   color: ${({ theme }) => theme.onSurface};
-  font-size: 30px;
+  font-size: 18px;
   font-weight: 600;
+
+  ${mq["lg"]} {
+    font-size: 30px;
+  }
+`;
+
+export const ShowPlayer = styled(FlexRow)`
+  display: flex;
+
+  ${mq["md"]} {
+    display: none;
+  }
 `;
