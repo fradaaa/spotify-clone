@@ -1,5 +1,6 @@
 import Controls from "../NowPlaying/Controls/Controls";
 import PlaybackBar from "../NowPlaying/PlaybackBar/PlaybackBar";
+import StateControls from "../NowPlaying/StateControls/StateControls";
 import PlayerCover from "./PlayerCover";
 import PlayerHeader from "./PlayerHeader";
 import PlayerInfo from "./PlayerInfo";
@@ -28,6 +29,7 @@ const Player = ({ hide }: { hide: () => void }) => {
         <PlaybackBar show />
       </PlayerProgressContainer>
       <PlayerControlsContainer>
+        <StateControls show />
         <Controls size="75" />
       </PlayerControlsContainer>
     </PlayerContainer>

@@ -8,7 +8,7 @@ import {
 } from "../../../redux/slices/nowPlayingSlice";
 import { StateControlsContainer, StyledControlsButton } from "./style";
 
-const StateControls = () => {
+const StateControls = ({ show }: { show?: boolean }) => {
   const shuffle = useAppSelectior((state) => state.nowPlaying.shuffle);
   const loop = useAppSelectior((state) => state.nowPlaying.loop);
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const StateControls = () => {
   };
 
   return (
-    <StateControlsContainer>
+    <StateControlsContainer show={show}>
       <StyledControlsButton
         onClick={handleShuffle}
         aria-label="Queue"

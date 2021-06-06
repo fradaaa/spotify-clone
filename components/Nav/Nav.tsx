@@ -45,13 +45,12 @@ const Nav = () => {
                 href="https://github.com/fradaaa"
                 target="_blank"
                 rel="noreferrer"
+                style={{ display: "flex" }}
               >
-                <NavItemLink>
-                  <NavItemIcon>
-                    <AiFillGithub />
-                  </NavItemIcon>
-                  <NavItemText>Github</NavItemText>
-                </NavItemLink>
+                <NavItemIcon>
+                  <AiFillGithub />
+                </NavItemIcon>
+                <NavItemText>Github</NavItemText>
               </StyledLink>
             </NavItem>
             {menuItems.map(({ Icon, link, text }, i) => (

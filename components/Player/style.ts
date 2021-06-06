@@ -44,6 +44,7 @@ export const PlayerCoverContainer = styled(FlexRow)`
 export const PlayerInfoContainer = styled.div`
   overflow: hidden;
   flex: 1;
+  text-align: center;
 `;
 
 export const PlayerInfoTitle = styled(TextOverflow)`
@@ -63,6 +64,6 @@ export const PlayerProgressContainer = styled(FlexRow)`
 `;
 
 export const PlayerControlsContainer = styled(FlexRow)`
-  justify-content: center;
+  justify-content: space-between;
   flex: 1;
 `;

@@ -3,8 +3,12 @@ import { mq } from "../../../styles/breakpoints";
 import { FlexRow } from "../../Globals";
 import { ControlsButton } from "../Controls/style";
 
-export const StateControlsContainer = styled(FlexRow)`
-  display: none;
+type ControlsType = {
+  show?: boolean;
+};
+
+export const StateControlsContainer = styled(FlexRow)<ControlsType>`
+  display: ${({ show }) => (show ? "flex" : "none")};
 
   ${mq["lg"]} {
     display: flex;
