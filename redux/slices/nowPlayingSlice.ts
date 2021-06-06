@@ -164,6 +164,14 @@ export const nowPlayingSlice = createSlice({
     toggleLoop: (state) => {
       state.loop = !state.loop;
     },
+    playShuffle: (state, action: PayloadAction<number>) => {
+      const coppiedTracks = [...state.originalQueue];
+      const [trackToPlay] = coppiedTracks.splice(action.payload, 1);
+      shuffleArray(coppiedTracks);
+      state.queue = [trackToPlay, ...coppiedTracks];
+      state.currentTrack = state.originalQueue[action.payload];
+      state.curentIndex = 0;
+    },
   },
 });
 
@@ -180,6 +188,7 @@ export const {
   toggleShuffle,
   addToRecent,
   toggleLoop,
+  playShuffle,
 } = nowPlayingSlice.actions;
 
 export default nowPlayingSlice.reducer;

@@ -7,7 +7,7 @@ import {
   muteUnmute,
   pause,
   play,
-  setContext,
+  playShuffle,
   setIndex,
   setNowPlaying,
   toggleIsPlaying,
@@ -21,9 +21,6 @@ const AudioProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const shuffle = useAppSelectior((state) => state.nowPlaying.shuffle);
   const contextId = useAppSelectior((state) => state.nowPlaying.context.id);
   const queue = useAppSelectior((state) => state.nowPlaying.queue);
-  const originalQueue = useAppSelectior(
-    (state) => state.nowPlaying.originalQueue
-  );
   const currentTrack = useAppSelectior(
     (state) => state.nowPlaying.currentTrack
   );
@@ -64,21 +61,17 @@ const AudioProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const playContent = useCallback(
     async (id: string, type: string, index: number) => {
       if (contextId === id) {
-        /* if (shuffle) {
-          dispatch(
-            setContext({ tracks: originalQueue, context: { id, type }, index })
-          );
-        } else {
+        if (type === "queue" || !shuffle) {
           dispatch(setNowPlaying(queue[index]));
           dispatch(setIndex(index));
-        } */
-        dispatch(setNowPlaying(queue[index]));
-        dispatch(setIndex(index));
+        } else {
+          dispatch(playShuffle(index));
+        }
       } else {
         dispatch(fetchContext({ id, type, index }));
       }
     },
-    [dispatch, contextId, queue]
+    [dispatch, contextId, queue, shuffle]
   );
 
   const prevTrack = useCallback(() => {
