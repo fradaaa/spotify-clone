@@ -2,7 +2,7 @@ import { Album, Artist, Track } from ".prisma/client";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useCallback } from "react";
 import useSWR from "swr";
-import { PlayContext } from "../../Context";
+import { ColorContext, PlayContext } from "../../Context";
 import { useAudioHelpers } from "../../Hooks";
 import { RingLoader } from "../Globals";
 import LikedSongHeader from "./LikedSongHeader";
@@ -29,8 +29,10 @@ const LikedSongs = () => {
 
   return user && data ? (
     <PlayContext.Provider value={play}>
-      <LikedSongHeader userName={user.nickname!} total={data.total} />
-      <LikedSongsTracks total={data.total} />
+      <ColorContext.Provider value={"rgb(80, 56, 160)"}>
+        <LikedSongHeader userName={user.nickname!} total={data.total} />
+        <LikedSongsTracks total={data.total} />
+      </ColorContext.Provider>
     </PlayContext.Provider>
   ) : (
     <RingLoader />

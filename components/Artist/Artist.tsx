@@ -1,7 +1,7 @@
 import { useColor } from "color-thief-react";
 import Head from "next/head";
 import { useCallback } from "react";
-import { PlayContext } from "../../Context";
+import { ColorContext, PlayContext } from "../../Context";
 import { useArtist, useAudioHelpers } from "../../Hooks";
 import { ContentGradient } from "../Globals";
 import ArtistAlbums from "./ArtistAlbums";
@@ -30,13 +30,13 @@ const Artist = () => {
         <title>{`Spotify Clone - ${name}`}</title>
       </Head>
       {data && (
-        <>
+        <ColorContext.Provider value={data}>
           <ArtistHeader />
           <ContentGradient style={{ backgroundColor: data }} />
           <ArtistControls />
           <ArtistTopTracks />
           <ArtistAlbums />
-        </>
+        </ColorContext.Provider>
       )}
     </PlayContext.Provider>
   );

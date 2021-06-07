@@ -45,8 +45,39 @@ export const ContentGradient = styled.div`
   z-index: -1;
 `;
 
-export const ContentControlsContainer = styled(FlexRow)`
+export const StickyTop = styled.div`
+  min-width: 1px;
+  min-height: 1px;
+`;
+
+type StickyProps = {
+  isSticky: boolean;
+};
+
+export const ContentControlsContainer = styled(FlexRow)<StickyProps>`
   padding: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  border-bottom: ${({ theme, isSticky }) =>
+    isSticky ? `1px solid ${theme.darkBorder}` : "none"};
+`;
+
+export const ContentBG = styled(FlexRow)`
+  position: absolute;
+  inset: 0;
+  transition: background-color 0.25s ease-in;
+  z-index: -1;
+  filter: brightness(0.5);
+`;
+
+export const ContentText = styled.span<StickyProps>`
+  font-size: 24px;
+  transition: opacity 0.5s ease-in;
+  color: ${({ theme }) => theme.onSurface};
+  margin-left: 25px;
+  white-space: nowrap;
+  opacity: ${({ isSticky }) => (isSticky ? 1 : 0)};
 `;
 
 export const TextOverflow = styled.div`

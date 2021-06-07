@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { mq } from "../../styles/breakpoints";
 import { FlexCol, FlexRow, StyledLink } from "../Globals";
 
 export const StyledContentHeader = styled.header`
@@ -25,15 +26,19 @@ export const ContentHeaderCoverContainer = styled(FlexRow)`
   border-radius: var(--brsm);
   overflow: hidden;
   align-self: flex-end;
-  min-width: 200px;
+  max-width: 150px;
   margin-right: 25px;
   user-select: none;
+
+  ${mq["sm"]} {
+    max-width: 200px;
+  }
 `;
 
 export const ContentHeaderPlaylistPlaceholder = styled(FlexRow)`
   justify-content: center;
-  width: 200px;
-  height: 200px;
+  max-width: 200px;
+  max-height: 200px;
   background-color: ${({ theme }) => theme.surface4};
   color: ${({ theme }) => theme.onSurface};
   z-index: 1;
@@ -51,6 +56,7 @@ export const ContentHeaderInfoContainer = styled(FlexCol)`
   justify-content: flex-end;
   flex: 1;
   z-index: 1;
+  overflow: hidden;
 `;
 
 export const ContentHeaderType = styled.div`
@@ -60,9 +66,16 @@ export const ContentHeaderType = styled.div`
 `;
 
 export const ContentHeaderTitle = styled.h2`
-  font-size: 50px;
+  font-size: 30px;
   font-weight: 600;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  ${mq["sm"]} {
+    font-size: 50px;
+  }
 `;
 
 export const ContentHeaderDesc = styled.div`

@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Button } from "../Buttons/style";
 import { DropdownIcon, DropdownMenu, StyledDropdown } from "./style";
 
 const Dropdown = ({
   icon,
+  button,
   children,
-}: React.PropsWithChildren<{ icon: React.ReactNode }>) => {
+}: React.PropsWithChildren<{ icon: React.ReactNode; button?: boolean }>) => {
   const node = useRef<HTMLDivElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +34,7 @@ const Dropdown = ({
 
   return (
     <StyledDropdown ref={node} onClick={toggleOpen}>
-      <DropdownIcon>{icon}</DropdownIcon>
+      {button ? <Button>{icon}</Button> : <DropdownIcon>{icon}</DropdownIcon>}
       {isOpen && <DropdownMenu>{children}</DropdownMenu>}
     </StyledDropdown>
   );

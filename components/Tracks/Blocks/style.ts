@@ -48,6 +48,10 @@ export const TrackTitleText = styled.div<TrackTitleProps>`
 
 export const TrackArtistName = styled(StyledLink)`
   font-size: 14px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const TrackPlayCountContainer = styled(TrackColumnPlayCount)``;

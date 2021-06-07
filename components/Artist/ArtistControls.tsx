@@ -1,19 +1,19 @@
 import useSWR from "swr";
 import { useArtist } from "../../Hooks";
 import { FollowArtistButton, PlayContentButton } from "../Buttons";
-import { ContentControlsContainer } from "../Globals/style";
+import { ContentControls } from "../Globals";
 
 const ArtistControls = () => {
-  const { id } = useArtist();
+  const { id, name } = useArtist();
   const { data } = useSWR<boolean[]>(() =>
     id ? `/api/me/following/contains?ids=${id}` : null
   );
 
   return (
-    <ContentControlsContainer>
+    <ContentControls text={name}>
       <PlayContentButton id={id} />
       {data && <FollowArtistButton artistId={id} isFollowed={data[0]} />}
-    </ContentControlsContainer>
+    </ContentControls>
   );
 };
 

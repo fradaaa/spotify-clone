@@ -1,7 +1,7 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Head from "next/head";
 import { useCallback } from "react";
-import { PlayContext } from "../../Context";
+import { ColorContext, PlayContext } from "../../Context";
 import { useAudioHelpers, usePlaylist } from "../../Hooks";
 import AddTracks from "./AddTracks";
 import PlaylistControls from "./PlaylistControls";
@@ -22,13 +22,15 @@ const Playlist = () => {
 
   return (
     <PlayContext.Provider value={play}>
-      <Head>
-        <title>{`Spotify Clone - ${name}`}</title>
-      </Head>
-      <PlaylistHeader />
-      <PlaylistControls />
-      {user?.sub === ownerId && <AddTracks />}
-      <PlaylistTracks />
+      <ColorContext.Provider value={"#424242"}>
+        <Head>
+          <title>{`Spotify Clone - ${name}`}</title>
+        </Head>
+        <PlaylistHeader />
+        <PlaylistControls />
+        {user?.sub === ownerId && <AddTracks />}
+        <PlaylistTracks />
+      </ColorContext.Provider>
     </PlayContext.Provider>
   );
 };

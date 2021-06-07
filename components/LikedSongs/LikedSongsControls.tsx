@@ -1,11 +1,11 @@
 import { PlayContentButton } from "../Buttons";
-import { ContentControlsContainer } from "../Globals/style";
+import { ContentControls } from "../Globals";
 
 const PlaylistControls = () => {
   return (
-    <ContentControlsContainer>
+    <ContentControls text="Liked songs">
       <PlayContentButton id={"42"} />
-    </ContentControlsContainer>
+    </ContentControls>
   );
 };
 

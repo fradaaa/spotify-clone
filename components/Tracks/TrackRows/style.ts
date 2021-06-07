@@ -31,7 +31,7 @@ export const TrackColumnNumber = styled(FlexRow)`
 `;
 
 export const TrackColumnTitle = styled(FlexRow)`
-  flex: 6 0 250px;
+  flex: 6 0 150px;
   min-width: 0;
   margin-right: 15px;
 `;

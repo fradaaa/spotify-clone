@@ -1,7 +1,7 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { mq } from "../../styles/breakpoints";
-import { FlexCol, FlexRow, StyledLink } from "../Globals";
+import { FlexCol, FlexRow } from "../Globals";
 
 export const StyledNav = styled.nav`
   grid-area: nav;
@@ -9,6 +9,11 @@ export const StyledNav = styled.nav`
   width: 75px;
   overflow: hidden;
   border-right: ${({ theme }) => `1px solid ${theme.darkBorder}`};
+  display: none;
+
+  ${mq["sm"]} {
+    display: block;
+  }
 
   ${mq["lg"]} {
     width: 250px;
@@ -41,11 +46,11 @@ export const NavAltLogo = styled(FlexRow)`
   }
 `;
 
-export const NavLibrary = styled.div`
+export const NavLibraryContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-export const NavMenu = styled(NavLibrary)``;
+export const NavMenuContainer = styled(NavLibraryContainer)``;
 
 export const NavPlaylistsContainer = styled(FlexCol)`
   height: 100%;
@@ -150,4 +155,53 @@ export const NavPlaylistsDropdownContent = styled.div`
   background-color: ${({ theme }) => theme.surface2};
   width: 250px;
   z-index: 5;
+`;
+
+export const TopNavContainer = styled(FlexRow)`
+  grid-area: top-nav;
+  background-color: ${({ theme }) => theme.background};
+  justify-content: space-between;
+  display: flex;
+
+  ${mq["sm"]} {
+    display: none;
+  }
+`;
+
+export const TopNavLogo = styled(FlexRow)`
+  max-width: 150px;
+  margin-left: 15px;
+`;
+
+export const TopNavDropdown = styled.div`
+  position: absolute;
+  top: 40px;
+  right: 15px;
+  background-color: ${({ theme }) => theme.surface2};
+  border-radius: var(--brsm);
+  overflow: hidden;
+`;
+
+export const TopNavItem = styled(FlexRow)`
+  cursor: pointer;
+  border-bottom: ${({ theme }) => `1px solid ${theme.lightBorder}`};
+  transition: color 0.1s ease-in, background-color 0.1s ease-in;
+
+  &:hover {
+    color: ${({ theme }) => theme.primary};
+    background-color: ${({ theme }) => theme.surface4};
+  }
+`;
+
+export const TopNavLink = styled.a`
+  padding: 15px;
+  display: flex;
+  width: 100%;
+`;
+
+export const TopNavText = styled.span`
+  font-weight: 600;
+  font-size: 15px;
+  margin-left: 10px;
+  flex: 1;
 `;
