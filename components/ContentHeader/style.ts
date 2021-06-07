@@ -27,18 +27,20 @@ export const ContentHeaderCoverContainer = styled(FlexRow)`
   overflow: hidden;
   align-self: flex-end;
   max-width: 150px;
+  max-height: 150px;
   margin-right: 25px;
   user-select: none;
 
   ${mq["sm"]} {
     max-width: 200px;
+    max-height: 200px;
   }
 `;
 
 export const ContentHeaderPlaylistPlaceholder = styled(FlexRow)`
   justify-content: center;
-  max-width: 200px;
-  max-height: 200px;
+  width: 200px;
+  height: 200px;
   background-color: ${({ theme }) => theme.surface4};
   color: ${({ theme }) => theme.onSurface};
   z-index: 1;
