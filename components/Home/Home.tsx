@@ -1,37 +1,50 @@
-import { useUser } from "@auth0/nextjs-auth0";
-import { useRouter } from "next/dist/client/router";
-import { useState } from "react";
-import { Button } from "../Buttons/style";
-import { RingLoader } from "../Globals";
-import HomeContent from "./HomeContent";
-import { ButtonsContainer, HomeContainer } from "./style";
+import { Album, Artist } from ".prisma/client";
+import Link from "next/link";
+import { ArtistSubHeaderText } from "../Artist/style";
+import { Preview, PreviewItem } from "../Preview";
+import { HomeContainer, SearchLink } from "./style";
 
-const Home = () => {
-  const router = useRouter();
-  const [skip, setSkip] = useState(false);
-  const { user, isLoading } = useUser();
+type HomeProps = {
+  artists: Artist[];
+  albums: (Album & { artist: Artist })[];
+};
 
-  const handleLogin = () => {
-    router.push("/api/auth/login");
-  };
-
-  const handleLogout = () => {
-    router.push("/api/auth/logout");
-  };
-
+const Home = ({ artists, albums }: HomeProps) => {
   return (
     <HomeContainer>
-      {isLoading ? (
-        <RingLoader />
-      ) : user || skip ? (
-        <HomeContent />
-      ) : (
-        <ButtonsContainer>
-          <Button onClick={handleLogin}>LOGIN</Button>
-          <Button onClick={handleLogout}>LOG OUT</Button>
-          <Button onClick={() => setSkip(true)}>SKIP</Button>
-        </ButtonsContainer>
-      )}
+      <div style={{ width: "100%", height: "100%" }}>
+        <ArtistSubHeaderText as="h1">
+          Check Artists and Albums or{" "}
+          <Link href="/search">
+            <SearchLink>Search</SearchLink>
+          </Link>
+        </ArtistSubHeaderText>
+        <Preview title="Artists">
+          {artists.map(({ id, image, name }) => (
+            <PreviewItem
+              key={id}
+              id={id}
+              image={image}
+              title={name}
+              subText="Artist"
+              type="artist"
+              round
+            />
+          ))}
+        </Preview>
+        <Preview title="Albums">
+          {albums.map(({ id, image, name, artist: { name: artistName } }) => (
+            <PreviewItem
+              key={id}
+              id={id}
+              image={image}
+              title={name}
+              subText={artistName}
+              type="album"
+            />
+          ))}
+        </Preview>
+      </div>
     </HomeContainer>
   );
 };

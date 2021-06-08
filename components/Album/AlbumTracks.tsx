@@ -8,7 +8,7 @@ import AlbumControls from "./AlbumControls";
 import { AlbumTracksContainer } from "./style";
 
 const AlbumTracks = () => {
-  const { id } = useAlbum();
+  const { id, total_tracks } = useAlbum();
 
   const trackConfig = useMemo<TrackConfigContextType>(
     () => ({
@@ -26,7 +26,9 @@ const AlbumTracks = () => {
       <AlbumControls />
       <AlbumTracksContainer>
         <AlbumColumns />
-        <TracksPage url={`/api/albums/${id}/tracks`} />
+        <div style={{ minHeight: `${55 * total_tracks}px` }}>
+          <TracksPage url={`/api/albums/${id}/tracks`} />
+        </div>
       </AlbumTracksContainer>
     </TrackConfigContext.Provider>
   );

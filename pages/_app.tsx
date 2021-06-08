@@ -2,6 +2,9 @@ import { UserProvider } from "@auth0/nextjs-auth0";
 import { ThemeProvider } from "@emotion/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import Router from "next/router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 import ReactModal from "react-modal";
 import { Provider } from "react-redux";
 import "sanitize.css";
@@ -11,6 +14,11 @@ import Layout from "../components/Layout/Layout";
 import { store } from "../redux/store";
 import "../styles/global.css";
 import theme from "../styles/theme";
+
+NProgress.configure({ showSpinner: false });
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 ReactModal.setAppElement("#__next");
 

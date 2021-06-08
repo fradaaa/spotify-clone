@@ -32,7 +32,9 @@ const ArtistTopTracks = () => {
       <ArtistTrackWrapper>
         <ArtistTopTracksContainer>
           <ArtistSubHeaderText>Top tracks</ArtistSubHeaderText>
-          <TracksPage url={`/api/artists/${id}/top-tracks`} altIndex />
+          <div style={{ minHeight: "550px" }}>
+            <TracksPage url={`/api/artists/${id}/top-tracks`} altIndex />
+          </div>
         </ArtistTopTracksContainer>
         {user && <ArtistLikedSongs />}
       </ArtistTrackWrapper>

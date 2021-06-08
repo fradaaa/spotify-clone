@@ -15,6 +15,7 @@ const spin = keyframes`
 export const SpinnerContainer = styled(FlexRow)`
   justify-content: center;
   height: 100%;
+  min-height: inherit;
   flex: 1;
 `;
 
