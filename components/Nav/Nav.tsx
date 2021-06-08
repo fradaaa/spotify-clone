@@ -35,11 +35,11 @@ const Nav = () => {
           </NavAltLogo>
           <NavMenu />
           <NavLibrary />
-          <NavPlaylists />
+          {user && <NavPlaylists />}
           {isLoading ? null : user ? (
             <CreatePlaylistButton />
           ) : (
-            <Button onClick={handleLogin}>
+            <Button style={{ marginTop: "auto" }} onClick={handleLogin}>
               <NavItemIcon>
                 <AiOutlineLogin />
               </NavItemIcon>

@@ -9,7 +9,9 @@ const AlbumSuggestions = () => {
     artist: { id, name },
     id: albumId,
   } = useAlbum();
-  const { data } = useSWR<Album[]>(`/api/artists/${id}/albums`);
+  const { data } = useSWR<Album[]>(`/api/artists/${id}/albums`, {
+    revalidateOnFocus: false,
+  });
 
   if (!data) return <RingLoader />;
 

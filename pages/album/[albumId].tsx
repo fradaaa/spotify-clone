@@ -1,19 +1,68 @@
-import { useRouter } from "next/dist/client/router";
-import useSWR from "swr";
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Album from "../../components/Album/Album";
-import { RingLoader } from "../../components/Globals";
 import { AlbumContext } from "../../Context";
+import prisma from "../../lib/prisma";
 
-const AlbumPage = () => {
-  const router = useRouter();
-  const { data } = useSWR(() =>
-    router.query.albumId ? `/api/albums/${router.query.albumId}` : null
-  );
+export const getStaticPaths: GetStaticPaths = async () => {
+  const albums = await prisma.album.findMany({
+    take: 50,
+    select: {
+      id: true,
+    },
+  });
 
-  if (!data) return <RingLoader />;
+  const albumPaths = albums.map(({ id }) => ({ params: { albumId: id } }));
 
+  return {
+    paths: albumPaths,
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const requestedData = await prisma.$transaction([
+    prisma.track.aggregate({
+      where: {
+        albumId: params!.albumId as string,
+      },
+      _sum: {
+        duration: true,
+      },
+    }),
+    prisma.album.findUnique({
+      where: {
+        id: params!.albumId as string,
+      },
+      include: {
+        artist: true,
+      },
+    }),
+  ]);
+
+  if (!requestedData) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const [duration, album] = requestedData;
+
+  return {
+    props: {
+      album: {
+        ...album,
+        duration: duration._sum.duration,
+      },
+    },
+    revalidate: 60,
+  };
+};
+
+const AlbumPage = ({
+  album,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <AlbumContext.Provider value={data}>
+    <AlbumContext.Provider value={album}>
       <Album />
     </AlbumContext.Provider>
   );

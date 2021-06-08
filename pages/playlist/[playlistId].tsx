@@ -1,21 +1,76 @@
-import { useRouter } from "next/dist/client/router";
-import useSWR from "swr";
-import { RingLoader } from "../../components/Globals";
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Playlist from "../../components/Playlist/Playlist";
 import { PlaylistContext } from "../../Context";
+import prisma from "../../lib/prisma";
 
-const PlaylistPage = () => {
-  const router = useRouter();
-  const { data } = useSWR(() => {
-    return router.query.playlistId
-      ? `/api/playlists/${router.query.playlistId}`
-      : null;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const playlists = await prisma.playlist.findMany({
+    take: 50,
+    select: {
+      id: true,
+    },
   });
 
-  if (!data) return <RingLoader />;
+  const artistsPaths = playlists.map(({ id }) => ({
+    params: { playlistId: id },
+  }));
 
+  return {
+    paths: artistsPaths,
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const requestedData = await prisma.$transaction([
+    prisma.track.aggregate({
+      _count: true,
+      _sum: {
+        duration: true,
+      },
+      where: {
+        playlist_tracks: {
+          some: {
+            playlistId: params!.playlistId as string,
+          },
+        },
+      },
+    }),
+    prisma.playlist.findUnique({
+      where: {
+        id: params!.playlistId as string,
+      },
+      include: {
+        owner: true,
+      },
+    }),
+  ]);
+
+  if (!requestedData) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const [info, playlist] = requestedData;
+
+  return {
+    props: {
+      playlist: {
+        ...playlist,
+        total: info._count,
+        duration: info._sum.duration,
+      },
+    },
+    revalidate: 60,
+  };
+};
+
+const PlaylistPage = ({
+  playlist,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <PlaylistContext.Provider value={data}>
+    <PlaylistContext.Provider value={playlist}>
       <Playlist />
     </PlaylistContext.Provider>
   );

@@ -18,7 +18,7 @@ import {
 } from "./style";
 
 const TopNav = () => {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const router = useRouter();
 
   const handleLogin = () => {
@@ -30,7 +30,7 @@ const TopNav = () => {
       <TopNavLogo>
         <img src="/logo.png" alt="logo" />
       </TopNavLogo>
-      {isLoading ? null : user ? null : (
+      {user ? null : (
         <Button onClick={handleLogin}>
           <AiOutlineLogin />
         </Button>
@@ -47,26 +47,30 @@ const TopNav = () => {
       </StyledLink>
       <Dropdown icon={<AiOutlineMenu />}>
         <TopNavDropdown>
-          {menuItems.concat(libraryItems).map(({ Icon, link, text }, i) => (
-            <TopNavItem key={i}>
-              <Link href={link}>
+          {menuItems.concat(libraryItems).map(({ Icon, link, text }, i) => {
+            return user || i < 3 ? (
+              <TopNavItem key={i}>
+                <Link href={link}>
+                  <TopNavLink>
+                    <NavItemIcon>{Icon}</NavItemIcon>
+                    <TopNavText>{text}</TopNavText>
+                  </TopNavLink>
+                </Link>
+              </TopNavItem>
+            ) : null;
+          })}
+          {user && (
+            <TopNavItem>
+              <Link href="/collection/playlists">
                 <TopNavLink>
-                  <NavItemIcon>{Icon}</NavItemIcon>
-                  <TopNavText>{text}</TopNavText>
+                  <NavItemIcon>
+                    <BiRightArrow />
+                  </NavItemIcon>
+                  <TopNavText>Playlists</TopNavText>
                 </TopNavLink>
               </Link>
             </TopNavItem>
-          ))}
-          <TopNavItem>
-            <Link href="/collection/playlists">
-              <TopNavLink>
-                <NavItemIcon>
-                  <BiRightArrow />
-                </NavItemIcon>
-                <TopNavText>Playlists</TopNavText>
-              </TopNavLink>
-            </Link>
-          </TopNavItem>
+          )}
         </TopNavDropdown>
       </Dropdown>
     </TopNavContainer>

@@ -36,6 +36,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                   name="viewport"
                   content="width=device-width, initial-scale=1"
                 />
+                <meta name="author" content="Ruslan Bilalov" />
+                <meta name="description" content="Simple Spotify Clone" />
               </Head>
               <Layout>
                 <Component {...pageProps} />

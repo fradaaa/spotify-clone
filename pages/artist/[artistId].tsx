@@ -1,21 +1,50 @@
-import { useRouter } from "next/dist/client/router";
-import useSWR from "swr";
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Artist from "../../components/Artist/Artist";
-import { RingLoader } from "../../components/Globals";
 import { ArtistContext } from "../../Context";
+import prisma from "../../lib/prisma";
 
-const ArtistPage = () => {
-  const router = useRouter();
-  const { data } = useSWR(() => {
-    return router.query.artistId
-      ? `/api/artists/${router.query.artistId}`
-      : null;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const artists = await prisma.artist.findMany({
+    take: 50,
+    select: {
+      id: true,
+    },
   });
 
-  if (!data) return <RingLoader />;
+  const artistsPaths = artists.map(({ id }) => ({ params: { artistId: id } }));
 
+  return {
+    paths: artistsPaths,
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const artist = await prisma.artist.findUnique({
+    where: {
+      id: params!.artistId as string,
+    },
+  });
+
+  if (!artist) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      artist,
+    },
+    revalidate: 60,
+  };
+};
+
+const ArtistPage = ({
+  artist,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <ArtistContext.Provider value={data}>
+    <ArtistContext.Provider value={artist}>
       <Artist />
     </ArtistContext.Provider>
   );

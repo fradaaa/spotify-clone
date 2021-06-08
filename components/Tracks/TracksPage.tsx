@@ -23,7 +23,7 @@ const TracksPage = ({ page, url, altIndex, revalidate }: TracksPageProps) => {
   const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { data: tracks } = useSWR<{ items: Data[] }>(
     () => (page ? `${url}?offset=${TAKE * (page - 1)}&take=${TAKE}` : url),
-    { revalidateOnFocus: revalidate || false }
+    { revalidateOnFocus: revalidate }
   );
   const { data: saved } = useSWR<boolean[]>(
     () => {
@@ -33,7 +33,7 @@ const TracksPage = ({ page, url, altIndex, revalidate }: TracksPageProps) => {
             .join(",")}`
         : null;
     },
-    { revalidateOnFocus: revalidate || false }
+    { revalidateOnFocus: revalidate }
   );
 
   return tracks && saved ? (

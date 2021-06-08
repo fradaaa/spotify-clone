@@ -6,7 +6,9 @@ import { Preview, PreviewItem } from "../Preview";
 
 const ArtistAlbums = () => {
   const { id } = useArtist();
-  const { data } = useSWR<Album[]>(`/api/artists/${id}/albums`);
+  const { data } = useSWR<Album[]>(`/api/artists/${id}/albums`, {
+    revalidateOnFocus: false,
+  });
 
   if (!data) return <RingLoader />;
 
