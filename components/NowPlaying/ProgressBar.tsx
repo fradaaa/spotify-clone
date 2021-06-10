@@ -35,7 +35,7 @@ const ProgressBar = ({
         />
         <ProgressButton
           style={{ left: `${value}%` }}
-          aria-label=""
+          aria-label="Change level"
           show={isDragging || show}
         />
       </ProgressBackground>

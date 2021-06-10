@@ -69,7 +69,7 @@ const SaveTrackButton = ({ trackId, isSaved }: SaveTrackProps) => {
       <TrackButton
         disabled={disabled}
         onClick={handleCLick}
-        aria-label=""
+        aria-label={saved ? "Remove from Your Library" : "Save to Your Library"}
         width="25"
         height="25"
       >
@@ -81,7 +81,11 @@ const SaveTrackButton = ({ trackId, isSaved }: SaveTrackProps) => {
           isOpen={show}
           onRequestClose={disableShow}
         >
-          <LoginModal />
+          <LoginModal
+            text="Save a track"
+            subText="Login to save tracks"
+            closeModal={disableShow}
+          />
         </Modal>
       )}
     </>

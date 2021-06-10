@@ -20,7 +20,7 @@ const PlayContentButton = ({ id }: PlayContentProps) => {
   return (
     <RoundIconButton
       onClick={id === contextId ? playPause : handleClick}
-      aria-label=""
+      aria-label="Play content"
       width="30"
       height="30"
     >

@@ -12,7 +12,7 @@ const EditPlaylistButton = () => {
       <RoundIconButton
         onClick={enableShow}
         type="button"
-        aria-label=""
+        aria-label="Edit playlist"
         width="30"
         height="30"
       >

@@ -83,7 +83,11 @@ const FollowArtistButton = ({ artistId, isFollowed }: FollowArtistProps) => {
           isOpen={show}
           onRequestClose={disableShow}
         >
-          <LoginModal />
+          <LoginModal
+            text="Follow an artist"
+            subText="Login to follow artists"
+            closeModal={disableShow}
+          />
         </Modal>
       )}
     </>

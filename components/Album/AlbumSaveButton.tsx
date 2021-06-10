@@ -69,7 +69,7 @@ const AlbumSaveButton = ({ albumId, isSaved }: AlbumSaveButtonProps) => {
       <AlbumButton
         disabled={disabled}
         onClick={handleCLick}
-        aria-label=""
+        aria-label={saved ? "Remove from Your Library" : "Save to Your Library"}
         width="40"
         height="40"
       >
@@ -81,7 +81,11 @@ const AlbumSaveButton = ({ albumId, isSaved }: AlbumSaveButtonProps) => {
           isOpen={show}
           onRequestClose={disableShow}
         >
-          <LoginModal />
+          <LoginModal
+            text="Save an album"
+            subText="Login to save albums"
+            closeModal={disableShow}
+          />
         </Modal>
       )}
     </>
