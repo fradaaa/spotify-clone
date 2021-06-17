@@ -4,15 +4,12 @@ import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import { BiRightArrow } from "react-icons/bi";
 import useSWR from "swr";
-import { RingLoader } from "../Globals";
+import { RingLoader } from "../../Globals";
+import { NavItem, NavItemIcon, NavItemLink, NavItemText } from "../style";
 import {
-  NavItem,
-  NavItemIcon,
-  NavItemLink,
-  NavItemText,
   NavList,
   NavPlaylistsContainer,
-  NavPlaylistsDropdown,
+  NavPlaylistsMobile,
   NavSectionName,
 } from "./style";
 
@@ -31,7 +28,7 @@ const NavPlaylists = () => {
           {!user ? null : data ? (
             data.map(({ name, id }, i) => (
               <NavItem highlight={router.asPath === `/playlist/${id}`} key={i}>
-                <Link href={`/playlist/${id}`}>
+                <Link href={`/playlist/${id}`} passHref>
                   <NavItemLink>
                     <NavItemText>{name}</NavItemText>
                   </NavItemLink>
@@ -43,9 +40,9 @@ const NavPlaylists = () => {
           )}
         </NavList>
       </NavPlaylistsContainer>
-      <NavPlaylistsDropdown>
+      <NavPlaylistsMobile>
         <NavItem highlight={router.asPath === "/collection/playlists"}>
-          <Link href="/collection/playlists">
+          <Link href="/collection/playlists" passHref>
             <NavItemLink>
               <NavItemIcon>
                 <BiRightArrow />
@@ -53,7 +50,7 @@ const NavPlaylists = () => {
             </NavItemLink>
           </Link>
         </NavItem>
-      </NavPlaylistsDropdown>
+      </NavPlaylistsMobile>
     </>
   );
 };

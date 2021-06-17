@@ -1,13 +1,11 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import useSWR from "swr";
 import { PlayContext } from "../../Context";
-import TrackConfigContext, {
-  TrackConfigContextType,
-} from "../../Context/TrackConfigContext";
 import { useAudioHelpers } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
 import { ArtistSubHeaderText } from "../Artist/style";
 import DisplayTrack from "../Tracks/Track";
+import TrackConfigProvider from "../Tracks/TrackConfigProvider";
 import { QueueContainer, QueueSection } from "./style";
 
 const RecentlyPlayed = () => {
@@ -34,21 +32,9 @@ const RecentlyPlayed = () => {
     [playContent, id, type]
   );
 
-  const trackConfig = useMemo<TrackConfigContextType>(
-    () => ({
-      showArtists: true,
-      showImage: true,
-      showPlayCount: false,
-      showPlay: true,
-      showDate: false,
-      onlyPlay: true,
-    }),
-    []
-  );
-
   return (
-    <TrackConfigContext.Provider value={trackConfig}>
-      <PlayContext.Provider value={play}>
+    <PlayContext.Provider value={play}>
+      <TrackConfigProvider onlyPlay>
         <QueueContainer>
           <ArtistSubHeaderText as="h1">Recently Played</ArtistSubHeaderText>
           {saved && (
@@ -68,8 +54,8 @@ const RecentlyPlayed = () => {
             </QueueSection>
           )}
         </QueueContainer>
-      </PlayContext.Provider>
-    </TrackConfigContext.Provider>
+      </TrackConfigProvider>
+    </PlayContext.Provider>
   );
 };
 

@@ -1,10 +1,8 @@
-import React, { useMemo, useRef, useState } from "react";
-import TrackConfigContext, {
-  TrackConfigContextType,
-} from "../../Context/TrackConfigContext";
+import React, { useRef, useState } from "react";
 import { usePagination } from "../../Hooks";
 import { ArtistSubHeaderText } from "../Artist/style";
 import { FlexRow } from "../Globals";
+import TrackConfigProvider from "../Tracks/TrackConfigProvider";
 import { PlaylistColumns } from "../Tracks/TrackRows";
 import TracksPage from "../Tracks/TracksPage";
 import { LikedSongsTracksContainer } from "./style";
@@ -18,21 +16,10 @@ const LikedSongsTracks = ({ total }: { total: number }) => {
     tracks.push(<TracksPage key={i} page={i} url="/api/me/tracks" altIndex />);
   }
 
-  const trackConfig = useMemo<TrackConfigContextType>(
-    () => ({
-      showArtists: true,
-      showImage: true,
-      showPlayCount: false,
-      showPlay: true,
-      showDate: true,
-    }),
-    []
-  );
-
   usePagination({ targetRef: node, callback: () => setCnt(cnt + 1) });
 
   return (
-    <TrackConfigContext.Provider value={trackConfig}>
+    <TrackConfigProvider showDate>
       <LikedSongsTracksContainer>
         <PlaylistColumns />
         {tracks}
@@ -45,7 +32,7 @@ const LikedSongsTracks = ({ total }: { total: number }) => {
           </FlexRow>
         )}
       </LikedSongsTracksContainer>
-    </TrackConfigContext.Provider>
+    </TrackConfigProvider>
   );
 };
 

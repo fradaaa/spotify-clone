@@ -25,3 +25,5 @@ export const TrackCoverButton = styled(FlexRow)<TrackCoverButtonProps>`
   z-index: 1;
   background-color: ${({ show }) => show && "rgba(0,0,0,0.5)"};
 `;
+
+export const TrackArtistsContainer = styled(FlexRow)``;

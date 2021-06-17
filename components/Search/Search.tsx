@@ -1,11 +1,9 @@
 import { Album, Artist, Track } from ".prisma/client";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
-import TrackConfigContext, {
-  TrackConfigContextType,
-} from "../../Context/TrackConfigContext";
 import { useDebounce } from "../../Hooks";
 import { SearchInput } from "../Forms";
+import TrackConfigProvider from "../Tracks/TrackConfigProvider";
 import Empty from "./Empty";
 import { SearchHeader, SearchResultsContainer } from "./style";
 import {
@@ -32,6 +30,10 @@ const Search = () => {
     }
   );
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchString(e.target.value);
   }, []);
@@ -40,26 +42,10 @@ const Search = () => {
     setSearchString("");
   }, []);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
-  const trackConfig = useMemo<TrackConfigContextType>(
-    () => ({
-      showArtists: true,
-      showImage: true,
-      showPlayCount: false,
-      showPlay: true,
-      showDate: false,
-      onlyPlay: true,
-    }),
-    []
-  );
-
   return (
-    <TrackConfigContext.Provider value={trackConfig}>
+    <TrackConfigProvider onlyPlay>
       <SearchHeader>
-        <div style={{ width: "30%" }}>
+        <div style={{ minWidth: "250px" }}>
           <SearchInput
             ref={inputRef}
             handleChange={handleChange}
@@ -81,7 +67,7 @@ const Search = () => {
           ? isEmpty(data) && <Empty query={debouncedSearch} />
           : null}
       </SearchResultsContainer>
-    </TrackConfigContext.Provider>
+    </TrackConfigProvider>
   );
 };
 

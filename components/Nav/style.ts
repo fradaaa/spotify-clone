@@ -1,7 +1,8 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { mq } from "../../styles/breakpoints";
-import { FlexCol, FlexRow } from "../Globals";
+import { Button } from "../Buttons/style";
+import { FlexCol, FlexRow, StyledLink } from "../Globals";
 
 export const StyledNav = styled.nav`
   grid-area: nav;
@@ -46,35 +47,8 @@ export const NavAltLogo = styled(FlexRow)`
   }
 `;
 
-export const NavLibraryContainer = styled.div`
-  margin-bottom: 20px;
-`;
-
-export const NavMenuContainer = styled(NavLibraryContainer)``;
-
-export const NavPlaylistsContainer = styled(FlexCol)`
-  height: 100%;
-  overflow-y: hidden;
-  display: none;
-
-  ${mq["lg"]} {
-    display: flex;
-  }
-`;
-
-export const NavList = styled.div`
-  overflow-y: auto;
-  height: 100%;
-  scrollbar-width: thin;
-  flex: 1;
-`;
-
-const animateGradient = keyframes`
-  from {
-    background-position: 100% 50%;
-  } to {
-    background-position: 0% 50%;
-  }
+export const NavLoginButton = styled(Button)`
+  margin-top: "auto";
 `;
 
 type NavItemProps = {
@@ -101,7 +75,15 @@ export const NavItem = styled.div<NavItemProps>`
   }
 `;
 
-export const NavItemLink = styled.a`
+const animateGradient = keyframes`
+  from {
+    background-position: 100% 50%;
+  } to {
+    background-position: 0% 50%;
+  }
+`;
+
+export const NavItemLink = styled(StyledLink)`
   display: flex;
 `;
 
@@ -124,84 +106,4 @@ export const NavItemText = styled.span`
   ${mq["lg"]} {
     display: inline-block;
   }
-`;
-
-export const NavSectionName = styled(NavItem)`
-  color: ${({ theme }) => `${theme.secondary} !important`};
-  font-weight: 600;
-  margin-bottom: 10px;
-  cursor: default;
-  display: none;
-
-  ${mq["lg"]} {
-    display: flex;
-  }
-`;
-
-export const NavPlaylistsDropdown = styled(FlexRow)`
-  display: flex;
-  justify-content: stretch;
-  margin: 20px 0 auto;
-
-  ${mq["lg"]} {
-    display: none;
-  }
-`;
-
-export const NavPlaylistsDropdownContent = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: ${({ theme }) => theme.surface2};
-  width: 250px;
-  z-index: 5;
-`;
-
-export const TopNavContainer = styled(FlexRow)`
-  grid-area: top-nav;
-  background-color: ${({ theme }) => theme.background};
-  justify-content: space-between;
-  display: flex;
-
-  ${mq["sm"]} {
-    display: none;
-  }
-`;
-
-export const TopNavLogo = styled(FlexRow)`
-  max-width: 150px;
-  margin-left: 15px;
-`;
-
-export const TopNavDropdown = styled.div`
-  position: absolute;
-  top: 40px;
-  right: 15px;
-  background-color: ${({ theme }) => theme.surface2};
-  border-radius: var(--brsm);
-  overflow: hidden;
-`;
-
-export const TopNavItem = styled(FlexRow)`
-  cursor: pointer;
-  border-bottom: ${({ theme }) => `1px solid ${theme.lightBorder}`};
-  transition: color 0.1s ease-in, background-color 0.1s ease-in;
-
-  &:hover {
-    color: ${({ theme }) => theme.primary};
-    background-color: ${({ theme }) => theme.surface4};
-  }
-`;
-
-export const TopNavLink = styled.a`
-  padding: 15px;
-  display: flex;
-  width: 100%;
-`;
-
-export const TopNavText = styled.span`
-  font-weight: 600;
-  font-size: 15px;
-  margin-left: 10px;
-  flex: 1;
 `;

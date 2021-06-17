@@ -2,10 +2,12 @@ import { PreviewContainer, PreviewList, PreviewTitle } from "./style";
 
 type PreviewProps = {
   title: string;
-  children: React.ReactNode;
 };
 
-const Preview = ({ title, children }: PreviewProps) => {
+const Preview = ({
+  title,
+  children,
+}: React.PropsWithChildren<PreviewProps>) => {
   return (
     <PreviewContainer>
       <PreviewTitle>{title}</PreviewTitle>

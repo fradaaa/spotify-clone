@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 
-export default async (_: NextApiRequest, res: NextApiResponse) => {
+const handleArtistAlbums = async (_: NextApiRequest, res: NextApiResponse) => {
   const artistAlbums = await prisma.album.findMany({
     take: 10,
     include: {
@@ -11,3 +11,5 @@ export default async (_: NextApiRequest, res: NextApiResponse) => {
 
   res.status(200).json(artistAlbums);
 };
+
+export default handleArtistAlbums;

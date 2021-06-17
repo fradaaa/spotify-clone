@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handlePlaylistTracks = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
   const { playlistId } = req.query;
 
   if (req.method === "GET") {
@@ -95,3 +98,5 @@ const handlePUT = async (
 
   res.status(200).json(track);
 };
+
+export default handlePlaylistTracks;

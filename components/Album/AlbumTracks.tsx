@@ -1,7 +1,5 @@
-import { useMemo } from "react";
-import { TrackConfigContext } from "../../Context";
-import { TrackConfigContextType } from "../../Context/TrackConfigContext";
 import { useAlbum } from "../../Hooks";
+import TrackConfigProvider from "../Tracks/TrackConfigProvider";
 import { AlbumColumns } from "../Tracks/TrackRows";
 import TracksPage from "../Tracks/TracksPage";
 import AlbumControls from "./AlbumControls";
@@ -10,19 +8,8 @@ import { AlbumTracksContainer } from "./style";
 const AlbumTracks = () => {
   const { id, total_tracks } = useAlbum();
 
-  const trackConfig = useMemo<TrackConfigContextType>(
-    () => ({
-      showArtists: true,
-      showImage: true,
-      showPlayCount: true,
-      showPlay: true,
-      showDate: false,
-    }),
-    []
-  );
-
   return (
-    <TrackConfigContext.Provider value={trackConfig}>
+    <TrackConfigProvider showPlayCount>
       <AlbumControls />
       <AlbumTracksContainer>
         <AlbumColumns />
@@ -30,7 +17,7 @@ const AlbumTracks = () => {
           <TracksPage url={`/api/albums/${id}/tracks`} />
         </div>
       </AlbumTracksContainer>
-    </TrackConfigContext.Provider>
+    </TrackConfigProvider>
   );
 };
 

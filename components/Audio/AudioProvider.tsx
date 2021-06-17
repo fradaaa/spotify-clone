@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { AudioHelpersContext, QueueContext } from "../../Context";
 import { useAppDispatch, useAppSelectior } from "../../redux/hooks";
 import {
@@ -15,7 +15,7 @@ import {
   updateVolume,
 } from "../../redux/slices/nowPlayingSlice";
 
-const AudioProvider = ({ children }: React.PropsWithChildren<unknown>) => {
+const AudioProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const audio = useRef<HTMLAudioElement>(null);
   const loop = useAppSelectior((state) => state.nowPlaying.loop);
   const shuffle = useAppSelectior((state) => state.nowPlaying.shuffle);
@@ -84,13 +84,13 @@ const AudioProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   }, [queue, currentIndex, dispatch]);
 
   const nextTrack = useCallback(() => {
-    if (currentIndex === queue.length - 1) {
-      dispatch(pause());
+    if (queue.length === 0 || currentIndex === queue.length - 1) {
+      playPause();
     } else {
       dispatch(setNowPlaying(queue[currentIndex + 1]));
       dispatch(setIndex(currentIndex + 1));
     }
-  }, [queue, currentIndex, dispatch]);
+  }, [queue, currentIndex, playPause, dispatch]);
 
   const changeVolume = useCallback((newVolume: number /* percent */) => {
     if (audio.current) {

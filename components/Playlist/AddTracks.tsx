@@ -1,15 +1,13 @@
 import { Album, Artist, Track } from ".prisma/client";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import useSWR from "swr";
 import { MutateContext } from "../../Context";
-import TrackConfigContext, {
-  TrackConfigContextType,
-} from "../../Context/TrackConfigContext";
 import { useDebounce } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
 import { SearchInput } from "../Forms";
 import Empty from "../Search/Empty";
 import DisplayTrack from "../Tracks/Track";
+import TrackConfigProvider from "../Tracks/TrackConfigProvider";
 import {
   AddTracksContainer,
   AddTrackSearchContainer,
@@ -40,19 +38,6 @@ const AddTracks = () => {
     setSearchString("");
   }, []);
 
-  const trackConfig = useMemo<TrackConfigContextType>(
-    () => ({
-      showArtists: true,
-      showImage: true,
-      showPlayCount: false,
-      showPlay: true,
-      showDate: false,
-      onlyPlay: true,
-      playlist: true,
-    }),
-    []
-  );
-
   const mutateSearch = useCallback(
     (trackId: string) => {
       mutate((data) => {
@@ -64,11 +49,11 @@ const AddTracks = () => {
 
   return (
     <MutateContext.Provider value={mutateSearch}>
-      <TrackConfigContext.Provider value={trackConfig}>
+      <TrackConfigProvider onlyPlay playlist>
         <AddTracksContainer>
           <AddTrackSearchContainer>
             <AddTracksText>
-              Let's find something for your playlist
+              Let&apos;s find something for your playlist
             </AddTracksText>
             <InputContainer>
               <SearchInput
@@ -96,7 +81,7 @@ const AddTracks = () => {
             ) : null}
           </AddTracksSearchResults>
         </AddTracksContainer>
-      </TrackConfigContext.Provider>
+      </TrackConfigProvider>
     </MutateContext.Provider>
   );
 };

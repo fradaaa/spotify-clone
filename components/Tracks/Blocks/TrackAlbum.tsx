@@ -9,7 +9,7 @@ const TrackAlbum = () => {
 
   return (
     <TrackAlbumContainer>
-      <Link href={`/album/${id}`}>
+      <Link href={`/album/${id}`} passHref>
         <TrackAlbumText>{name}</TrackAlbumText>
       </Link>
     </TrackAlbumContainer>

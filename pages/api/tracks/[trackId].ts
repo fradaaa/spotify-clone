@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handleTrack = async (req: NextApiRequest, res: NextApiResponse) => {
   const { trackId } = req.query;
 
   const track = await prisma.track.findUnique({
@@ -16,3 +16,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   res.status(200).json(track);
 };
+
+export default handleTrack;

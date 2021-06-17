@@ -27,7 +27,7 @@ const TrackMenu = () => {
           <TrackMenuArtists artists={artists} />
         ) : (
           <TrackMenuOption>
-            <Link href={`/artist/${artists[0].id}`}>
+            <Link href={`/artist/${artists[0].id}`} passHref>
               <TrackMenuLink href={`/artist/${artists[0].id}`}>
                 Go to artist
               </TrackMenuLink>
@@ -35,7 +35,7 @@ const TrackMenu = () => {
           </TrackMenuOption>
         )}
         <TrackMenuOption>
-          <Link href={`/album/${album.id}`}>
+          <Link href={`/album/${album.id}`} passHref>
             <TrackMenuLink href={`/album/${album.id}`}>
               Go to album
             </TrackMenuLink>
@@ -57,7 +57,7 @@ const TrackMenuArtists = ({ artists }: { artists: Artist[] }) => {
         <TrackMenuOptionsListContainer>
           {artists.map(({ id, name }) => (
             <TrackMenuOption key={id}>
-              <Link href={`/artist/${id}`}>
+              <Link href={`/artist/${id}`} passHref>
                 <TrackMenuLink href={`/artist/${id}`}>{name}</TrackMenuLink>
               </Link>
             </TrackMenuOption>

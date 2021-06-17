@@ -1,8 +1,6 @@
-import { useMemo, useRef, useState } from "react";
-import TrackConfigContext, {
-  TrackConfigContextType,
-} from "../../Context/TrackConfigContext";
+import { useRef, useState } from "react";
 import { usePagination, usePlaylist } from "../../Hooks";
+import TrackConfigProvider from "../Tracks/TrackConfigProvider";
 import { PlaylistColumns } from "../Tracks/TrackRows";
 import TracksPage from "../Tracks/TracksPage";
 import { PlaylistTracksContainer } from "./style";
@@ -25,27 +23,16 @@ const PlaylistTracks = () => {
     );
   }
 
-  const trackConfig = useMemo<TrackConfigContextType>(
-    () => ({
-      showArtists: true,
-      showImage: true,
-      showPlayCount: false,
-      showPlay: true,
-      showDate: true,
-    }),
-    []
-  );
-
   usePagination({ targetRef: node, callback: () => setCnt(cnt + 1) });
 
   return (
-    <TrackConfigContext.Provider value={trackConfig}>
+    <TrackConfigProvider showDate>
       <PlaylistTracksContainer>
         <PlaylistColumns />
         {tracks}
         {total > tracks.length * 50 && <div ref={node}></div>}
       </PlaylistTracksContainer>
-    </TrackConfigContext.Provider>
+    </TrackConfigProvider>
   );
 };
 

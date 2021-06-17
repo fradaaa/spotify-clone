@@ -2,7 +2,7 @@ import { getSession } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handleSavedTracks = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = getSession(req, res);
 
   if (req.method === "GET") {
@@ -96,3 +96,5 @@ const handleDELETE = async (
 
   res.status(200).json(deletedTrack);
 };
+
+export default handleSavedTracks;

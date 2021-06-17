@@ -6,7 +6,6 @@ declare module "@emotion/react" {
     primary: string;
     primaryVariant: string;
     secondary: string;
-    secondaryVariant: string;
     background: string;
     surface: string;
     surface2: string;
@@ -16,9 +15,6 @@ declare module "@emotion/react" {
     darkBorder: string;
     error: string;
     onPrimary: string;
-    onPrimaryVariant: string;
-    onSecondary: string;
-    onBackground: string;
     onSurface: string;
     onError: string;
   }

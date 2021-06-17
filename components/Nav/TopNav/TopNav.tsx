@@ -1,16 +1,17 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/dist/client/router";
+import Image from "next/image";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineLogin, AiOutlineMenu } from "react-icons/ai";
 import { BiRightArrow } from "react-icons/bi";
-import { Button } from "../Buttons/style";
-import Dropdown from "../Dropdown/Dropdown";
-import { StyledLink } from "../Globals";
-import { libraryItems, menuItems } from "./items";
+import { Button } from "../../Buttons/style";
+import Dropdown from "../../Dropdown/Dropdown";
+import { libraryItems, menuItems } from "../items";
+import { NavItemIcon } from "../style";
 import {
-  NavItemIcon,
   TopNavContainer,
   TopNavDropdown,
+  TopNavGithubLink,
   TopNavItem,
   TopNavLink,
   TopNavLogo,
@@ -28,29 +29,28 @@ const TopNav = () => {
   return (
     <TopNavContainer as="nav">
       <TopNavLogo>
-        <img src="/logo.png" alt="logo" />
+        <Image src="/logo.png" width={160} height={60} alt="logo" />
       </TopNavLogo>
       {user ? null : (
         <Button onClick={handleLogin}>
           <AiOutlineLogin />
         </Button>
       )}
-      <StyledLink
+      <TopNavGithubLink
         href="https://github.com/fradaaa"
         target="_blank"
         rel="noreferrer"
-        style={{ display: "flex", marginLeft: "auto" }}
       >
         <NavItemIcon>
           <AiFillGithub />
         </NavItemIcon>
-      </StyledLink>
+      </TopNavGithubLink>
       <Dropdown icon={<AiOutlineMenu />}>
         <TopNavDropdown>
           {menuItems.concat(libraryItems).map(({ Icon, link, text }, i) => {
             return user || i < 3 ? (
               <TopNavItem key={i}>
-                <Link href={link}>
+                <Link href={link} passHref>
                   <TopNavLink>
                     <NavItemIcon>{Icon}</NavItemIcon>
                     <TopNavText>{text}</TopNavText>
@@ -61,7 +61,7 @@ const TopNav = () => {
           })}
           {user && (
             <TopNavItem>
-              <Link href="/collection/playlists">
+              <Link href="/collection/playlists" passHref>
                 <TopNavLink>
                   <NavItemIcon>
                     <BiRightArrow />

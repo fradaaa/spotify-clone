@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handleAlbum = async (req: NextApiRequest, res: NextApiResponse) => {
   const { albumId } = req.query;
 
   const requestedData = await prisma.$transaction([
@@ -28,3 +28,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   res.status(200).json(data);
 };
+
+export default handleAlbum;

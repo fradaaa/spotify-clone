@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handleArtistTopTracks = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
   const { artistId } = req.query;
 
   const artistTopTracks = await prisma.track.findMany({
@@ -16,3 +19,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   res.status(200).json({ items: artistTopTracks });
 };
+
+export default handleArtistTopTracks;

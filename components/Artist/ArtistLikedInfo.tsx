@@ -28,7 +28,7 @@ const ArtistLikedSongs = () => {
           <Image layout="fixed" src={image} alt="" width={70} height={70} />
         </ArtistLikedImage>
         <ArtistLikedSection>
-          <Link href={`/artist/${id}/liked`}>
+          <Link href={`/artist/${id}/liked`} passHref>
             <ArtistLikedLink>{`You've liked ${data} songs`}</ArtistLikedLink>
           </Link>
           <ArtistLikedText>{`By ${name}`}</ArtistLikedText>

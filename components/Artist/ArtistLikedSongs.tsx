@@ -1,15 +1,13 @@
 import { Artist } from ".prisma/client";
 import { useRouter } from "next/dist/client/router";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import useSWR from "swr";
 import { ColorContext, PlayContext } from "../../Context";
-import TrackConfigContext, {
-  TrackConfigContextType,
-} from "../../Context/TrackConfigContext";
 import { useAudioHelpers } from "../../Hooks";
 import { PlayContentButton } from "../Buttons";
-import { RingLoader } from "../Globals";
-import { ContentControls } from "../Globals";
+import { ContentControls, RingLoader } from "../Globals";
+import TrackConfigProvider from "../Tracks/TrackConfigProvider";
+import { PlaylistColumns } from "../Tracks/TrackRows";
 import TracksPage from "../Tracks/TracksPage";
 import { ArtistSubHeaderText, ArtistTopTracksContainer } from "./style";
 
@@ -29,31 +27,21 @@ const ArtistLikedSongs = () => {
     [router.query.artistId, playContent]
   );
 
-  const trackConfig = useMemo<TrackConfigContextType>(
-    () => ({
-      showArtists: true,
-      showImage: true,
-      showPlayCount: false,
-      showPlay: true,
-      showDate: true,
-    }),
-    []
-  );
-
   return data ? (
-    <TrackConfigContext.Provider value={trackConfig}>
-      <PlayContext.Provider value={play}>
+    <PlayContext.Provider value={play}>
+      <TrackConfigProvider showDate>
         <ColorContext.Provider value="#424242">
           <ContentControls text={`Liked songs by ${data.name}`}>
             <PlayContentButton id={router.query.artistId as string} />
           </ContentControls>
           <ArtistTopTracksContainer>
             <ArtistSubHeaderText>{`Liked Songs By ${data.name}`}</ArtistSubHeaderText>
+            <PlaylistColumns />
             <TracksPage url={`/api/artists/${data.id}/liked`} altIndex />
           </ArtistTopTracksContainer>
         </ColorContext.Provider>
-      </PlayContext.Provider>
-    </TrackConfigContext.Provider>
+      </TrackConfigProvider>
+    </PlayContext.Provider>
   ) : (
     <RingLoader />
   );

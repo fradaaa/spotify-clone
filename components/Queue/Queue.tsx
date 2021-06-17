@@ -1,13 +1,11 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import useSWR from "swr";
 import { PlayContext } from "../../Context";
-import TrackConfigContext, {
-  TrackConfigContextType,
-} from "../../Context/TrackConfigContext";
 import { useAudioHelpers } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
 import { ArtistSubHeaderText } from "../Artist/style";
 import DisplayTrack from "../Tracks/Track";
+import TrackConfigProvider from "../Tracks/TrackConfigProvider";
 import { renderSingleTrack } from "../Tracks/utils";
 import { QueueContainer, QueueSection, QueueSubHeader } from "./style";
 
@@ -34,20 +32,9 @@ const Queue = () => {
     [playContent, id]
   );
 
-  const trackConfig = useMemo<TrackConfigContextType>(
-    () => ({
-      showArtists: true,
-      showImage: true,
-      showPlayCount: false,
-      showPlay: true,
-      showDate: false,
-    }),
-    []
-  );
-
   return (
-    <TrackConfigContext.Provider value={trackConfig}>
-      <PlayContext.Provider value={play}>
+    <PlayContext.Provider value={play}>
+      <TrackConfigProvider>
         <QueueContainer>
           <ArtistSubHeaderText as="h1">Queue</ArtistSubHeaderText>
           {saved && (
@@ -63,26 +50,28 @@ const Queue = () => {
                     1
                   )}
               </QueueSection>
-              <QueueSection>
-                <QueueSubHeader>Next up</QueueSubHeader>
-                {queue.map((track, i) => {
-                  return i < currentIndex + 1 ? null : (
-                    <DisplayTrack
-                      key={track.id}
-                      track={track}
-                      highlight={track.id === nowId}
-                      isSaved={saved[i]}
-                      index={i}
-                      altIndex={i - currentIndex + 1}
-                    />
-                  );
-                })}
-              </QueueSection>
+              {currentIndex + 1 === queue.length ? null : (
+                <QueueSection>
+                  <QueueSubHeader>Next up</QueueSubHeader>
+                  {queue.map((track, i) => {
+                    return i < currentIndex + 1 ? null : (
+                      <DisplayTrack
+                        key={track.id}
+                        track={track}
+                        highlight={track.id === nowId}
+                        isSaved={saved[i]}
+                        index={i}
+                        altIndex={i - currentIndex + 1}
+                      />
+                    );
+                  })}
+                </QueueSection>
+              )}
             </>
           )}
         </QueueContainer>
-      </PlayContext.Provider>
-    </TrackConfigContext.Provider>
+      </TrackConfigProvider>
+    </PlayContext.Provider>
   );
 };
 

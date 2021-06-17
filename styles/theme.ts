@@ -3,7 +3,6 @@ const theme = {
   primary: "#1db954",
   primaryVariant: "#15883e",
   secondary: "#db4064",
-  secondaryVariant: "#7c4dff",
   background: "#121212",
   surface: "#1d1d1d",
   surface2: "#2a2a2a",
@@ -13,9 +12,6 @@ const theme = {
   darkBorder: "#424242",
   error: "#cf6679",
   onPrimary: "#000",
-  onPrimaryVariant: "#fff",
-  onSecondary: "#000",
-  onBackground: "#fff",
   onSurface: "#fff",
   onError: "#000",
 };

@@ -1,9 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0";
-import { useMemo } from "react";
-import TrackConfigContext, {
-  TrackConfigContextType,
-} from "../../Context/TrackConfigContext";
 import { useArtist } from "../../Hooks";
+import TrackConfigProvider from "../Tracks/TrackConfigProvider";
 import TracksPage from "../Tracks/TracksPage";
 import ArtistLikedSongs from "./ArtistLikedInfo";
 import {
@@ -16,19 +13,8 @@ const ArtistTopTracks = () => {
   const { id } = useArtist();
   const { user } = useUser();
 
-  const trackConfig = useMemo<TrackConfigContextType>(
-    () => ({
-      showArtists: true,
-      showImage: true,
-      showPlayCount: true,
-      showPlay: true,
-      showDate: false,
-    }),
-    []
-  );
-
   return (
-    <TrackConfigContext.Provider value={trackConfig}>
+    <TrackConfigProvider showPlayCount>
       <ArtistTrackWrapper>
         <ArtistTopTracksContainer>
           <ArtistSubHeaderText>Top tracks</ArtistSubHeaderText>
@@ -38,7 +24,7 @@ const ArtistTopTracks = () => {
         </ArtistTopTracksContainer>
         {user && <ArtistLikedSongs />}
       </ArtistTrackWrapper>
-    </TrackConfigContext.Provider>
+    </TrackConfigProvider>
   );
 };
 

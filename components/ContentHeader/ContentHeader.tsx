@@ -74,7 +74,7 @@ const ContentHeader = ({
               <Image src={infoImage} alt="" width={25} height={25} />
             </ContentHeaderInfoPhoto>
           )}
-          <Link href={ownerLink}>
+          <Link href={ownerLink} passHref>
             <ContentHeaderName>{infoName}</ContentHeaderName>
           </Link>
           {year && <ContentHeaderInfoText>{year}</ContentHeaderInfoText>}

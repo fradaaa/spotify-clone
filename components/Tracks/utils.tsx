@@ -2,6 +2,7 @@ import { Artist } from ".prisma/client";
 import { differenceInDays, format, formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
 import { CurrentTrack } from "../../redux/slices/nowPlayingSlice";
+import { TrackArtistsContainer } from "./style";
 import DisplayTrack from "./Track";
 
 export const formatAddedAt = (addedAt: Date) => {
@@ -29,16 +30,16 @@ export const convertTrackDuration = (duration: number) => {
 
 export const convertArtists = (artists: Artist[], Wrapper: React.FC) => {
   return (
-    <div>
+    <TrackArtistsContainer>
       {artists.map(({ id, name }, i) => (
-        <Link key={id} href={`/artist/${id}`}>
+        <Link key={id} href={`/artist/${id}`} passHref>
           <Wrapper>
             {name}
             {i !== artists.length - 1 && ", "}
           </Wrapper>
         </Link>
       ))}
-    </div>
+    </TrackArtistsContainer>
   );
 };
 

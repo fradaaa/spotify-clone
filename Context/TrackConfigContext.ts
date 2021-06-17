@@ -6,8 +6,8 @@ export type TrackConfigContextType = {
   showPlayCount: boolean;
   showPlay: boolean;
   showDate: boolean;
-  onlyPlay?: boolean;
-  playlist?: boolean;
+  onlyPlay: boolean;
+  playlist: boolean;
 };
 
 const TrackConfigContext = createContext<TrackConfigContextType | null>(null);

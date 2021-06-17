@@ -12,7 +12,6 @@ type ModalProps = {
   onRequestClose: (
     e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>
   ) => void;
-  children: React.ReactNode;
 };
 
 const Modal = ({
@@ -20,7 +19,7 @@ const Modal = ({
   contentLabel,
   onRequestClose,
   children,
-}: ModalProps) => {
+}: React.PropsWithChildren<ModalProps>) => {
   return (
     <ReactModal
       isOpen={isOpen}

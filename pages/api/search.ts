@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handleSearch = async (req: NextApiRequest, res: NextApiResponse) => {
   const { q, type } = req.query;
 
   if (type === "track") {
@@ -134,3 +134,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json({ tracks, artists, albums });
   }
 };
+
+export default handleSearch;

@@ -22,13 +22,3 @@ ul {
   margin: 0;
   padding: 0;
 }
-
-img {
-  width: 100%;
-  height: auto;
-  display: none;
-}
-
-img[src] {
-  display: block;
-}
