@@ -30,6 +30,7 @@ export const NavContainer = styled(FlexCol)`
 export const NavLogo = styled(FlexRow)`
   margin-bottom: 30px;
   padding: 20px;
+  width: 100%;
   display: none;
 
   ${mq["lg"]} {

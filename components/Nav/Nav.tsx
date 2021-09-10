@@ -2,8 +2,10 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import { AiOutlineLogin } from "react-icons/ai";
+import icon from "../../public/icon.png";
+import logo from "../../public/logo.png";
 import { CreatePlaylistButton } from "../Buttons";
-import { NavMenu, NavLibrary, NavPlaylists } from "./NavSections";
+import { NavLibrary, NavMenu, NavPlaylists } from "./NavSections";
 import {
   NavAltLogo,
   NavContainer,
@@ -26,10 +28,10 @@ const Nav = () => {
     <StyledNav>
       <NavContainer>
         <NavLogo>
-          <Image src="/logo.png" width={210} height={65} alt="logo" />
+          <Image src={logo} alt="logo" />
         </NavLogo>
         <NavAltLogo>
-          <Image src="/icon.png" width={50} height={50} alt="logo" />
+          <Image src={icon} alt="logo" />
         </NavAltLogo>
         <NavMenu />
         <NavLibrary />

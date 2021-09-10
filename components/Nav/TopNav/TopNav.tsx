@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineLogin, AiOutlineMenu } from "react-icons/ai";
 import { BiRightArrow } from "react-icons/bi";
+import logo from "../../../public/logo.png";
 import { Button } from "../../Buttons/style";
 import Dropdown from "../../Dropdown/Dropdown";
 import { libraryItems, menuItems } from "../items";
@@ -19,7 +20,7 @@ import {
 } from "./style";
 
 const TopNav = () => {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const router = useRouter();
 
   const handleLogin = () => {
@@ -29,9 +30,9 @@ const TopNav = () => {
   return (
     <TopNavContainer as="nav">
       <TopNavLogo>
-        <Image src="/logo.png" width={160} height={60} alt="logo" />
+        <Image src={logo} alt="logo" />
       </TopNavLogo>
-      {user ? null : (
+      {isLoading ? null : user ? null : (
         <Button onClick={handleLogin}>
           <AiOutlineLogin />
         </Button>

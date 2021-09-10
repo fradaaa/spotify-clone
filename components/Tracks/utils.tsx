@@ -32,12 +32,12 @@ export const convertArtists = (artists: Artist[], Wrapper: React.FC) => {
   return (
     <TrackArtistsContainer>
       {artists.map(({ id, name }, i) => (
-        <Link key={id} href={`/artist/${id}`} passHref>
-          <Wrapper>
-            {name}
-            {i !== artists.length - 1 && ", "}
-          </Wrapper>
-        </Link>
+        <>
+          <Link key={id} href={`/artist/${id}`} passHref>
+            <Wrapper>{name}</Wrapper>
+          </Link>
+          {i !== artists.length - 1 && ","}
+        </>
       ))}
     </TrackArtistsContainer>
   );
