@@ -35,9 +35,13 @@ const show = keyframes`
   }
 `;
 
-export const DropdownMenu = styled(FlexCol)`
+type DropdownmenuProps = {
+  toBottom: boolean;
+};
+
+export const DropdownMenu = styled(FlexCol)<DropdownmenuProps>`
   position: absolute;
-  top: 15px;
+  ${({ toBottom }) => (toBottom ? "top: 15px" : "bottom: 15px")};
   right: 10px;
   background-color: ${({ theme }) => theme.surface2};
   color: ${({ theme }) => theme.onSurface};

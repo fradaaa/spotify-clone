@@ -1,8 +1,8 @@
 import { useTrack } from "../../../../Hooks";
-import SaveTrackButton from "./SaveTrackButton";
 import { convertTrackDuration } from "../../utils";
+import SaveTrackButton from "./SaveTrackButton";
 import { TrackDurationText, TrackExtraContainer } from "./style";
-import TrackMenu from "./TrackMenu";
+import TrackMenu from "./TrackMenu/TrackMenu";
 
 const TrackExtra = () => {
   const {
