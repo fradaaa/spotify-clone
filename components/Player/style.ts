@@ -53,6 +53,10 @@ export const PlayerInfoTitle = styled(TextOverflow)`
   font-weight: 600;
 `;
 
+export const PlayerInfoArtistsContainer = styled(FlexRow)`
+  justify-content: center;
+`;
+
 export const PlayerInfoArtist = styled(StyledLink)`
   color: ${({ theme }) => theme.gray};
   font-size: 22px;

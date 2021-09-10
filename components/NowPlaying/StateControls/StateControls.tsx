@@ -1,5 +1,4 @@
 import { BiShuffle } from "react-icons/bi";
-import { ImLoop, ImLoop2 } from "react-icons/im";
 import { TiArrowLoop } from "react-icons/ti";
 import { useAppDispatch, useAppSelectior } from "../../../redux/hooks";
 import {
@@ -8,7 +7,12 @@ import {
 } from "../../../redux/slices/nowPlayingSlice";
 import { StateControlsContainer, StyledControlsButton } from "./style";
 
-const StateControls = ({ show }: { show?: boolean }) => {
+type StateControlsProps = {
+  size?: string;
+  show?: boolean;
+};
+
+const StateControls = ({ size = "25", show }: StateControlsProps) => {
   const shuffle = useAppSelectior((state) => state.nowPlaying.shuffle);
   const loop = useAppSelectior((state) => state.nowPlaying.loop);
   const dispatch = useAppDispatch();
@@ -26,8 +30,8 @@ const StateControls = ({ show }: { show?: boolean }) => {
       <StyledControlsButton
         onClick={handleShuffle}
         aria-label="Queue"
-        width="25"
-        height="25"
+        width={size}
+        height={size}
         highlight={shuffle}
       >
         <BiShuffle />
@@ -35,11 +39,11 @@ const StateControls = ({ show }: { show?: boolean }) => {
       <StyledControlsButton
         onClick={handleToggle}
         aria-label="Toggle loop"
-        width="20"
-        height="20"
+        width={size}
+        height={size}
         highlight={loop}
       >
-        <ImLoop />
+        <TiArrowLoop />
       </StyledControlsButton>
     </StateControlsContainer>
   );

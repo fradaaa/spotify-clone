@@ -2,6 +2,7 @@ import { useAppSelectior } from "../../redux/hooks";
 import { convertArtists } from "../Tracks/utils";
 import {
   PlayerInfoArtist,
+  PlayerInfoArtistsContainer,
   PlayerInfoContainer,
   PlayerInfoTitle,
 } from "./style";
@@ -14,7 +15,9 @@ const PlayerInfo = () => {
   return (
     <PlayerInfoContainer>
       <PlayerInfoTitle>{title}</PlayerInfoTitle>
-      {convertArtists(artists, PlayerInfoArtist)}
+      <PlayerInfoArtistsContainer>
+        {convertArtists(artists, PlayerInfoArtist)}
+      </PlayerInfoArtistsContainer>
     </PlayerInfoContainer>
   );
 };

@@ -9,6 +9,8 @@ type ControlsType = {
 
 export const StateControlsContainer = styled(FlexRow)<ControlsType>`
   display: ${({ show }) => (show ? "flex" : "none")};
+  flex: 1;
+  justify-content: center;
 
   ${mq["lg"]} {
     display: flex;

@@ -29,7 +29,7 @@ const Player = ({ hide }: { hide: () => void }) => {
         <PlaybackBar show />
       </PlayerProgressContainer>
       <PlayerControlsContainer>
-        <StateControls show />
+        <StateControls show size="75" />
         <Controls size="75" />
       </PlayerControlsContainer>
     </PlayerContainer>

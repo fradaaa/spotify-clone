@@ -34,9 +34,11 @@ export const convertArtists = (artists: Artist[], Wrapper: React.FC) => {
       {artists.map(({ id, name }, i) => (
         <>
           <Link key={id} href={`/artist/${id}`} passHref>
-            <Wrapper>{name}</Wrapper>
+            <Wrapper>
+              {name}
+              {i !== artists.length - 1 && ","}
+            </Wrapper>
           </Link>
-          {i !== artists.length - 1 && ","}
         </>
       ))}
     </TrackArtistsContainer>
