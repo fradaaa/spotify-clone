@@ -24,6 +24,7 @@ const CreatePlaylistButton = () => {
             closeModal={disableShow}
             buttonText="Create"
             method="POST"
+            headerText="Create Playlist"
           />
         </Modal>
       )}

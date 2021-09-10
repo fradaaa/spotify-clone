@@ -1,14 +1,22 @@
+import { MdClear } from "react-icons/md";
 import {
   CreatePlaylistHeaderText,
   StyledCancelButton,
   StyledCreatePlaylistHeader,
 } from "../style";
-import { MdClear } from "react-icons/md";
 
-const CreatePlaylistHeader = ({ closeModal }: { closeModal: () => void }) => {
+type CreatePlaylistHeaderProps = {
+  closeModal: () => void;
+  headerText: string;
+};
+
+const CreatePlaylistHeader = ({
+  closeModal,
+  headerText,
+}: CreatePlaylistHeaderProps) => {
   return (
     <StyledCreatePlaylistHeader>
-      <CreatePlaylistHeaderText>Create Playlist</CreatePlaylistHeaderText>
+      <CreatePlaylistHeaderText>{headerText}</CreatePlaylistHeaderText>
       <StyledCancelButton
         width="20"
         height="20"

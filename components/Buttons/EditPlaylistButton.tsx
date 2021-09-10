@@ -29,6 +29,7 @@ const EditPlaylistButton = () => {
             buttonText="Update"
             method="PUT"
             playlistId={id}
+            headerText="Edit Playlist"
           />
         </Modal>
       )}

@@ -1,7 +1,6 @@
 import { Field, Formik } from "formik";
 import { mutate } from "swr";
 import * as Yup from "yup";
-import { usePlaylist } from "../../../Hooks";
 import { SubmitButton } from "../../Buttons";
 import TextInput from "../../Forms/TextInput";
 import {
@@ -9,7 +8,13 @@ import {
   CreatePlaylistTextArea,
   StyledCreatePlaylistForm,
 } from "../style";
-import { PlaylistModalProps } from "./CreatePlaylistModal";
+
+export type PlaylistForm = {
+  closeModal: () => void;
+  buttonText: string;
+  method: "POST" | "PUT";
+  playlistId?: string;
+};
 
 type Values = {
   name: string;
@@ -31,7 +36,7 @@ const CreatePlaylistForm = ({
   buttonText,
   method,
   playlistId,
-}: PlaylistModalProps & { playlistId?: string }) => {
+}: PlaylistForm) => {
   return (
     <CreatePlaylistFormContainer>
       <Formik

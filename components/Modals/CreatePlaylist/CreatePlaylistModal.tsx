@@ -1,18 +1,17 @@
 import { CreatePlaylistContainer } from "../style";
-import CreatePlaylistForm from "./CreatePlaylistForm";
+import CreatePlaylistForm, { PlaylistForm } from "./CreatePlaylistForm";
 import CreatePlaylistHeader from "./CreatePlaylistHeader";
 
-export type PlaylistModalProps = {
-  closeModal: () => void;
-  buttonText: string;
-  method: "POST" | "PUT";
-  playlistId?: string;
-};
+type PlaylistModalProps = PlaylistForm & { headerText: string };
 
-const CreatePlaylistModal = ({ closeModal, ...props }: PlaylistModalProps) => {
+const CreatePlaylistModal = ({
+  closeModal,
+  headerText,
+  ...props
+}: PlaylistModalProps) => {
   return (
     <CreatePlaylistContainer>
-      <CreatePlaylistHeader closeModal={closeModal} />
+      <CreatePlaylistHeader closeModal={closeModal} headerText={headerText} />
       <CreatePlaylistForm closeModal={closeModal} {...props} />
     </CreatePlaylistContainer>
   );

@@ -1,5 +1,4 @@
 import { Album, Artist, Track } from ".prisma/client";
-import React from "react";
 
 export interface ITrackProps {
   track: Track & { artists: Artist[]; album: Album };
