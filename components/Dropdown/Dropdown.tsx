@@ -1,6 +1,7 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../Buttons/style";
-import { DropdownIcon, DropdownMenu, StyledDropdown } from "./style";
+import DropdownMenu from "./DropdownMenu";
+import { DropdownIcon, StyledDropdown } from "./style";
 
 const Dropdown = ({
   icon,
@@ -11,7 +12,6 @@ const Dropdown = ({
   button?: boolean;
 }>) => {
   const node = useRef<HTMLDivElement | null>(null);
-  const [toBottom, setToBottom] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {
@@ -36,17 +36,10 @@ const Dropdown = ({
     };
   }, [isOpen]);
 
-  useLayoutEffect(() => {
-    if (isOpen) {
-      const { bottom } = node.current?.getBoundingClientRect()!;
-      setToBottom(window.innerHeight - bottom > 310);
-    }
-  }, [isOpen]);
-
   return (
     <StyledDropdown ref={node} onClick={toggleOpen}>
       {button ? <Button>{icon}</Button> : <DropdownIcon>{icon}</DropdownIcon>}
-      {isOpen && <DropdownMenu toBottom={toBottom}>{children}</DropdownMenu>}
+      {isOpen && <DropdownMenu>{children}</DropdownMenu>}
     </StyledDropdown>
   );
 };

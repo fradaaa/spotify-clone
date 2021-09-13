@@ -39,7 +39,7 @@ type DropdownmenuProps = {
   toBottom: boolean;
 };
 
-export const DropdownMenu = styled(FlexCol)<DropdownmenuProps>`
+export const StyledDropdownMenu = styled(FlexCol)<DropdownmenuProps>`
   position: absolute;
   ${({ toBottom }) => (toBottom ? "top: 15px" : "bottom: 15px")};
   right: 10px;
