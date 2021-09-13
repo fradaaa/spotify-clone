@@ -1,7 +1,7 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useShow } from "../../../../Hooks";
+import { useMatchMutate, useShow } from "../../../../Hooks";
 import { LoginModal, Modal } from "../../../Modals";
 import { TrackButton } from "../style";
 
@@ -10,21 +10,9 @@ type SaveTrackProps = {
   isSaved: boolean;
 };
 
-const removeTrack = async (trackId: string) => {
+const updateSavedTrack = async (trackId: string, method: "PUT" | "DELETE") => {
   await fetch("/api/me/tracks", {
-    method: "DELETE",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      trackId,
-    }),
-  });
-};
-
-const saveTrack = async (trackId: string) => {
-  await fetch("/api/me/tracks", {
-    method: "PUT",
+    method,
     headers: {
       "content-type": "application/json",
     },
@@ -38,6 +26,7 @@ const SaveTrackButton = ({ trackId, isSaved }: SaveTrackProps) => {
   const { user } = useUser();
   const { show, enableShow, disableShow } = useShow();
   const [saved, setSaved] = useState(isSaved);
+  const matchMutate = useMatchMutate();
   const [disabled, setDisabled] = useState(false);
 
   const handleCLick = async () => {
@@ -47,18 +36,21 @@ const SaveTrackButton = ({ trackId, isSaved }: SaveTrackProps) => {
     }
 
     setDisabled(true);
+    const mutateKey = new RegExp(trackId);
 
     try {
       if (saved) {
         setSaved(false);
-        await removeTrack(trackId);
+        await updateSavedTrack(trackId, "DELETE");
       } else {
         setSaved(true);
-        await saveTrack(trackId);
+        await updateSavedTrack(trackId, "PUT");
       }
+      matchMutate(mutateKey);
     } catch (error) {
       console.error(error);
-      setSaved(!saved);
+      setSaved(isSaved);
+      matchMutate(mutateKey);
     }
 
     setDisabled(false);

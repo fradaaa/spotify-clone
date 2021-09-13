@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import { mutate } from "swr";
+import { useSWRConfig } from "swr";
 import * as Yup from "yup";
 import { SubmitButton } from "../../Buttons";
 import TextInput from "../../Forms/TextInput";
@@ -37,6 +37,8 @@ const CreatePlaylistForm = ({
   method,
   playlistId,
 }: PlaylistForm) => {
+  const { mutate } = useSWRConfig();
+
   return (
     <CreatePlaylistFormContainer>
       <Formik

@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { mutate } from "swr";
 import { MutateContext } from "../../Context";
 import { useMatchMutate, usePlaylist, useTrack } from "../../Hooks";
 import { Button } from "../Buttons/style";
@@ -24,7 +23,6 @@ const TrackAddToPlaylistButton = () => {
       mutateSearch!(trackId);
       const mutateKey = new RegExp(`^/api/playlists/${playlistId}`, "gi");
       matchMutate(mutateKey);
-      mutate(`/api/playlists/${playlistId}`);
     } catch (error) {
       console.error(error);
     }

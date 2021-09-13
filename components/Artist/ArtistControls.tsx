@@ -5,9 +5,8 @@ import { ContentControls } from "../Globals";
 
 const ArtistControls = () => {
   const { id, name } = useArtist();
-  const { data } = useSWR<boolean[]>(
-    () => (id ? `/api/me/following/contains?ids=${id}` : null),
-    { revalidateOnFocus: false }
+  const { data } = useSWR<boolean[]>(() =>
+    id ? `/api/me/following/contains?ids=${id}` : null
   );
 
   return (

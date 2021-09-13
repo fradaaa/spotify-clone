@@ -1,6 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import React, { useState } from "react";
-import { mutate } from "swr";
+import { useSWRConfig } from "swr";
 import { useShow } from "../../Hooks";
 import { LoginModal, Modal } from "../Modals";
 import { Button } from "./style";
@@ -10,9 +10,9 @@ type FollowArtistProps = {
   isFollowed: boolean;
 };
 
-const unfollowArtist = async (artistId: string) => {
+const updateFollow = async (artistId: string, method: "PUT" | "DELETE") => {
   await fetch("/api/me/following", {
-    method: "DELETE",
+    method,
     headers: {
       "content-type": "application/json",
     },
@@ -20,22 +20,6 @@ const unfollowArtist = async (artistId: string) => {
       artistId,
     }),
   });
-
-  return [false];
-};
-
-const followArtist = async (artistId: string) => {
-  await fetch("/api/me/following", {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      artistId,
-    }),
-  });
-
-  return [true];
 };
 
 const FollowArtistButton = ({ artistId, isFollowed }: FollowArtistProps) => {
@@ -43,6 +27,7 @@ const FollowArtistButton = ({ artistId, isFollowed }: FollowArtistProps) => {
   const { show, enableShow, disableShow } = useShow();
   const [followed, setFollowed] = useState(isFollowed);
   const [disabled, setDisabled] = useState(false);
+  const { mutate } = useSWRConfig();
   const url = `/api/me/following/contains?ids=${artistId}`;
 
   const handleClick = async () => {
@@ -57,16 +42,16 @@ const FollowArtistButton = ({ artistId, isFollowed }: FollowArtistProps) => {
       if (followed) {
         setFollowed(false);
         mutate(url, [false], false);
+        await updateFollow(artistId, "DELETE");
       } else {
         setFollowed(true);
         mutate(url, [true], false);
+        await updateFollow(artistId, "PUT");
       }
-      mutate(
-        url,
-        followed ? () => unfollowArtist(artistId) : () => followArtist(artistId)
-      );
+      mutate(url);
     } catch (error) {
       console.error(error);
+      setFollowed(isFollowed);
       mutate(url);
     }
 
