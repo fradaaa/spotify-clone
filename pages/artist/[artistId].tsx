@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Artist from "../../components/Artist/Artist";
 import { ArtistContext } from "../../Context";
-import prisma from "../../lib/prisma";
+import { prisma } from "../../lib/prisma";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const artists = await prisma.artist.findMany({

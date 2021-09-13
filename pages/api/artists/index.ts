@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../lib/prisma";
+import { prisma } from "../../../lib/prisma";
 
 const handleArtists = async (_: NextApiRequest, res: NextApiResponse) => {
   const artists = await prisma.artist.findMany({

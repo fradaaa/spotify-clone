@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import useSWR from "swr";
 import Playlist from "../../components/Playlist/Playlist";
 import { PlaylistContext } from "../../Context";
-import prisma from "../../lib/prisma";
+import { prisma } from "../../lib/prisma";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const playlists = await prisma.playlist.findMany({

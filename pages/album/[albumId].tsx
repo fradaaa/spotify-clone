@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Album from "../../components/Album/Album";
 import { AlbumContext } from "../../Context";
-import prisma from "../../lib/prisma";
+import { prisma } from "../../lib/prisma";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const albums = await prisma.album.findMany({

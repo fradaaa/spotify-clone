@@ -1,7 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Home from "../components/Home/Home";
-import prisma from "../lib/prisma";
+import { prisma } from "../lib/prisma";
 
 export const getStaticProps: GetStaticProps = async () => {
   const requestedData = await prisma.$transaction([

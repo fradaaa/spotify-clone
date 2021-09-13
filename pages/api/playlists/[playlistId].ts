@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../lib/prisma";
+import { prisma } from "../../../lib/prisma";
 
 const handlePlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
   const { playlistId } = req.query;

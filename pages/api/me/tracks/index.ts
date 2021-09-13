@@ -1,6 +1,6 @@
 import { getSession } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../lib/prisma";
+import { prisma } from "../../../../lib/prisma";
 
 const handleSavedTracks = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = getSession(req, res);
