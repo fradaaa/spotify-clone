@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import useSWR from "swr";
 import Playlist from "../../components/Playlist/Playlist";
 import { PlaylistContext } from "../../Context";
 import prisma from "../../lib/prisma";
@@ -69,8 +70,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 const PlaylistPage = ({
   playlist,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { data } = useSWR(`/api/playlists/${playlist.id}`, {
+    fallbackData: playlist,
+  });
+
   return (
-    <PlaylistContext.Provider value={playlist}>
+    <PlaylistContext.Provider value={data}>
       <Playlist />
     </PlaylistContext.Provider>
   );

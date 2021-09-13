@@ -18,6 +18,7 @@ const Providers = ({ children }: React.PropsWithChildren<{}>) => {
                   const res = await fetch(resource, init);
                   return await res.json();
                 },
+                provider: () => new Map(),
               }}
             >
               {children}

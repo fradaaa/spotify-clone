@@ -65,18 +65,19 @@ const AddTracks = () => {
             </InputContainer>
           </AddTrackSearchContainer>
           <AddTracksSearchResults>
-            {data && data.length ? (
-              data.map((track, i) => (
-                <DisplayTrack
-                  key={track.id}
-                  track={track}
-                  highlight={track.id === nowId}
-                  isSaved={false}
-                  index={i}
-                  altIndex={i + 1}
-                />
-              ))
-            ) : searchString ? (
+            {data && data.length
+              ? data.map((track, i) => (
+                  <DisplayTrack
+                    key={track.id}
+                    track={track}
+                    highlight={track.id === nowId}
+                    isSaved={false}
+                    index={i}
+                    altIndex={i + 1}
+                  />
+                ))
+              : null}
+            {data && data.length == 0 ? (
               <Empty query={debouncedSearch} />
             ) : null}
           </AddTracksSearchResults>

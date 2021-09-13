@@ -41,6 +41,7 @@ const followArtist = async (artistId: string) => {
 const FollowArtistButton = ({ artistId, isFollowed }: FollowArtistProps) => {
   const { user } = useUser();
   const { show, enableShow, disableShow } = useShow();
+  const [followed, setFollowed] = useState(isFollowed);
   const [disabled, setDisabled] = useState(false);
   const url = `/api/me/following/contains?ids=${artistId}`;
 
@@ -53,16 +54,16 @@ const FollowArtistButton = ({ artistId, isFollowed }: FollowArtistProps) => {
     setDisabled(true);
 
     try {
-      if (isFollowed) {
+      if (followed) {
+        setFollowed(false);
         mutate(url, [false], false);
       } else {
+        setFollowed(true);
         mutate(url, [true], false);
       }
       mutate(
         url,
-        isFollowed
-          ? () => unfollowArtist(artistId)
-          : () => followArtist(artistId)
+        followed ? () => unfollowArtist(artistId) : () => followArtist(artistId)
       );
     } catch (error) {
       console.error(error);
@@ -75,7 +76,7 @@ const FollowArtistButton = ({ artistId, isFollowed }: FollowArtistProps) => {
   return (
     <>
       <Button disabled={disabled} onClick={handleClick}>
-        {isFollowed ? "UNFOLLOW" : "FOLLOW"}
+        {followed ? "UNFOLLOW" : "FOLLOW"}
       </Button>
       {show && (
         <Modal

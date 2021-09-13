@@ -1,10 +1,11 @@
-import React from "react";
-import { usePlaylist, useTrack } from "../../../../../Hooks";
+import { mutate } from "swr";
+import { useMatchMutate, usePlaylist, useTrack } from "../../../../../Hooks";
 import { TrackMenuButton, TrackMenuOption, TrackMenuText } from "./style";
 
 const TrackMenuRemoveFromPlaylist = () => {
-  const { id: playlistId, total } = usePlaylist();
+  const { id: playlistId } = usePlaylist();
   const { id: trackId } = useTrack();
+  const matchMutate = useMatchMutate();
 
   const handleClick = async () => {
     try {
@@ -17,6 +18,9 @@ const TrackMenuRemoveFromPlaylist = () => {
           trackId,
         }),
       });
+      const mutateKey = new RegExp(`^/api/playlists/${playlistId}`, "gi");
+      matchMutate(mutateKey);
+      mutate(`/api/playlists/${playlistId}`);
     } catch (error) {
       console.error(error);
     }

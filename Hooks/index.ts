@@ -3,6 +3,7 @@ import useAlbum from "./useAlbum";
 import useAudioHelpers from "./useAudioHelpers";
 import useColor from "./useColor";
 import useDebounce from "./useDebounce";
+import useMatchMutate from "./useMatchMutate";
 import usePagination from "./usePagination";
 import usePlay from "./usePlay";
 import useShow from "./useShow";
@@ -19,6 +20,7 @@ export {
   useAudioHelpers,
   useColor,
   useDebounce,
+  useMatchMutate,
   usePagination,
   usePlay,
   useShow,
