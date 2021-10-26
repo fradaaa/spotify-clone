@@ -39,7 +39,7 @@ const Nav = () => {
         {isLoading ? null : user ? (
           <CreatePlaylistButton />
         ) : (
-          <NavLoginButton onClick={handleLogin}>
+          <NavLoginButton aria-label="Login" onClick={handleLogin}>
             <NavItemIcon>
               <AiOutlineLogin />
             </NavItemIcon>

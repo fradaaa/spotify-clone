@@ -8,7 +8,7 @@ const CreatePlaylistButton = () => {
 
   return (
     <>
-      <Button onClick={enableShow} type="button">
+      <Button aria-label="Create playlist" onClick={enableShow} type="button">
         <PlaylistIcon>
           <AiOutlinePlusCircle />
         </PlaylistIcon>

@@ -33,7 +33,7 @@ const TopNav = () => {
         <Image src={logo} alt="logo" />
       </TopNavLogo>
       {isLoading ? null : user ? null : (
-        <Button onClick={handleLogin}>
+        <Button aria-label="Login" onClick={handleLogin}>
           <AiOutlineLogin />
         </Button>
       )}
@@ -41,6 +41,7 @@ const TopNav = () => {
         href="https://github.com/fradaaa"
         target="_blank"
         rel="noreferrer"
+        aria-label="fradaaa github page"
       >
         <NavItemIcon>
           <AiFillGithub />
