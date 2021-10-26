@@ -1,8 +1,8 @@
+import Image from "next/image";
 import { useArtist } from "../../Hooks";
 import { HeaderGradient } from "../ContentHeader/style";
 import { convertPlayCount } from "../Tracks/utils";
 import {
-  ArtistHeaderImage,
   ArtistListeners,
   ArtistName,
   ArtistStats,
@@ -20,7 +20,13 @@ const ArtistHeader = () => {
 
   return (
     <StyledArtistHeader>
-      <ArtistHeaderImage style={{ backgroundImage: `url(${header_image})` }} />
+      <Image
+        src={header_image}
+        layout="fill"
+        objectFit="cover"
+        objectPosition="50% 15%"
+        alt={`${name}'s header picture'`}
+      />
       <HeaderGradient />
       <ArtistStats>
         <ArtistName>{name}</ArtistName>

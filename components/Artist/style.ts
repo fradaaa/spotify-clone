@@ -12,14 +12,6 @@ export const StyledArtistHeader = styled.header`
   min-height: 350px;
 `;
 
-export const ArtistHeaderImage = styled.div`
-  position: absolute;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 15%;
-  inset: 0;
-`;
-
 export const ArtistStats = styled.div`
   z-index: 1;
   color: ${({ theme }) => theme.onSurface};
