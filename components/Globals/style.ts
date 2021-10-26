@@ -67,14 +67,14 @@ export const ContentControlsContainer = styled(FlexRow)<StickyProps>`
 export const ContentBG = styled(FlexRow)`
   position: absolute;
   inset: 0;
-  transition: background-color 0.25s ease-in;
+  transition: background-color 0.05s ease-in;
   z-index: -1;
   filter: brightness(0.5);
 `;
 
 export const ContentText = styled.span<StickyProps>`
   font-size: 24px;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.1s ease-in;
   color: ${({ theme }) => theme.onSurface};
   margin-left: 25px;
   white-space: nowrap;

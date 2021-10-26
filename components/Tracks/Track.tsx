@@ -19,6 +19,7 @@ const DisplayTrack = ({
   index,
   isSaved,
   altIndex,
+  style,
 }: ITrackProps) => {
   const { show, disableShow, enableShow } = useShow();
   const { showPlayCount, showPlay, showDate, playlist } = useTrackConfig();
@@ -33,7 +34,11 @@ const DisplayTrack = ({
 
   return (
     <TrackContext.Provider value={trackContextValue}>
-      <TrackContainer onMouseOver={enableShow} onMouseLeave={disableShow}>
+      <TrackContainer
+        onMouseOver={enableShow}
+        onMouseLeave={disableShow}
+        style={style}
+      >
         {showPlay && <TrackPlayButton show={show} />}
         <TrackTitle />
         {showPlayCount ? <TrackPlayCount /> : <TrackAlbum />}

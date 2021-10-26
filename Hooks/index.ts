@@ -13,6 +13,7 @@ import useQueue from "./useQueue";
 import useSticky from "./useSticky";
 import useTrack from "./useTrack";
 import useTrackConfig from "./useTrackConfig";
+import useTrackHelpers from "./useTrackHelpers";
 
 export {
   useArtist,
@@ -30,4 +31,5 @@ export {
   useSticky,
   useTrack,
   useTrackConfig,
+  useTrackHelpers,
 };

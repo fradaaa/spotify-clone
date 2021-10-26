@@ -2,12 +2,31 @@ import styled from "@emotion/styled";
 import { mq } from "../../../styles/breakpoints";
 import { FlexRow } from "../../Globals";
 
-export const TrackColumnNames = styled(FlexRow)`
-  padding: 0 15px;
+type TrackColumnNamesProps = {
+  isSticky?: boolean;
+};
+
+export const TrackColumnNames = styled(FlexRow)<TrackColumnNamesProps>`
   height: 40px;
-  margin-bottom: 15px;
   color: ${({ theme }) => theme.onSurface};
   border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+  position: sticky;
+  top: 90px;
+  z-index: 5;
+  ${({ theme, isSticky }) => {
+    return isSticky
+      ? {
+          padding: "0 35px",
+          margin: "0 0 15px",
+          backgroundColor: `${theme.surface3}`,
+        }
+      : {
+          padding: "0 15px",
+          margin: "0 20px 15px",
+          backgroundColor: "none",
+        };
+  }};
+  transition: background-color 0.05s ease-in;
 `;
 
 export const ColumnName = styled.span`

@@ -27,3 +27,5 @@ export const TrackCoverButton = styled(FlexRow)<TrackCoverButtonProps>`
 `;
 
 export const TrackArtistsContainer = styled(FlexRow)``;
+
+export const TrackLoaderContainer = styled(FlexRow)``;

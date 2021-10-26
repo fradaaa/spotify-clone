@@ -15,9 +15,13 @@ export const formatAddedAt = (addedAt: Date) => {
 };
 
 export const convertDuration = (duration: number) => {
+  const hours = Math.round(duration / 3600);
   const minutes = Math.floor(duration / 60);
   const seconds = duration % 60;
-  const dur = `${minutes} min ${seconds} sec`;
+  const dur =
+    hours > 0
+      ? `${hours} hr ${minutes % 60} min`
+      : `${minutes} min ${seconds} sec`;
   return dur;
 };
 

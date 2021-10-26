@@ -1,10 +1,15 @@
-import { useMatchMutate, usePlaylist, useTrack } from "../../../../../Hooks";
+import { useSWRConfig } from "swr";
+import { usePlaylist, useTrack, useTrackHelpers } from "../../../../../Hooks";
 import { TrackMenuButton, TrackMenuOption, TrackMenuText } from "./style";
 
 const TrackMenuRemoveFromPlaylist = () => {
   const { id: playlistId } = usePlaylist();
-  const { id: trackId } = useTrack();
-  const matchMutate = useMatchMutate();
+  const {
+    id: trackId,
+    meta: { index },
+  } = useTrack();
+  const { deleteRow } = useTrackHelpers();
+  const { mutate } = useSWRConfig();
 
   const handleClick = async () => {
     try {
@@ -17,8 +22,8 @@ const TrackMenuRemoveFromPlaylist = () => {
           trackId,
         }),
       });
-      const mutateKey = new RegExp(`^/api/playlists/${playlistId}`, "gi");
-      matchMutate(mutateKey);
+      mutate(`/api/playlists/${playlistId}`);
+      deleteRow(index);
     } catch (error) {
       console.error(error);
     }

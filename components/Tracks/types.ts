@@ -6,6 +6,7 @@ export interface ITrackProps {
   isSaved: boolean;
   index: number;
   altIndex?: number;
+  style?: React.CSSProperties;
 }
 
 export interface ITrackPlayButtonProps {

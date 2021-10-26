@@ -7,6 +7,7 @@ import PlaylistContext from "./PlaylistContext";
 import QueueContext from "./QueueContext";
 import TrackConfigContext from "./TrackConfigContext";
 import TrackContext from "./TrackContext";
+import TrackHelpers from "./TrackHelpers";
 import MutateContext from "./MutateContext";
 
 export {
@@ -19,5 +20,6 @@ export {
   QueueContext,
   TrackConfigContext,
   TrackContext,
+  TrackHelpers,
   MutateContext,
 };

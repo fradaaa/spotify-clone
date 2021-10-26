@@ -1,36 +1,18 @@
-import { useRef, useState } from "react";
-import { usePagination, usePlaylist } from "../../Hooks";
+import { usePlaylist } from "../../Hooks";
 import TrackConfigProvider from "../Tracks/TrackConfigProvider";
 import { PlaylistColumns } from "../Tracks/TrackRows";
-import TracksPage from "../Tracks/TracksPage";
+import VirtualTracksList from "../Tracks/VirtualTracksList";
 import { PlaylistTracksContainer } from "./style";
 
 const PlaylistTracks = () => {
-  const node = useRef<HTMLDivElement>(null);
   const { id, total } = usePlaylist();
-  const [cnt, setCnt] = useState(1);
-
-  const tracks = [];
-  for (let i = 1; i <= cnt; i++) {
-    tracks.push(
-      <TracksPage
-        key={i}
-        page={i}
-        url={`/api/playlists/${id}/tracks`}
-        altIndex
-        revalidate
-      />
-    );
-  }
-
-  usePagination({ targetRef: node, callback: () => setCnt(cnt + 1) });
+  const url = `/api/playlists/${id}/tracks`;
 
   return (
     <TrackConfigProvider showDate>
+      <PlaylistColumns />
       <PlaylistTracksContainer>
-        <PlaylistColumns />
-        {tracks}
-        {total > tracks.length * 50 && <div ref={node}></div>}
+        <VirtualTracksList url={url} total={total} />
       </PlaylistTracksContainer>
     </TrackConfigProvider>
   );
