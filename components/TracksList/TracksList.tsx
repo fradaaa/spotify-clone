@@ -9,9 +9,10 @@ import VirtualTracksList from "./VirtualTracksList";
 type TracksListProps = {
   url: string;
   total: number;
+  disableSort?: boolean;
 };
 
-const TracksList = ({ url, total }: TracksListProps) => {
+const TracksList = ({ url, total, disableSort }: TracksListProps) => {
   const [sort, setSort] = useState<SortString>("added");
   const [order, setOrder] = useState<"asc" | "desc">("desc");
 
@@ -29,7 +30,12 @@ const TracksList = ({ url, total }: TracksListProps) => {
 
   return (
     <TrackConfigProvider showDate>
-      <TracksListColumns sort={sort} order={order} changeSort={changeSort} />
+      <TracksListColumns
+        sort={sort}
+        order={order}
+        changeSort={changeSort}
+        disableSort={disableSort}
+      />
       <TracksListContainer>
         <VirtualTracksList url={buildURL(url, sort, order)} total={total} />
       </TracksListContainer>

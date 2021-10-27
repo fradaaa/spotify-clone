@@ -18,12 +18,14 @@ type TracksListColumnsProps = {
   sort: SortString;
   order: "asc" | "desc";
   changeSort: (newSort: SortString) => void;
+  disableSort?: boolean;
 };
 
 const TracksListColumns = ({
   sort,
   order,
   changeSort,
+  disableSort,
 }: TracksListColumnsProps) => {
   const topRef = useRef<HTMLDivElement>(null);
   const isSticky = useSticky(topRef);
@@ -38,10 +40,15 @@ const TracksListColumns = ({
         <TrackColumnTitle>
           {sort !== "artist" && (
             <ColumnName
-              onClick={() =>
-                changeSort(
-                  sort === "title" && order === "desc" ? "artist" : "title"
-                )
+              onClick={
+                disableSort
+                  ? () => null
+                  : () =>
+                      changeSort(
+                        sort === "title" && order === "desc"
+                          ? "artist"
+                          : "title"
+                      )
               }
             >
               title{showArrow(sort, "title", order)}
@@ -49,19 +56,27 @@ const TracksListColumns = ({
           )}
           {sort === "artist" && (
             <ColumnName
-              onClick={() => changeSort(order === "desc" ? "title" : "artist")}
+              onClick={
+                disableSort
+                  ? () => null
+                  : () => changeSort(order === "desc" ? "title" : "artist")
+              }
             >
               artist{showArrow(sort, "artist", order)}
             </ColumnName>
           )}
         </TrackColumnTitle>
         <TrackColumnAlbum>
-          <ColumnName onClick={() => changeSort("album")}>
+          <ColumnName
+            onClick={disableSort ? () => null : () => changeSort("album")}
+          >
             album{showArrow(sort, "album", order)}
           </ColumnName>
         </TrackColumnAlbum>
         <TrackColumnDate>
-          <ColumnName onClick={() => changeSort("added")}>
+          <ColumnName
+            onClick={disableSort ? () => null : () => changeSort("added")}
+          >
             date added{showArrow(sort, "added", order)}
           </ColumnName>
         </TrackColumnDate>
