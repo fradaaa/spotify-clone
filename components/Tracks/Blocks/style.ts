@@ -62,10 +62,16 @@ export const TrackPlayCountText = styled.div`
   text-align: right;
 `;
 
-export const TrackAlbumContainer = styled(TrackColumnAlbum)``;
+export const TrackAlbumContainer = styled(TrackColumnAlbum)`
+  overflow: hidden;
+`;
 
 export const TrackAlbumText = styled(StyledLink)`
   font-size: 14px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const TrackDateContainer = styled(TrackColumnDate)``;

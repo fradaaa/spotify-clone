@@ -1,4 +1,4 @@
-import PlaylistColumns from "./PlaylistColumns";
+import TracksListColumns from "./TracksListColumns";
 import AlbumColumns from "./AlbumColumns";
 
-export { PlaylistColumns, AlbumColumns };
+export { TracksListColumns, AlbumColumns };

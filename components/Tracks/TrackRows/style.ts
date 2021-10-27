@@ -36,6 +36,11 @@ export const ColumnName = styled.span`
   text-overflow: ellipsis;
   font-size: 14px;
   white-space: nowrap;
+  transition: color 0.1s ease-in;
+
+  &:hover {
+    color: ${({ theme }) => theme.primary};
+  }
 `;
 
 export const ColumnCount = styled(ColumnName)`

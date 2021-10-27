@@ -7,13 +7,13 @@ const handlePlaylistTracks = withApiAuthRequired(
     const { playlistId } = req.query;
 
     if (req.method === "GET") {
-      const { offset, take } = req.query;
-      await handleGET(
-        playlistId as string,
-        offset as string,
-        take as string,
-        res
-      );
+      const { sort, order, offset, take } = req.query as {
+        sort: "added" | "title" | "album" | "artist";
+        order: "asc" | "desc";
+        offset: string;
+        take: string;
+      };
+      await handleGET(playlistId as string, sort, order, offset, take, res);
     } else if (req.method === "PUT") {
       const { trackId } = req.body;
       await handlePUT(playlistId as string, trackId, res);
@@ -30,10 +30,39 @@ const handlePlaylistTracks = withApiAuthRequired(
 
 const handleGET = async (
   playlistId: string,
+  sort: "added" | "title" | "album" | "artist",
+  order: "asc" | "desc",
   offset: string,
   take: string,
   res: NextApiResponse
 ) => {
+  const orderBy = {
+    added: {
+      added_at: order,
+    },
+    title: {
+      track: {
+        title: order,
+      },
+    },
+    album: {
+      track: {
+        album: {
+          name: order,
+        },
+      },
+    },
+    artist: {
+      track: {
+        album: {
+          artist: {
+            name: order,
+          },
+        },
+      },
+    },
+  };
+
   const playlistTracks = await prisma.playlistTrack.findMany({
     where: {
       playlistId,
@@ -46,9 +75,7 @@ const handleGET = async (
         },
       },
     },
-    orderBy: {
-      added_at: "desc",
-    },
+    orderBy: orderBy[sort],
     skip: Number(offset),
     take: Number(take),
   });

@@ -1,4 +1,3 @@
-import { Album, Artist, Track } from ".prisma/client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   AutoSizer,
@@ -12,38 +11,13 @@ import "react-virtualized/styles.css";
 import { TrackHelpers } from "../../Context";
 import { useAppSelectior } from "../../redux/hooks";
 import DisplayTrack from "../Tracks/Track";
-import TrackLoader from "./TrackLoader";
+import TrackLoader from "../Tracks/TrackLoader";
+import { TrackData } from "./types";
+import { loadTracks } from "./utils";
 
 type VirtualTracksListProps = {
   url: string;
   total: number;
-};
-
-type Data = Track & {
-  artists: Artist[];
-  album: Album;
-  added_at: Date;
-};
-
-type TrackData = Data & { isSaved: boolean };
-
-const loadTracks = async (url: string, offset: number, take = 20) => {
-  const res = await fetch(`${url}?offset=${offset}&take=${take}`);
-  const data = (await res.json()) as { items: Data[] };
-  const savedRes = await fetch(
-    `/api/me/tracks/contains?ids=${data.items.map(({ id }) => id).join(",")}`
-  );
-  const savedData = (await savedRes.json()) as boolean[];
-
-  const loadedTracks: { [index: string]: TrackData } = {};
-
-  let i = offset;
-  data.items.forEach((track, trackIndex) => {
-    loadedTracks[i] = { ...track, isSaved: savedData[trackIndex] };
-    i++;
-  });
-
-  return loadedTracks;
 };
 
 const VirtualTracksList = ({ url, total }: VirtualTracksListProps) => {

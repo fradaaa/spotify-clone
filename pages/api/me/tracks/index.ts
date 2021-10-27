@@ -1,60 +1,92 @@
-import { getSession } from "@auth0/nextjs-auth0";
+import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../../lib/prisma";
 
-const handleSavedTracks = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = getSession(req, res);
+const handleSavedTracks = withApiAuthRequired(
+  async (req: NextApiRequest, res: NextApiResponse) => {
+    const session = getSession(req, res);
+    const userId = session?.user.sub;
 
-  if (req.method === "GET") {
-    const { offset, take } = req.query;
-    await handleGET(session?.user.sub, offset as string, take as string, res);
-  } else if (req.method === "PUT") {
-    const { trackId } = req.body;
-    await handlePUT(session?.user.sub, trackId, res);
-  } else if (req.method === "DELETE") {
-    const { trackId } = req.body;
-    await handleDELETE(session?.user.sub, trackId, res);
-  } else {
-    throw new Error(
-      `The HTTP ${req.method} method is not supported at this route.`
-    );
+    if (req.method === "GET") {
+      const { sort, order, offset, take } = req.query as {
+        sort: "added" | "title" | "album" | "artist";
+        order: "asc" | "desc";
+        offset: string;
+        take: string;
+      };
+      await handleGET(userId, sort, order, offset, take, res);
+    } else if (req.method === "PUT") {
+      const { trackId } = req.body;
+      await handlePUT(userId, trackId, res);
+    } else if (req.method === "DELETE") {
+      const { trackId } = req.body;
+      await handleDELETE(userId, trackId, res);
+    } else {
+      throw new Error(
+        `The HTTP ${req.method} method is not supported at this route.`
+      );
+    }
   }
-};
+);
 
 const handleGET = async (
   userId: string,
+  sort: "added" | "title" | "album" | "artist",
+  order: "asc" | "desc",
   offset: string,
   take: string,
   res: NextApiResponse
 ) => {
-  const [savedTracks, total] = await prisma.$transaction([
-    prisma.savedTrack.findMany({
-      where: {
-        userId: userId,
+  const orderBy = {
+    added: {
+      added_at: order,
+    },
+    title: {
+      track: {
+        title: order,
       },
-      include: {
-        track: {
-          include: {
-            album: true,
-            artists: true,
+    },
+    album: {
+      track: {
+        album: {
+          name: order,
+        },
+      },
+    },
+    artist: {
+      track: {
+        album: {
+          artist: {
+            name: order,
           },
         },
       },
-      orderBy: {
-        added_at: "desc",
+    },
+  };
+
+  const savedTracks = await prisma.savedTrack.findMany({
+    where: {
+      userId: userId,
+    },
+    include: {
+      track: {
+        include: {
+          album: true,
+          artists: true,
+        },
       },
-      skip: Number(offset),
-      take: Number(take),
-    }),
-    prisma.savedTrack.count({ where: { userId } }),
-  ]);
+    },
+    orderBy: orderBy[sort],
+    skip: Number(offset),
+    take: Number(take),
+  });
 
   const items = savedTracks.map(({ track, added_at }) => ({
     ...track,
     added_at,
   }));
 
-  res.status(200).json({ items, total });
+  res.status(200).json({ items });
 };
 
 const handlePUT = async (
