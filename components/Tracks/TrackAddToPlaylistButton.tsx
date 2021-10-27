@@ -1,12 +1,13 @@
 import { useContext } from "react";
+import { useSWRConfig } from "swr";
 import { MutateContext } from "../../Context";
-import { useMatchMutate, usePlaylist, useTrack } from "../../Hooks";
+import { usePlaylist, useTrack } from "../../Hooks";
 import { Button } from "../Buttons/style";
 
 const TrackAddToPlaylistButton = () => {
   const { id: playlistId } = usePlaylist();
   const { id: trackId } = useTrack();
-  const matchMutate = useMatchMutate();
+  const { mutate } = useSWRConfig();
   const mutateSearch = useContext(MutateContext);
 
   const handleClick = async () => {
@@ -21,8 +22,7 @@ const TrackAddToPlaylistButton = () => {
         }),
       });
       mutateSearch!(trackId);
-      const mutateKey = new RegExp(`^/api/playlists/${playlistId}`, "gi");
-      matchMutate(mutateKey);
+      mutate(`/api/playlists/${playlistId}`);
     } catch (error) {
       console.error(error);
     }
