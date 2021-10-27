@@ -1,7 +1,7 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useMatchMutate, useShow } from "../../../../Hooks";
+import { useShow } from "../../../../Hooks";
 import { LoginModal, Modal } from "../../../Modals";
 import { TrackButton } from "../style";
 
@@ -26,7 +26,6 @@ const SaveTrackButton = ({ trackId, isSaved }: SaveTrackProps) => {
   const { user } = useUser();
   const { show, enableShow, disableShow } = useShow();
   const [saved, setSaved] = useState(isSaved);
-  const matchMutate = useMatchMutate();
   const [disabled, setDisabled] = useState(false);
 
   const handleCLick = async () => {
@@ -36,7 +35,6 @@ const SaveTrackButton = ({ trackId, isSaved }: SaveTrackProps) => {
     }
 
     setDisabled(true);
-    const mutateKey = new RegExp(trackId);
 
     try {
       if (saved) {
@@ -46,11 +44,9 @@ const SaveTrackButton = ({ trackId, isSaved }: SaveTrackProps) => {
         setSaved(true);
         await updateSavedTrack(trackId, "PUT");
       }
-      matchMutate(mutateKey);
     } catch (error) {
       console.error(error);
       setSaved(isSaved);
-      matchMutate(mutateKey);
     }
 
     setDisabled(false);
