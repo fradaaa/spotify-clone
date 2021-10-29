@@ -60,7 +60,7 @@ const FollowArtistButton = ({ artistId, isFollowed }: FollowArtistProps) => {
 
   return (
     <>
-      <Button disabled={disabled} onClick={handleClick}>
+      <Button style={{ margin: 0 }} disabled={disabled} onClick={handleClick}>
         {followed ? "UNFOLLOW" : "FOLLOW"}
       </Button>
       {show && (

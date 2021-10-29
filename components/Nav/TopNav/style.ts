@@ -30,6 +30,7 @@ export const TopNavDropdown = styled.div`
   background-color: ${({ theme }) => theme.surface2};
   border-radius: var(--brsm);
   overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 export const TopNavItem = styled(FlexRow)`

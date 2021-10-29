@@ -1,13 +1,20 @@
 import { Playlist } from ".prisma/client";
 import useSWR from "swr";
-import { RingLoader } from "../Globals";
+import { CreatePlaylistButton } from "../Buttons";
+import { FlexRow, RingLoader } from "../Globals";
 import { Preview, PreviewItem } from "../Preview";
 
 const PlaylistsCollection = () => {
   const { data } = useSWR<Playlist[]>("/api/me/playlists");
 
   return (
-    <Preview title="Your Playlists">
+    <Preview
+      title={
+        <FlexRow>
+          Your playlists <CreatePlaylistButton />{" "}
+        </FlexRow>
+      }
+    >
       {data ? (
         data.map(({ id, image, name }) => (
           <PreviewItem

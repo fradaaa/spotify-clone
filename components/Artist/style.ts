@@ -29,10 +29,11 @@ export const ArtistListeners = styled.span`
 `;
 
 export const ArtistTrackWrapper = styled(FlexCol)`
-  padding: 0 20px;
+  padding: 0 5px;
   align-items: flex-start;
 
   ${mq["xl"]} {
+    padding: 0 20px;
     flex-flow: row;
   }
 `;

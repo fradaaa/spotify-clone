@@ -56,11 +56,7 @@ const TracksListColumns = ({
           )}
           {sort === "artist" && (
             <ColumnName
-              onClick={
-                disableSort
-                  ? () => null
-                  : () => changeSort(order === "desc" ? "title" : "artist")
-              }
+              onClick={() => changeSort(order === "desc" ? "title" : "artist")}
             >
               artist{showArrow(sort, "artist", order)}
             </ColumnName>

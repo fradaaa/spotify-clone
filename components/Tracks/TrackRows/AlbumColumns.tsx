@@ -3,7 +3,7 @@ import {
   ColumnCount,
   ColumnName,
   TrackColumnExtra,
-  TrackColumnNames,
+  AlbumColumnNames,
   TrackColumnNumber,
   TrackColumnPlayCount,
   TrackColumnTitle,
@@ -11,7 +11,7 @@ import {
 
 const AlbumColumns = () => {
   return (
-    <TrackColumnNames>
+    <AlbumColumnNames>
       <TrackColumnNumber>
         <ColumnName>#</ColumnName>
       </TrackColumnNumber>
@@ -24,7 +24,7 @@ const AlbumColumns = () => {
       <TrackColumnExtra>
         <AiOutlineClockCircle />
       </TrackColumnExtra>
-    </TrackColumnNames>
+    </AlbumColumnNames>
   );
 };
 

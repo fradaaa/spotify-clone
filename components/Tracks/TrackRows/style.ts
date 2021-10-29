@@ -6,7 +6,18 @@ type TrackColumnNamesProps = {
   isSticky?: boolean;
 };
 
-export const TrackColumnNames = styled(FlexRow)<TrackColumnNamesProps>`
+export const ColumnNames = styled(FlexRow)`
+  height: 40px;
+  color: ${({ theme }) => theme.onSurface};
+  border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+`;
+
+export const AlbumColumnNames = styled(ColumnNames)`
+  padding: 0 15px;
+  margin: 0 0 15px;
+`;
+
+export const TrackColumnNames = styled(ColumnNames)<TrackColumnNamesProps>`
   height: 40px;
   color: ${({ theme }) => theme.onSurface};
   border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);

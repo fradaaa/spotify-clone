@@ -1,7 +1,7 @@
 import { PreviewContainer, PreviewList, PreviewTitle } from "./style";
 
 type PreviewProps = {
-  title: string;
+  title: string | JSX.Element;
 };
 
 const Preview = ({
