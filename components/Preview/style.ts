@@ -58,3 +58,10 @@ export const PreviewItemButton = styled(IconButton)`
   top: 5px;
   right: 5px;
 `;
+
+export const PreviewPlayButtonContainer = styled(FlexRow)`
+  justify-content: center;
+  position: absolute;
+  right: 5%;
+  bottom: 25%;
+`;

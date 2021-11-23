@@ -1,10 +1,15 @@
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
+import { useCallback, useState } from "react";
 import { IoMusicalNotesOutline } from "react-icons/io5";
 import { MdClear } from "react-icons/md";
+import { PlayContext } from "../../Context";
+import { useAudioHelpers, useShow } from "../../Hooks";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem, removeItem } from "../../redux/slices/recentSearchesSlice";
+import { PlayContentButton } from "../Buttons";
 import { ContentHeaderPlaylistPlaceholder } from "../ContentHeader/style";
+import PreviewPlayButton from "./PreviewPlayButton";
 import {
   PreviewItemButton,
   PreviewItemContainer,
@@ -39,6 +44,8 @@ const PreviewItem = ({
 }: PreviewItemProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { playContent } = useAudioHelpers();
+  const { show, disableShow, enableShow } = useShow();
 
   const handleClick = () => {
     search && dispatch(addItem({ id, image, title, subText, type, round }));
@@ -50,30 +57,44 @@ const PreviewItem = ({
     dispatch(removeItem(id));
   };
 
+  const play = useCallback(
+    (index: number) => {
+      playContent(id, type, index);
+    },
+    [id, type, playContent]
+  );
+
   return (
-    <PreviewItemContainer onClick={handleClick}>
-      <PreviewItemCoverContainer style={round ? { borderRadius: "50%" } : {}}>
-        {!image && type === "playlist" ? (
-          <ContentHeaderPlaylistPlaceholder>
-            <IoMusicalNotesOutline />
-          </ContentHeaderPlaylistPlaceholder>
-        ) : (
-          <Image src={image} alt="" width={250} height={250} />
+    <PlayContext.Provider value={play}>
+      <PreviewItemContainer
+        onClick={handleClick}
+        onMouseOver={enableShow}
+        onMouseLeave={disableShow}
+      >
+        <PreviewItemCoverContainer style={round ? { borderRadius: "50%" } : {}}>
+          {!image && type === "playlist" ? (
+            <ContentHeaderPlaylistPlaceholder>
+              <IoMusicalNotesOutline />
+            </ContentHeaderPlaylistPlaceholder>
+          ) : (
+            <Image src={image} alt="" width={250} height={250} />
+          )}
+        </PreviewItemCoverContainer>
+        <PreviewItemTitle title={title}>{title}</PreviewItemTitle>
+        <PreviewItemSubText>{subText}</PreviewItemSubText>
+        {showClear && (
+          <PreviewItemButton
+            width="20"
+            height="20"
+            aria-label="Remove from recent searches"
+            onClick={handleRemove}
+          >
+            <MdClear />
+          </PreviewItemButton>
         )}
-      </PreviewItemCoverContainer>
-      <PreviewItemTitle title={title}>{title}</PreviewItemTitle>
-      <PreviewItemSubText>{subText}</PreviewItemSubText>
-      {showClear && (
-        <PreviewItemButton
-          width="20"
-          height="20"
-          aria-label="Remove from recent searches"
-          onClick={handleRemove}
-        >
-          <MdClear />
-        </PreviewItemButton>
-      )}
-    </PreviewItemContainer>
+        {show && <PreviewPlayButton id={id} />}
+      </PreviewItemContainer>
+    </PlayContext.Provider>
   );
 };
 
