@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { IconButton } from "../Buttons/style";
 import { FlexCol, FlexRow } from "../Globals";
 
 export const PreviewContainer = styled.div`
@@ -19,6 +20,7 @@ export const PreviewList = styled(FlexRow)`
 `;
 
 export const PreviewItemContainer = styled(FlexCol)`
+  position: relative;
   justify-content: center;
   max-width: 250px;
   padding: 20px;
@@ -49,4 +51,10 @@ export const PreviewItemTitle = styled.div`
 
 export const PreviewItemSubText = styled(FlexRow)`
   text-transform: capitalize;
+`;
+
+export const PreviewItemButton = styled(IconButton)`
+  position: absolute;
+  top: 5px;
+  right: 5px;
 `;

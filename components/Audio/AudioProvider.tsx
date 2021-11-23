@@ -5,7 +5,6 @@ import {
   addToRecent,
   fetchContext,
   muteUnmute,
-  pause,
   play,
   playShuffle,
   setIndex,

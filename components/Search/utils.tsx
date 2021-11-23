@@ -50,6 +50,7 @@ export const convertSeachArtists = (artists: Artist[]) => {
           subText="Artist"
           type="artist"
           round
+          search
         />
       ))}
     </Preview>
@@ -67,6 +68,7 @@ export const convertSearchAlbums = (albums: (Album & { artist: Artist })[]) => {
           title={name}
           subText={artistName}
           type="album"
+          search
         />
       ))}
     </Preview>

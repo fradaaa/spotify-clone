@@ -19,7 +19,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
   ({ handleChange, clearField, placeholder, value }, ref) => {
     return (
       <SearchInputContainer>
-        <SearchIcon>
+        <SearchIcon htmlFor="searchInput">
           <AiOutlineSearch />
         </SearchIcon>
         <StyledSearchInput

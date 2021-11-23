@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import nowPlayingReducer from "./slices/nowPlayingSlice";
+import recentSearchesReducer from "./slices/recentSearchesSlice";
 
 export const store = configureStore({
   reducer: {
     nowPlaying: nowPlayingReducer,
+    recentSearches: recentSearchesReducer,
   },
 });
 
