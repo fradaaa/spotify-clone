@@ -6,4 +6,5 @@ export type AlbumProps = {
     album: Album;
     artists: Artist[];
   })[];
+  albumSuggestions: Album[];
 };

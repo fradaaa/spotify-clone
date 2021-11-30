@@ -48,7 +48,8 @@ export const ArtistSubHeaderText = styled.h2`
   padding: 0 20px;
   font-size: 20px;
   font-weight: 600;
-  margin: 0 0 20px;
+  margin: 10px 0 20px;
+  text-align: center;
   color: ${({ theme }) => theme.onSurface};
 `;
 

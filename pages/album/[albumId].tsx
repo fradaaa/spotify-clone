@@ -46,7 +46,6 @@ export const getStaticProps: GetStaticProps<AlbumProps> = async ({
       },
       orderBy: { track_number: "asc" },
       include: {
-        album: true,
         artists: true,
       },
     }),
@@ -58,18 +57,34 @@ export const getStaticProps: GetStaticProps<AlbumProps> = async ({
     };
   }
 
+  const albums = await prisma.album.findMany({
+    where: {
+      AND: [
+        {
+          artistId: album.artist.id,
+        },
+        {
+          id: {
+            not: params?.albumId as string,
+          },
+        },
+      ],
+    },
+  });
+
   return {
     props: {
       album: { ...album, duration: duration._sum.duration! },
-      albumTracks: tracks,
+      albumTracks: tracks.map((track) => ({ ...track, album })),
+      albumSuggestions: albums,
     },
     revalidate: 60,
   };
 };
 
-const AlbumPage = ({ album, albumTracks }: AlbumProps) => {
+const AlbumPage = ({ album, albumTracks, albumSuggestions }: AlbumProps) => {
   return (
-    <AlbumContext.Provider value={{ album, albumTracks }}>
+    <AlbumContext.Provider value={{ album, albumTracks, albumSuggestions }}>
       <Album />
     </AlbumContext.Provider>
   );
