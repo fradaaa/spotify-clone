@@ -1,7 +1,7 @@
-import { Artist } from ".prisma/client";
 import { createContext } from "react";
+import { ArtistProps } from "../components/Artist/types";
 
-const ArtistContext = createContext<Artist | null>(null);
+const ArtistContext = createContext<ArtistProps | null>(null);
 ArtistContext.displayName = "Artist";
 
 export default ArtistContext;

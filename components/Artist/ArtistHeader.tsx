@@ -16,7 +16,9 @@ const getRandomNumber = () => {
 };
 
 const ArtistHeader = () => {
-  const { name, header_image } = useArtist();
+  const {
+    artist: { name, header_image },
+  } = useArtist();
 
   return (
     <StyledArtistHeader>
@@ -25,7 +27,8 @@ const ArtistHeader = () => {
         layout="fill"
         objectFit="cover"
         objectPosition="50% 15%"
-        alt={`${name}'s header picture'`}
+        alt={`${name}'s header picture`}
+        priority
       />
       <HeaderGradient />
       <ArtistStats>

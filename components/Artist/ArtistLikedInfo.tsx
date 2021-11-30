@@ -15,7 +15,9 @@ import {
 
 const ArtistLikedSongs = () => {
   const { user } = useUser();
-  const { id, image, name } = useArtist();
+  const {
+    artist: { id, image, name },
+  } = useArtist();
   const { data } = useSWR<number>(() =>
     user && id ? `/api/artists/${id}/liked-count` : null
   );

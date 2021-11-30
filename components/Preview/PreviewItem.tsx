@@ -1,13 +1,12 @@
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { IoMusicalNotesOutline } from "react-icons/io5";
 import { MdClear } from "react-icons/md";
 import { PlayContext } from "../../Context";
 import { useAudioHelpers, useShow } from "../../Hooks";
 import { useAppDispatch } from "../../redux/hooks";
 import { addItem, removeItem } from "../../redux/slices/recentSearchesSlice";
-import { PlayContentButton } from "../Buttons";
 import { ContentHeaderPlaylistPlaceholder } from "../ContentHeader/style";
 import PreviewPlayButton from "./PreviewPlayButton";
 import {

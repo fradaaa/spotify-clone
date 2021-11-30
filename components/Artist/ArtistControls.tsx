@@ -4,7 +4,9 @@ import { FollowArtistButton, PlayContentButton } from "../Buttons";
 import { ContentControls } from "../Globals";
 
 const ArtistControls = () => {
-  const { id, name } = useArtist();
+  const {
+    artist: { id, name },
+  } = useArtist();
   const { data } = useSWR<boolean[]>(() =>
     id ? `/api/me/following/contains?ids=${id}` : null
   );

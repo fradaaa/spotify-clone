@@ -1,20 +1,12 @@
-import { Album } from ".prisma/client";
-import useSWR from "swr";
 import { useArtist } from "../../Hooks";
-import { RingLoader } from "../Globals";
 import { Preview, PreviewItem } from "../Preview";
 
 const ArtistAlbums = () => {
-  const { id } = useArtist();
-  const { data } = useSWR<Album[]>(`/api/artists/${id}/albums`, {
-    revalidateOnFocus: false,
-  });
-
-  if (!data) return <RingLoader />;
+  const { albums } = useArtist();
 
   return (
     <Preview title="Albums">
-      {data.map(({ id, image, name, release_date, album_type }) => (
+      {albums.map(({ id, image, name, release_date, album_type }) => (
         <PreviewItem
           key={id}
           id={id}

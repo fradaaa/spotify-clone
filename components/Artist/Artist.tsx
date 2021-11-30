@@ -10,7 +10,9 @@ import ArtistHeader from "./ArtistHeader";
 import ArtistTopTracks from "./ArtistTopTracks";
 
 const Artist = () => {
-  const { id, name, header_image } = useArtist();
+  const {
+    artist: { id, name, header_image },
+  } = useArtist();
   const { data } = useColor(header_image, "rgbString", {
     crossOrigin: "*",
     quality: 5,
