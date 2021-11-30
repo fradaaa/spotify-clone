@@ -13,7 +13,10 @@ const Home = ({ artists, albums }: HomeProps) => {
   return (
     <HomeContainer>
       <div style={{ width: "100%", height: "100%" }}>
-        <ArtistSubHeaderText as="h1">
+        <ArtistSubHeaderText
+          style={{ margin: "10px 0 20px", textAlign: "center" }}
+          as="h1"
+        >
           Check Artists and Albums or{" "}
           <Link href="/search" passHref>
             <SearchLink>Search</SearchLink>
