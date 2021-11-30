@@ -1,3 +1,4 @@
+import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { mq } from "../../../styles/breakpoints";
 import { FlexRow, StyledLink } from "../../Globals";
@@ -7,6 +8,7 @@ export const TopNavContainer = styled(FlexRow)`
   background-color: ${({ theme }) => theme.background};
   justify-content: space-between;
   display: flex;
+  position: relative;
 
   ${mq["sm"]} {
     display: none;
@@ -23,14 +25,28 @@ export const TopNavLogo = styled(FlexRow)`
   margin-left: 15px;
 `;
 
+const show = keyframes`
+  from {
+    transform: translateY(-5%);
+    opacity: 0.1;
+  }
+
+  to {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+`;
+
 export const TopNavDropdown = styled.div`
   position: absolute;
-  top: 40px;
-  right: 15px;
+  top: 100%;
+  z-index: 999;
+  width: 100%;
   background-color: ${({ theme }) => theme.surface2};
-  border-radius: var(--brsm);
+  border-radius: 0 0 var(--brsm) var(--brsm);
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  animation: ${show} 0.1s 1 ease;
 `;
 
 export const TopNavItem = styled(FlexRow)`

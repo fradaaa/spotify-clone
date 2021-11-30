@@ -1,6 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
-import { AiFillGithub } from "react-icons/ai";
+import { VscGithub } from "react-icons/vsc";
 import { menuItems } from "../items";
 import { NavItem, NavItemIcon, NavItemLink, NavItemText } from "../style";
 import { NavSectionContainer } from "./style";
@@ -17,7 +17,7 @@ const NavMenu = () => {
           rel="noreferrer"
         >
           <NavItemIcon>
-            <AiFillGithub />
+            <VscGithub />
           </NavItemIcon>
           <NavItemText>Github</NavItemText>
         </NavItemLink>

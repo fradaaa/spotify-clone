@@ -3,10 +3,11 @@ import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineLogin, AiOutlineMenu } from "react-icons/ai";
+import { VscGithub } from "react-icons/vsc";
 import { BiRightArrow } from "react-icons/bi";
+import { useShow } from "../../../Hooks";
 import logo from "../../../public/logo.png";
 import { Button } from "../../Buttons/style";
-import Dropdown from "../../Dropdown/Dropdown";
 import { libraryItems, menuItems } from "../items";
 import { NavItemIcon } from "../style";
 import {
@@ -21,7 +22,17 @@ import {
 
 const TopNav = () => {
   const { user, isLoading } = useUser();
+  const { show, enableShow, disableShow } = useShow();
   const router = useRouter();
+
+  const handleShow = () => {
+    if (show) {
+      disableShow();
+      return;
+    }
+
+    enableShow();
+  };
 
   const handleLogin = () => {
     router.push("/api/auth/login");
@@ -30,7 +41,11 @@ const TopNav = () => {
   return (
     <TopNavContainer as="nav">
       <TopNavLogo>
-        <Image src={logo} alt="logo" />
+        <Link href="/">
+          <a>
+            <Image src={logo} alt="logo" />
+          </a>
+        </Link>
       </TopNavLogo>
       {isLoading ? null : user ? null : (
         <Button aria-label="Login" onClick={handleLogin}>
@@ -44,14 +59,17 @@ const TopNav = () => {
         aria-label="fradaaa github page"
       >
         <NavItemIcon>
-          <AiFillGithub />
+          <VscGithub />
         </NavItemIcon>
       </TopNavGithubLink>
-      <Dropdown icon={<AiOutlineMenu />}>
+      <Button aria-label="Login" onClick={handleShow}>
+        <AiOutlineMenu />
+      </Button>
+      {show && (
         <TopNavDropdown>
           {menuItems.concat(libraryItems).map(({ Icon, link, text }, i) => {
             return user || i < 3 ? (
-              <TopNavItem key={i}>
+              <TopNavItem key={i} onClick={disableShow}>
                 <Link href={link} passHref>
                   <TopNavLink>
                     <NavItemIcon>{Icon}</NavItemIcon>
@@ -62,7 +80,7 @@ const TopNav = () => {
             ) : null;
           })}
           {user && (
-            <TopNavItem>
+            <TopNavItem onClick={disableShow}>
               <Link href="/collection/playlists" passHref>
                 <TopNavLink>
                   <NavItemIcon>
@@ -74,7 +92,7 @@ const TopNav = () => {
             </TopNavItem>
           )}
         </TopNavDropdown>
-      </Dropdown>
+      )}
     </TopNavContainer>
   );
 };
