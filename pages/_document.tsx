@@ -8,7 +8,12 @@ class MyDocument extends Document {
           <meta name="author" content="Ruslan Bilalov" />
           <meta name="description" content="Simple Spotify Clone" />
           <link rel="icon" href="/icon.png" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin=""
+          />
           <link
             href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
             rel="stylesheet"
