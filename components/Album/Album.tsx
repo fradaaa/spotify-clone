@@ -9,7 +9,9 @@ import AlbumSuggestions from "./AlbumSuggestions";
 import AlbumTracks from "./AlbumTracks";
 
 const Album = () => {
-  const { id, name, image } = useAlbum();
+  const {
+    album: { id, name, image },
+  } = useAlbum();
   const { data } = useColor(image, "rgbString", {
     crossOrigin: "*",
     quality: 5,

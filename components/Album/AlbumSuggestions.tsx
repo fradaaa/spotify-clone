@@ -6,10 +6,12 @@ import { Preview, PreviewItem } from "../Preview";
 
 const AlbumSuggestions = () => {
   const {
-    artist: { id, name },
-    id: albumId,
+    album: {
+      id: albumId,
+      artist: { id: artistId },
+    },
   } = useAlbum();
-  const { data } = useSWR<Album[]>(`/api/artists/${id}/albums`, {
+  const { data } = useSWR<Album[]>(`/api/artists/${artistId}/albums`, {
     revalidateOnFocus: false,
   });
 

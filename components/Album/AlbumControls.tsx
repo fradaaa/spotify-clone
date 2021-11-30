@@ -5,7 +5,9 @@ import { ContentControls } from "../Globals";
 import SaveAlbumButton from "./AlbumSaveButton";
 
 const AlbumControls = () => {
-  const { id, name } = useAlbum();
+  const {
+    album: { id, name },
+  } = useAlbum();
   const { data } = useSWR<boolean[]>(
     () => (id ? `/api/me/albums/contains?ids=${id}` : null),
     { revalidateOnFocus: false }

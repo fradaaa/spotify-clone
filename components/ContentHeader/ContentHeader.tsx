@@ -55,7 +55,7 @@ const ContentHeader = ({
       <HeaderGradient />
       <ContentHeaderCoverContainer>
         {coverImage ? (
-          <Image src={coverImage} alt="" width={200} height={200} />
+          <Image src={coverImage} alt="" width={200} height={200} priority />
         ) : (
           <ContentHeaderPlaylistPlaceholder>
             <IoMusicalNotesOutline />

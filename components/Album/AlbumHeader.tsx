@@ -3,13 +3,15 @@ import ContentHeader from "../ContentHeader/ContentHeader";
 
 const AlbumHeader = ({ bg }: { bg: string }) => {
   const {
-    album_type,
-    name,
-    image,
-    release_date,
-    total_tracks,
-    duration,
-    artist: { id, name: artistName, image: artistImage },
+    album: {
+      album_type,
+      name,
+      image,
+      release_date,
+      total_tracks,
+      duration,
+      artist: { id, name: artistName, image: artistImage },
+    },
   } = useAlbum();
   const year = new Date(release_date).getFullYear();
   const minutes = Math.floor(duration / 60);
