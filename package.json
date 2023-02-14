@@ -17,6 +17,8 @@
     "@reduxjs/toolkit": "^1.6.2",
     "@supabase/auth-helpers-nextjs": "^0.5.4",
     "@supabase/auth-helpers-react": "^0.3.1",
+    "@supabase/auth-ui-react": "^0.2.7",
+    "@supabase/supabase-js": "^2.7.1",
     "color-thief-react": "^2.1.0",
     "date-fns": "^2.26.0",
     "formik": "^2.2.9",
@@ -34,6 +36,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/node": "^18.13.0",
     "@types/nprogress": "^0.2.0",
     "@types/react": "^17.0.36",
     "@types/react-dom": "^17.0.11",
