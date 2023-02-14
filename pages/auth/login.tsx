@@ -4,9 +4,11 @@ import { Formik } from "formik";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { SubmitButton } from "../../components/Buttons";
 import TextInput from "../../components/Forms/TextInput";
+import { RingLoader } from "../../components/Globals";
 import { StyledCreatePlaylistForm } from "../../components/Modals/style";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -35,7 +37,7 @@ type Values = {
   password: string;
 };
 
-const initialValues: Values = {
+let initialValues: Values = {
   email: "",
   password: "",
 };
@@ -51,8 +53,33 @@ const validationSchema = Yup.object({
 });
 
 const AuthPage = () => {
+  const [isLoading, setIsloading] = useState(false);
   const router = useRouter();
   const supabase = useSupabaseClient();
+
+  const { auto } = router.query;
+  const autoLogin = auto === "true";
+
+  useEffect(() => {
+    const login = async () => {
+      setIsloading(true);
+      const { error } = await supabase.auth.signInWithPassword({
+        email: "laura@tp.com",
+        password: "QMFxagaNAr48SK8",
+      });
+
+      if (error) {
+        console.error(error);
+        setIsloading(false);
+      } else {
+        router.push("/");
+      }
+    };
+
+    if (autoLogin) {
+      login();
+    }
+  }, [autoLogin, supabase, router]);
 
   return (
     <>
@@ -74,6 +101,7 @@ const AuthPage = () => {
             onSubmit={async (values: Values) => {
               try {
                 const { email, password } = values;
+                setIsloading(true);
                 const { error } = await supabase.auth.signInWithPassword({
                   email,
                   password,
@@ -81,31 +109,37 @@ const AuthPage = () => {
 
                 if (error) {
                   console.error(error);
+                  setIsloading(false);
                 } else {
                   router.push("/");
                 }
               } catch (error) {
                 console.error(error);
+                setIsloading(false);
               }
             }}
           >
-            <StyledCreatePlaylistForm>
-              <TextInput
-                label="Email"
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Your email"
-              />
-              <TextInput
-                label="Password"
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Your password"
-              />
-              <SubmitButton>Login</SubmitButton>
-            </StyledCreatePlaylistForm>
+            {isLoading ? (
+              <RingLoader />
+            ) : (
+              <StyledCreatePlaylistForm>
+                <TextInput
+                  label="Email"
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Your email"
+                />
+                <TextInput
+                  label="Password"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Your password"
+                />
+                <SubmitButton>Login</SubmitButton>
+              </StyledCreatePlaylistForm>
+            )}
           </Formik>
         </div>
       </div>
