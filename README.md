@@ -6,6 +6,7 @@ You can check the project at [Spotify Clone ](http://spotify-clone-liard.vercel.
 
 Login - frada@tp.com
 Password - QMFxagaNAr48SK8
+[Login Using Credentials Above](https://spotify-clone-liard.vercel.app/auth/login?auto=true)
 
 ### Created using Next, Redux, Supabase
 
