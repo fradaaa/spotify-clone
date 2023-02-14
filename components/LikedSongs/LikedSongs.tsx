@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useCallback } from "react";
 import useSWR from "swr";
 import { ColorContext, PlayContext } from "../../Context";
@@ -8,7 +8,7 @@ import LikedSongHeader from "./LikedSongHeader";
 import LikedSongsTracks from "./LikedSongsTracks";
 
 const LikedSongs = () => {
-  const { user } = useUser();
+  const user = useUser();
   const { data } = useSWR<{ total: number }>(
     () => (user ? "/api/me/tracks/total" : null),
     {

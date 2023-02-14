@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import useSWR from "swr";
 import { useArtist } from "../../Hooks";
 import { useAppSelectior } from "../../redux/hooks";
@@ -15,7 +15,7 @@ import {
 const ArtistTopTracks = () => {
   const nowId = useAppSelectior((state) => state.nowPlaying.currentTrack?.id);
   const { topTracks } = useArtist();
-  const { user } = useUser();
+  const user = useUser();
   const { data: saved } = useSWR<boolean[]>(
     () => {
       return topTracks

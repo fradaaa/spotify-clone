@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import Image from "next/image";
 import Link from "next/link";
 import useSWR from "swr";
@@ -14,7 +14,7 @@ import {
 } from "./style";
 
 const ArtistLikedSongs = () => {
-  const { user } = useUser();
+  const user = useUser();
   const {
     artist: { id, image, name },
   } = useArtist();

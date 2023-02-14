@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import { AiOutlineLogin } from "react-icons/ai";
@@ -17,11 +17,11 @@ import {
 } from "./style";
 
 const Nav = () => {
-  const { user, isLoading } = useUser();
+  const user = useUser();
   const router = useRouter();
 
   const handleLogin = () => {
-    router.push("/api/auth/login");
+    router.push("/auth/login");
   };
 
   return (
@@ -36,7 +36,7 @@ const Nav = () => {
         <NavMenu />
         <NavLibrary />
         {user && <NavPlaylists />}
-        {isLoading ? null : user ? (
+        {user ? (
           <CreatePlaylistButton />
         ) : (
           <NavLoginButton aria-label="Login" onClick={handleLogin}>

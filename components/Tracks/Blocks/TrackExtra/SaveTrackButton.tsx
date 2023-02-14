@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useShow } from "../../../../Hooks";
@@ -23,7 +23,7 @@ const updateSavedTrack = async (trackId: string, method: "PUT" | "DELETE") => {
 };
 
 const SaveTrackButton = ({ trackId, isSaved }: SaveTrackProps) => {
-  const { user } = useUser();
+  const user = useUser();
   const { show, enableShow, disableShow } = useShow();
   const [saved, setSaved] = useState(isSaved);
   const [disabled, setDisabled] = useState(false);

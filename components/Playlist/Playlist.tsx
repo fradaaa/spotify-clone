@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import Head from "next/head";
 import { useCallback } from "react";
 import { ColorContext, PlayContext } from "../../Context";
@@ -9,7 +9,7 @@ import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
 
 const Playlist = () => {
-  const { user } = useUser();
+  const user = useUser();
   const { id, name, ownerId } = usePlaylist();
   const { playContent } = useAudioHelpers();
 

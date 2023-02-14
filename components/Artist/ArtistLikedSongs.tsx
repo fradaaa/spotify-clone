@@ -1,5 +1,5 @@
 import { Artist } from ".prisma/client";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/dist/client/router";
 import { useCallback } from "react";
 import useSWR from "swr";
@@ -12,7 +12,7 @@ import TracksList from "../TracksList/TracksList";
 import { ArtistSubHeaderText, ArtistTopTracksContainer } from "./style";
 
 const ArtistLikedSongs = () => {
-  const { user } = useUser();
+  const user = useUser();
   const router = useRouter();
   const { playContent } = useAudioHelpers();
   const { data } = useSWR<number>(() =>

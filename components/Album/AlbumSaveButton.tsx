@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useShow } from "../../Hooks";
@@ -35,7 +35,7 @@ const saveAlbum = async (albumId: string) => {
 };
 
 const AlbumSaveButton = ({ albumId, isSaved }: AlbumSaveButtonProps) => {
-  const { user } = useUser();
+  const user = useUser();
   const { show, enableShow, disableShow } = useShow();
   const [disabled, setDisabled] = useState(false);
   const [saved, setSaved] = useState(isSaved);

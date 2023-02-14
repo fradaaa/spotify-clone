@@ -112,6 +112,8 @@ const VirtualTracksList = ({ url, total }: VirtualTracksListProps) => {
                       rowHeight={50}
                       rowRenderer={rowRenderer}
                       width={width}
+                      /* style={{ overflowY: "visible", overflowX: "visible" }}
+                      containerStyle={{ overflow: "visible" }} */
                     />
                   )}
                 </AutoSizer>

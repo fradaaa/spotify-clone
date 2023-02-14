@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
@@ -11,7 +11,7 @@ import TrackMenuRemoveFromPlaylist from "./TrackMenuRemoveFromPlaylist";
 
 const TrackMenu = () => {
   const router = useRouter();
-  const { user } = useUser();
+  const user = useUser();
   const { album, artists } = useTrack();
   const playlist = usePlaylist();
 
@@ -29,7 +29,7 @@ const TrackMenu = () => {
         {user && <TrackMenuAddToPlaylist />}
         {user &&
           router.asPath.includes("playlist") &&
-          user?.sub === playlist?.ownerId && <TrackMenuRemoveFromPlaylist />}
+          user?.id === playlist?.ownerId && <TrackMenuRemoveFromPlaylist />}
       </TrackMenuContainer>
     </Dropdown>
   );

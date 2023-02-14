@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import { useShow } from "../../Hooks";
@@ -23,7 +23,7 @@ const updateFollow = async (artistId: string, method: "PUT" | "DELETE") => {
 };
 
 const FollowArtistButton = ({ artistId, isFollowed }: FollowArtistProps) => {
-  const { user } = useUser();
+  const user = useUser();
   const { show, enableShow, disableShow } = useShow();
   const [followed, setFollowed] = useState(isFollowed);
   const [disabled, setDisabled] = useState(false);

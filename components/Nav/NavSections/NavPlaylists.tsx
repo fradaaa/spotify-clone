@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import { Playlist } from "@prisma/client";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
@@ -14,7 +14,7 @@ import {
 } from "./style";
 
 const NavPlaylists = () => {
-  const { user } = useUser();
+  const user = useUser();
   const { data } = useSWR<Playlist[]>(() =>
     user ? "/api/me/playlists" : null
   );

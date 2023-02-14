@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import { libraryItems } from "../items";
@@ -6,7 +6,7 @@ import { NavItem, NavItemIcon, NavItemLink, NavItemText } from "../style";
 import { NavSectionContainer, NavSectionName } from "./style";
 
 const NavLibrary = () => {
-  const { user } = useUser();
+  const user = useUser();
   const router = useRouter();
 
   return (
