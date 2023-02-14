@@ -27,7 +27,10 @@ const LikedSongs = () => {
   return user && data ? (
     <PlayContext.Provider value={play}>
       <ColorContext.Provider value={"rgb(80, 56, 160)"}>
-        <LikedSongHeader userName={user.nickname!} total={data.total} />
+        <LikedSongHeader
+          userName={user && user.user_metadata.name}
+          total={data.total}
+        />
         <LikedSongsTracks total={data.total} />
       </ColorContext.Provider>
     </PlayContext.Provider>
