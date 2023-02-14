@@ -11,9 +11,8 @@ generator client {
 }
 
 model User {
-  id    String @id @default(cuid())
-  name  String @unique
-  image String @default("")
+  id   String @id @default(cuid())
+  name String @unique
 
   playlists        Playlist[]
   followed_artists FollowedArtist[]
@@ -37,10 +36,10 @@ model Playlist {
 }
 
 model Artist {
-  id    String @id @default(cuid())
-  name  String @unique
+  id           String @id @default(cuid())
+  name         String @unique
   header_image String @default("")
-  image String @default("")
+  image        String @default("")
 
   albums   Album[]
   tracks   Track[]
@@ -50,12 +49,12 @@ model Artist {
 }
 
 model Album {
-  id             String @id @default(cuid())
-  album_type     String
-  name           String
-  release_date   String
-  image          String @default("")
-  total_tracks   Int
+  id           String @id @default(cuid())
+  album_type   String
+  name         String
+  release_date String
+  image        String @default("")
+  total_tracks Int
 
   saved_by SavedAlbum[]
   tracks   Track[]
