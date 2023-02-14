@@ -19,7 +19,7 @@ const LoginModal = ({ text, subText, closeModal }: LoginModalProps) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/api/auth/login");
+    router.push("/auth/login");
   };
 
   return (
