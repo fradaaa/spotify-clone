@@ -1,11 +1,13 @@
 # Simple Spotify Clone
 
 You can check the project at [Spotify Clone ](http://spotify-clone-liard.vercel.app/)
-### If you don't want to create an account, you can use this one:
-Login - frada@tp.com
-Password - LaHGjx83yfTX8nV
 
-### Created using Next, Redux, Auth0
+### If you don't want to create an account, you can use this one:
+
+Login - frada@tp.com
+Password - QMFxagaNAr48SK8
+
+### Created using Next, Redux, Supabase
 
 ## Features
 
