@@ -1,4 +1,4 @@
-import { getSession } from "@auth0/nextjs-auth0";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../../lib/prisma";
 
@@ -6,9 +6,13 @@ const handleCheckSavedAlbums = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const session = getSession(req, res);
   const ids = req.query.ids as string;
   const idsArr = ids.split(",");
+
+  const supabase = createServerSupabaseClient({ req, res });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   const data = await Promise.all(
     idsArr.map((id) => {
@@ -16,7 +20,7 @@ const handleCheckSavedAlbums = async (
         where: {
           albumId_userId: {
             albumId: id as string,
-            userId: session?.user.sub || "",
+            userId: session?.user.id || "",
           },
         },
       });

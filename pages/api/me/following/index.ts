@@ -1,4 +1,4 @@
-import { getSession } from "@auth0/nextjs-auth0";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../../lib/prisma";
 
@@ -6,16 +6,26 @@ const handleFollowingArtists = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const session = getSession(req, res);
+  const supabase = createServerSupabaseClient({ req, res });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session)
+    return res.status(401).json({
+      error: "not_authenticated",
+      description:
+        "The user does not have an active session or is not authenticated",
+    });
 
   if (req.method === "GET") {
-    await handleGET(session?.user.sub, res);
+    await handleGET(session?.user.id, res);
   } else if (req.method === "PUT") {
     const { artistId } = req.body;
-    await handlePUT(session?.user.sub, artistId, res);
+    await handlePUT(session?.user.id, artistId, res);
   } else if (req.method === "DELETE") {
     const { artistId } = req.body;
-    await handleDELETE(session?.user.sub, artistId, res);
+    await handleDELETE(session?.user.id, artistId, res);
   } else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`

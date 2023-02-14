@@ -1,26 +1,34 @@
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../../lib/prisma";
 
-export default withApiAuthRequired(
-  async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = getSession(req, res);
+const handleRoute = async (req: NextApiRequest, res: NextApiResponse) => {
+  const supabase = createServerSupabaseClient({ req, res });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-    if (req.method === "GET") {
-      await handleGET(session?.user.sub, res);
-    } else if (req.method === "PUT") {
-      const { albumId } = req.body;
-      await handlePUT(session?.user.sub, albumId, res);
-    } else if (req.method === "DELETE") {
-      const { albumId } = req.body;
-      await handleDELETE(session?.user.sub, albumId, res);
-    } else {
-      throw new Error(
-        `The HTTP ${req.method} method is not supported at this route.`
-      );
-    }
+  if (!session)
+    return res.status(401).json({
+      error: "not_authenticated",
+      description:
+        "The user does not have an active session or is not authenticated",
+    });
+
+  if (req.method === "GET") {
+    await handleGET(session?.user.id, res);
+  } else if (req.method === "PUT") {
+    const { albumId } = req.body;
+    await handlePUT(session?.user.id, albumId, res);
+  } else if (req.method === "DELETE") {
+    const { albumId } = req.body;
+    await handleDELETE(session?.user.id, albumId, res);
+  } else {
+    throw new Error(
+      `The HTTP ${req.method} method is not supported at this route.`
+    );
   }
-);
+};
 
 const handleGET = async (userId: string, res: NextApiResponse) => {
   const savedAlbums = await prisma.savedAlbum.findMany({
@@ -87,3 +95,5 @@ const handleDELETE = async (
 
   res.status(200).json(deletedAlbum);
 };
+
+export default handleRoute;

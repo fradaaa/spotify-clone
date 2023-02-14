@@ -1,17 +1,20 @@
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../../lib/prisma";
 
-export default withApiAuthRequired(
-  async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = getSession(req, res);
+const handleRoute = async (req: NextApiRequest, res: NextApiResponse) => {
+  const supabase = createServerSupabaseClient({ req, res });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-    const data = await prisma.savedTrack.count({
-      where: {
-        userId: session?.user.sub,
-      },
-    });
+  const data = await prisma.savedTrack.count({
+    where: {
+      userId: session?.user.id,
+    },
+  });
 
-    res.status(200).json({ total: data });
-  }
-);
+  res.status(200).json({ total: data });
+};
+
+export default handleRoute;

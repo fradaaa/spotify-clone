@@ -1,33 +1,42 @@
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../../lib/prisma";
 
-const handleSavedTracks = withApiAuthRequired(
-  async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = getSession(req, res);
-    const userId = session?.user.sub;
+const handleSavedTracks = async (req: NextApiRequest, res: NextApiResponse) => {
+  const supabase = createServerSupabaseClient({ req, res });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-    if (req.method === "GET") {
-      const { sort, order, offset, take } = req.query as {
-        sort: "added" | "title" | "album" | "artist";
-        order: "asc" | "desc";
-        offset: string;
-        take: string;
-      };
-      await handleGET(userId, sort, order, offset, take, res);
-    } else if (req.method === "PUT") {
-      const { trackId } = req.body;
-      await handlePUT(userId, trackId, res);
-    } else if (req.method === "DELETE") {
-      const { trackId } = req.body;
-      await handleDELETE(userId, trackId, res);
-    } else {
-      throw new Error(
-        `The HTTP ${req.method} method is not supported at this route.`
-      );
-    }
+  if (!session)
+    return res.status(401).json({
+      error: "not_authenticated",
+      description:
+        "The user does not have an active session or is not authenticated",
+    });
+
+  const userId = session?.user.id;
+
+  if (req.method === "GET") {
+    const { sort, order, offset, take } = req.query as {
+      sort: "added" | "title" | "album" | "artist";
+      order: "asc" | "desc";
+      offset: string;
+      take: string;
+    };
+    await handleGET(userId, sort, order, offset, take, res);
+  } else if (req.method === "PUT") {
+    const { trackId } = req.body;
+    await handlePUT(userId, trackId, res);
+  } else if (req.method === "DELETE") {
+    const { trackId } = req.body;
+    await handleDELETE(userId, trackId, res);
+  } else {
+    throw new Error(
+      `The HTTP ${req.method} method is not supported at this route.`
+    );
   }
-);
+};
 
 const handleGET = async (
   userId: string,
