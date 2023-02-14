@@ -3,12 +3,13 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Formik } from "formik";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { SubmitButton } from "../../components/Buttons";
 import TextInput from "../../components/Forms/TextInput";
-import { RingLoader } from "../../components/Globals";
+import { RingLoader, StyledLink } from "../../components/Globals";
 import { StyledCreatePlaylistForm } from "../../components/Modals/style";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -122,7 +123,13 @@ const AuthPage = () => {
             {isLoading ? (
               <RingLoader />
             ) : (
-              <StyledCreatePlaylistForm>
+              <StyledCreatePlaylistForm
+                style={{
+                  background: "#121212",
+                  padding: "20px",
+                  borderRadius: "10px",
+                }}
+              >
                 <TextInput
                   label="Email"
                   type="email"
@@ -138,6 +145,12 @@ const AuthPage = () => {
                   placeholder="Your password"
                 />
                 <SubmitButton>Login</SubmitButton>
+                <p style={{ color: "white" }}>
+                  Don&apos;t have an account?{" "}
+                  <Link href="/auth/signup" passHref>
+                    <StyledLink>Sign up</StyledLink>
+                  </Link>
+                </p>
               </StyledCreatePlaylistForm>
             )}
           </Formik>

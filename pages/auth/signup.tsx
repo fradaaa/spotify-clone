@@ -1,10 +1,12 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Formik } from "formik";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { SubmitButton } from "../../components/Buttons";
 import TextInput from "../../components/Forms/TextInput";
+import { StyledLink } from "../../components/Globals";
 import { StyledCreatePlaylistForm } from "../../components/Modals/style";
 
 type Values = {
@@ -78,7 +80,13 @@ const AuthPage = () => {
               }
             }}
           >
-            <StyledCreatePlaylistForm>
+            <StyledCreatePlaylistForm
+              style={{
+                background: "#121212",
+                padding: "20px",
+                borderRadius: "10px",
+              }}
+            >
               <TextInput
                 label="Name"
                 type="text"
@@ -101,6 +109,12 @@ const AuthPage = () => {
                 placeholder="Your password"
               />
               <SubmitButton>Sign up</SubmitButton>
+              <p style={{ color: "white" }}>
+                Already have an account?{" "}
+                <Link href="/auth/login" passHref>
+                  <StyledLink>Login</StyledLink>
+                </Link>
+              </p>
             </StyledCreatePlaylistForm>
           </Formik>
         </div>
